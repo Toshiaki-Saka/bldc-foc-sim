@@ -1,0 +1,34 @@
+# Build artifacts
+build/
+*.exe
+*.obj
+*.ilk
+*.pdb
+*.exp
+*.lib
+
+# Generated simulation output (re-created by running the sim)
+data/sim_output.csv
+data/pwm_waveform.csv
+data/verification.csv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+
+# IDE / editor
+.vs/
+.vscode/
+*.user
+*.suo
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db

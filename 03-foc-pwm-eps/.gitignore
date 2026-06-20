@@ -1,0 +1,35 @@
+# Build artifacts
+build/
+out/
+cmake-build-*/
+
+# Compiled binaries
+*.exe
+*.pdb
+*.obj
+*.ilk
+*.exp
+*.lib
+
+# Generated simulation output (CSV/PNG produced at runtime)
+data/sim_output.csv
+data/pwm_waveform.csv
+data/eps_output.csv
+data/verification.csv
+data/eps_vcurve.png
+data/eps_vcurve_schematic.png
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
