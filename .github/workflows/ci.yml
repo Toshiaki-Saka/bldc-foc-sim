@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+  workflow_dispatch:
+
+# 全モデルは同じターゲット名 (BrushlessDCMotor) を使うため 1 つの CMake ツリーに
+# まとめられない。モデルごとに configure → build → ctest をマトリクスで回す。
+jobs:
+  build-test:
+    name: ${{ matrix.os }} / ${{ matrix.model }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        model:
+          - 01-foc-ideal-voltage
+          - 02-foc-pwm-drive
+          - 03-foc-pwm-eps
+          - 04-foc-pwm-sensorless
+          - 05-foc-pwm-eps-sensorless
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Linux はシステムの Eigen を使う。Windows は CMake の FetchContent
+      # フォールバック (gitlab から 3.4.0 を取得) が自動で走る。
+      - name: Install Eigen (Linux)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libeigen3-dev
+
+      - name: Configure
+        run: cmake -S "${{ matrix.model }}" -B "${{ matrix.model }}/build" -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build "${{ matrix.model }}/build" --config Release
+
+      - name: Test (ctest)
+        run: ctest --test-dir "${{ matrix.model }}/build" -C Release --output-on-failure

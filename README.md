@@ -20,6 +20,13 @@
 | [`04-foc-pwm-sensorless`](04-foc-pwm-sensorless/) | 02 + センサーレス制御 | 誘起電圧オブザーバ + PLL |
 | [`05-foc-pwm-eps-sensorless`](05-foc-pwm-eps-sensorless/) | 03 + 04 の統合 | 全要素技術の統合 |
 
+依存関係（読み進める順番）:
+
+```
+01 ──▶ 02 ──┬─▶ 03 (EPS 機構) ───┐
+            └─▶ 04 (センサーレス) ┴─▶ 05 (統合)
+```
+
 各モデルのディレクトリにある `README.md` に、ビルド方法・実行方法・
 出力の説明が記載されています。
 
@@ -41,6 +48,30 @@ cmake --build build --config Release
 
 必要環境: C++20 対応コンパイラ、CMake 3.16 以上、Eigen3 3.4 以上。
 詳細は各モデルの `README.md` を参照してください。
+
+---
+
+## テスト・CI
+
+各モデルには CTest による最小スモークテスト（短時間実行で `RESULT` 行を
+NaN/Inf なく出力するか）が登録されています。
+
+```sh
+cmake -S 02-foc-pwm-drive -B 02-foc-pwm-drive/build -DCMAKE_BUILD_TYPE=Release
+cmake --build 02-foc-pwm-drive/build --config Release
+ctest --test-dir 02-foc-pwm-drive/build -C Release --output-on-failure
+```
+
+GitHub Actions（[`.github/workflows/ci.yml`](.github/workflows/ci.yml)）で、
+5 モデル × Ubuntu(GCC)/Windows(MSVC) のマトリクスにより
+configure → build → ctest を自動実行します。
+
+> 全モデルが同じターゲット名 `BrushlessDCMotor` を使うため、1 つの CMake
+> ツリーにまとめてビルドできません。モデルごとに個別にビルド・テストします。
+
+<!-- リポジトリを GitHub に push 後、下記バッジの <OWNER> を置き換えて有効化:
+[![CI](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/ci.yml)
+-->
 
 ---
 
@@ -90,5 +121,6 @@ docs/
 
 ## ライセンス
 
-本リポジトリは MIT ライセンスで公開されています。各モデルディレクトリの
-`LICENSE` ファイルを参照してください。
+本リポジトリは MIT ライセンスで公開されています。詳細はルートの
+[`LICENSE`](LICENSE) を参照してください（各モデルディレクトリにも同一の
+`LICENSE` を同梱しています）。

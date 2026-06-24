@@ -1,0 +1,56 @@
+# Contributing
+
+このリポジトリ（`bldc-foc-sim`）への貢献に興味を持っていただきありがとうございます。
+本プロジェクトは BLDC/PMSM の FOC を 5 つのモデル（`01`〜`05`）で段階的に学ぶ
+教材リポジトリです。各モデルは独立してビルド・実行できます。
+
+## 貢献の流れ
+
+1. リポジトリを **Fork** し、`main` からフィーチャーブランチを切る。
+2. 変更を加える。
+3. 触れたモデルがビルドでき、スモークテストが通ることを確認する（下記）。
+4. 変更内容と理由を明記して Pull Request を作成する。
+
+## ビルドとテスト
+
+各モデルは個別の CMake プロジェクトです（共通の実行ファイル名 `BrushlessDCMotor`）。
+
+```bash
+# 例: モデル 02 をビルドしてテスト
+cmake -S 02-foc-pwm-drive -B 02-foc-pwm-drive/build -DCMAKE_BUILD_TYPE=Release
+cmake --build 02-foc-pwm-drive/build --config Release
+ctest --test-dir 02-foc-pwm-drive/build -C Release --output-on-failure
+```
+
+`ctest` は最小のスモークテスト（短時間実行で `RESULT` 行を NaN/Inf なく出力するか）を
+実行します。CI（GitHub Actions）でも 5 モデル × Ubuntu/Windows のマトリクスで
+同じ手順が自動実行されます。
+
+> 注: 全モデルが同じターゲット名 `BrushlessDCMotor` を使うため、5 モデルを
+> 1 つの CMake ツリーにまとめてビルドすることはできません。**モデルごとに
+> 個別に** configure / build / test してください。
+
+## コードスタイル
+
+- C++20、コンパイラ拡張は無効（`CMAKE_CXX_EXTENSIONS OFF`）
+- インデントは半角スペース 4、タブ禁止
+- 計算結果を返す関数には `[[nodiscard]]`
+- 生ポインタによる所有を避け、RAII を用いる
+
+## パラメータ変更時の回帰参照更新
+
+`src/sim_params.hpp`（または `eps_sim_params.hpp`）のモータ・制御パラメータを
+変更した場合は、リファレンス CSV を再生成して PR に含めてください。
+
+```bash
+./BrushlessDCMotor
+cp data/sim_output.csv data/motor_log.csv
+```
+
+## Issue 報告
+
+GitHub Issue に以下を添えてください。
+
+- OS とコンパイラのバージョン
+- 実行した正確なコマンドライン
+- コンソール出力の全文

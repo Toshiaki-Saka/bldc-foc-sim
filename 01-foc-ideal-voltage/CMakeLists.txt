@@ -81,3 +81,13 @@ set_target_properties(BrushlessDCMotor PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY         ${CMAKE_CURRENT_SOURCE_DIR}
     RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_CURRENT_SOURCE_DIR}
     RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR})
+
+# --- スモークテスト (CTest) -----------------------------------------------------
+#  P1: 最小の自動回帰テスト。golden 値ではなく「ビルドでき、短時間実行で RESULT 行を
+#  NaN/Inf なく出力する」実行健全性を担保する。CI から ctest で一括実行される。
+enable_testing()
+add_test(NAME smoke_BrushlessDCMotor
+         COMMAND BrushlessDCMotor --span 0.05 --no_csv --quiet)
+set_tests_properties(smoke_BrushlessDCMotor PROPERTIES
+    PASS_REGULAR_EXPRESSION "RESULT "
+    FAIL_REGULAR_EXPRESSION "nan|inf|NaN|Inf")
