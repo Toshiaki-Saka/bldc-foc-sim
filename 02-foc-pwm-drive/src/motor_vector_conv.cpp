@@ -19,7 +19,7 @@ Eigen::Vector2d MotorVectorConv::uvw_to_dq(const Eigen::Vector3d& uvw, double de
 {
     const double theta = deg * std::numbers::pi / 180.0;
 
-    Eigen::Matrix<double, 2, 3> t;C:\WorkSpace\OSS_SoureCode\bldc-foc-sim
+    Eigen::Matrix<double, 2, 3> t;
     t(0, 0) = std::cos(theta);                 t(0, 1) = std::cos(theta + kTwoPiThirds); t(0, 2) = std::cos(theta - kTwoPiThirds);
     t(1, 0) = std::sin(theta);                 t(1, 1) = std::sin(theta + kTwoPiThirds); t(1, 2) = std::sin(theta - kTwoPiThirds);
 
