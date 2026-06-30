@@ -343,3 +343,4 @@ Y 結線では中性点電流がゼロ（$i_U + i_V + i_W = 0$）であること
 - [`coordinate-transform.md`](coordinate-transform.md) — Clarke / Park 変換
 - [`pwm-inverter.md`](pwm-inverter.md) — PWM・インバータ・中点変調
 - [`pi-tuning.md`](pi-tuning.md) — PI ゲインの設計
+- [`waveform-analysis.md`](waveform-analysis.md) — 実測ベースの波形差解析

@@ -20,7 +20,7 @@
 
 三相成分の実効値は q 軸電流と等しいわけではない。d 軸成分が存在する場合（弱め界磁等）、実効値の計算は異なる。
 
-![三相交流波形](images/slide42_01_Picture_16.png)
+![三相交流波形](images/three_phase_ac_waveform.png)
 
 *UVW 三相交流は互いに 120° ずれた正弦波。これを d・q 軸の直流量に変換することで PI 制御が適用できる。*
 
@@ -45,7 +45,7 @@ $$
 
 三相が平衡している ($i_U + i_V + i_W = 0$) 場合、零相成分は 0 となり、上式の 2 行で完全に表現できる。
 
-![Clarke 変換の幾何学的意味](images/slide44_01_Picture_4.png)
+![Clarke 変換の幾何学的意味](images/clarke_transform_geometry.png)
 
 *(a) 三相 UVW 座標系と αβ 座標系の関係。(b) 三相電流ベクトルを α・β 軸へ射影する様子。*
 
@@ -182,7 +182,7 @@ $$
 
 ここで $\theta$ は **電気角** であり、機械角 $\theta_m$ に極対数 $P_n$ を掛けたものである ($\theta_e = P_n \cdot \theta_m$)。
 
-![Park 変換の幾何学的意味](images/slide47_01_図_6.png)
+![Park 変換の幾何学的意味](images/park_transform_geometry.png)
 
 *αβ 固定座標から、電気角 θ だけ回転した dq 回転座標へ変換する。ロータと同期して回転するため、正弦波が直流量に見える。*
 
@@ -255,7 +255,7 @@ $$
 
 逆 Park 変換で dq → αβ に戻し、さらに逆 Clarke 変換で αβ → UVW に変換すると、三相 PWM 電圧として出力できる。
 
-![逆 Park 変換と三相波形への復元](images/slide49_01_図_6.png)
+![逆 Park 変換と三相波形への復元](images/inverse_park_transform.png)
 
 *dq 軸の直流指令値を αβ 経由で三相正弦波に変換する。右のグラフは逆変換後の三相電圧波形。*
 

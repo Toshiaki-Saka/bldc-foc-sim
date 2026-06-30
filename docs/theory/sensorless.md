@@ -208,3 +208,4 @@ LPF カットオフ $\omega_c$ を上げれば $\Delta\theta$ は減るが、ノ
 - [`coordinate-transform.md`](coordinate-transform.md) — Clarke 変換 (αβ)
 - [`motor-model.md`](motor-model.md) — 誘起電圧を含む電圧方程式
 - [`foc.md`](foc.md) — ベクトル制御 (FOC) の原理
+- [`waveform-analysis.md`](waveform-analysis.md) — 実測ベースの波形差解析

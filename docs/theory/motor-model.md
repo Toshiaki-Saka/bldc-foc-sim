@@ -8,7 +8,7 @@
 
 本シリーズが対象とするのは **表面磁石型 三相同期モータ (SPMSM)** である。ロータ表面に永久磁石を貼り付けた構造で、d 軸インダクタンスと q 軸インダクタンスがほぼ等しい ($L_d \approx L_q = L$) という性質を持つ。この仮定によりモデルが単純化され、突極性に由来する項を扱わずに済む。
 
-![モータ断面図 (8極12スロット)](images/slide40_01_Picture_3.png)
+![モータ断面図 (8極12スロット)](images/motor_cross_section.png)
 
 *外周がステーター (UVW コイル配置)、内周がロータ (永久磁石 N/S 配置)。この例は 8 極 4 極対数 (Pn=4)。*
 
@@ -276,3 +276,4 @@ FOC ではレゾルバ出力から求めた角度に $P_n$ を乗じて電気角
 - [`foc.md`](foc.md) — ベクトル制御 (FOC) の原理
 - [`coordinate-transform.md`](coordinate-transform.md) — Clarke / Park 変換
 - [`pi-tuning.md`](pi-tuning.md) — PI ゲインの設計
+- [`waveform-analysis.md`](waveform-analysis.md) — 実測ベースの波形差解析

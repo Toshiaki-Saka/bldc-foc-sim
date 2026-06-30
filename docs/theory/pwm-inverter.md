@@ -8,7 +8,7 @@
 
 実機では、DC リンク電圧 $V_{dc}$ を三相ブリッジ回路 (6 個のスイッチング素子) でスイッチングし、任意の三相電圧を作り出す。各相のスイッチを高速に ON/OFF し、その **デューティ比** (ON 時間の割合) で等価的な電圧を制御する方式が **PWM (パルス幅変調)** である。
 
-![三相ブリッジ回路 (Y 結線)](images/slide23_02_図_6.png)
+![三相ブリッジ回路 (Y 結線)](images/three_phase_bridge_circuit.png)
 
 *6 個の FET (IGBT) で構成される三相ブリッジ回路。各相に上アーム・下アームがある。右は Y 結線された三相コイル。*
 
@@ -168,3 +168,4 @@ $$
 - [`foc.md`](foc.md) — ベクトル制御 (FOC) の原理
 - [`coordinate-transform.md`](coordinate-transform.md) — Clarke / Park 変換
 - [`motor-model.md`](motor-model.md) — モータの電気・機械方程式
+- [`waveform-analysis.md`](waveform-analysis.md) — 実測ベースの波形差解析

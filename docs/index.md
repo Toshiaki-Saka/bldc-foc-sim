@@ -15,7 +15,8 @@
 | [PWM インバータ](theory/pwm-inverter.md) | 三相ブリッジ・中点変調・電圧飽和解析 |
 | [センサーレス制御](theory/sensorless.md) | 誘起電圧オブザーバ・PLL・起動シーケンス |
 | [電動パワーステアリング](theory/eps.md) | EPS 機構・アシストマップ・制御ブロック図 |
-| [機能安全](theory/functional-safety.md) | HARA・ASIL・ISO 26262 安全要求導出フロー |
+| [波形差の解析](theory/waveform-analysis.md) | A 型 vs B 型、センサーレス立ち上がりの実測解析 |
+| [機能安全](theory/functional-safety.md) | 車載主要システム HARA 網羅版・ASIL・ISO 26262 安全要求導出フロー |
 
 ---
 
