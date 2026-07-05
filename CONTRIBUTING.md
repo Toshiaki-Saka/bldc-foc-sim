@@ -36,6 +36,28 @@ ctest --test-dir 02-foc-pwm-drive/build -C Release --output-on-failure
 - インデントは半角スペース 4、タブ禁止
 - 計算結果を返す関数には `[[nodiscard]]`
 - 生ポインタによる所有を避け、RAII を用いる
+- 整形はリポジトリ同梱の `.clang-format` に準拠（`clang-format -i <file>` で自動整形）。
+  CI（`lint` ジョブ）が逸脱を検査します。
+- 高警告レベル（`-Wall -Wextra` / `/W4`）でクリーンにビルドできること。CI は
+  `-DBLDC_WARNINGS_AS_ERRORS=ON` で警告をエラー扱いにします。
+
+## モデル間で共有されるファイル
+
+各モデルは自己完結（`src/` に全ソースを保持）ですが、**どのモデルでも本来同一**の
+ユーティリティが物理的に複製されています。これらはモデル間でバイト一致を保つ必要が
+あり、CI（`consistency` ジョブ）が一致を検査します。
+
+対象ファイル（各モデルの `src/` 配下）:
+
+- `motor_vector_conv.hpp` / `motor_vector_conv.cpp`（Clarke / Park 変換・中点変調）
+- `csv_verifier.hpp` / `csv_verifier.cpp`（CSV 回帰照合）
+
+いずれか 1 つを変更した場合は、**全モデルへ同一内容を反映**してください。ローカルでは
+次のコマンドで一致を確認できます（リポジトリのルートで実行）。
+
+```bash
+bash tests/check_shared_files.sh
+```
 
 ## パラメータ変更時の回帰参照更新
 

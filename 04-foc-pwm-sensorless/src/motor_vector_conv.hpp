@@ -2,9 +2,12 @@
 // =============================================================================
 //  motor_vector_conv.hpp  —  座標変換ユーティリティ — 宣言
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 04-foc-pwm-sensorless
+//  プロジェクト : bldc-foc-sim (全モデル共通)
 //  Clarke 変換 (三相 UVW → 二相 αβ)、Park 変換 (αβ → 回転 dq)、
 //  および中点変調 (零相注入 SVPWM) の静的関数を宣言する。
+//
+//  ※ 本ファイルは全モデル (01〜05) で同一。変更時は全モデルへ反映すること。
+//     CI (consistency ジョブ) がモデル間の一致を検査し、ドリフトを検出する。
 //
 //  ライセンス   : MIT (リポジトリの LICENSE を参照)
 // =============================================================================
@@ -20,7 +23,7 @@ public:
     [[nodiscard]] static Eigen::Vector2d uvw_to_alphabeta(const Eigen::Vector3d& uvw);
     // Combined Clarke + Park: UVW -> dq rotating frame
     [[nodiscard]] static Eigen::Vector2d uvw_to_dq(const Eigen::Vector3d& uvw, double deg);
-    [[nodiscard]] static Eigen::Vector3d dq_to_uvw(const Eigen::Vector2d& dq,  double deg);
+    [[nodiscard]] static Eigen::Vector3d dq_to_uvw(const Eigen::Vector2d& dq, double deg);
     // Midpoint (zero-sequence) modulation: shifts the 3-phase voltage so that
     // the min/max are centered, extending linear DC-bus utilization by 2/sqrt(3)
     // (~15%). Equivalent to SVPWM / third-harmonic injection.
