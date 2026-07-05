@@ -1,0 +1,19 @@
+name: 質問・提案 / Question or proposal
+description: 理論・実装・教材内容に関する質問や改善提案
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: textarea
+    id: body
+    attributes:
+      label: 内容
+      description: 質問または提案の内容。関連するモデル名・ドキュメントページがあれば明記してください。
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: 背景・参考
+      description: 参照した資料・該当箇所(任意)
+    validations:
+      required: false

@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "このソフトウェアを利用する場合は、以下の情報で引用してください。"
+title: "bldc-foc-sim: 三相ブラシレスモータ FOC / EPS シミュレーション教材"
+abstract: >-
+  BLDC / PMSM のベクトル制御 (FOC) と、その応用である電動パワーステアリング
+  (EPS) を、要素技術を段階的に積み上げる 5 つのモデルで学ぶ C++ / CMake の
+  シミュレーション教材。
+type: software
+authors:
+  - family-names: "Saka"
+    given-names: "Toshiaki"
+keywords:
+  - BLDC
+  - PMSM
+  - FOC
+  - field-oriented-control
+  - electric-power-steering
+  - motor-control
+  - sensorless
+  - simulation
+license: MIT
+repository-code: "https://github.com/<OWNER>/bldc-foc-sim"

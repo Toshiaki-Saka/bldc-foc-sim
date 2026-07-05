@@ -42,6 +42,7 @@ nav:
     - PWM インバータ・中点変調: theory/pwm-inverter.md
     - センサーレス制御: theory/sensorless.md
     - 電動パワーステアリング (EPS): theory/eps.md
+    - 機能安全 (HARA / ISO 26262): theory/functional-safety.md
     - 波形差の解析 (A/B 型・センサーレス): theory/waveform-analysis.md
   - 数式導出: derivations.md
   - 用語集: glossary.md

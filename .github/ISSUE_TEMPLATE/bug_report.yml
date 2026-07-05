@@ -1,0 +1,55 @@
+name: バグ報告 / Bug report
+description: ビルド不良・実行時エラー・想定外の数値結果などを報告する
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        報告ありがとうございます。再現に必要な情報を記入してください。
+  - type: dropdown
+    id: model
+    attributes:
+      label: 対象モデル
+      description: 問題が発生したモデル(複数可)
+      multiple: true
+      options:
+        - 01-foc-ideal-voltage
+        - 02-foc-pwm-drive
+        - 03-foc-pwm-eps
+        - 04-foc-pwm-sensorless
+        - 05-foc-pwm-eps-sensorless
+        - 共通 (docs / CI / scripts など)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 症状
+      description: 何が起きたか。期待した結果と実際の結果。
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: 実行したコマンドライン
+      description: configure / build / run の正確なコマンド。
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: コンソール出力
+      description: エラーメッセージや RESULT 行を含む出力の全文。
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 環境
+      description: OS・コンパイラ・CMake・Eigen のバージョン
+      placeholder: "Windows 11 / MSVC 19.44 / CMake 3.29 / Eigen 3.4.0"
+    validations:
+      required: true
