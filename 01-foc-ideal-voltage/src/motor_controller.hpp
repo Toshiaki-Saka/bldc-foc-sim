@@ -19,7 +19,7 @@ enum class Axis { D = 0, Q = 1 };
 struct PidConfig {
     double kp;
     double ki;
-    double kd         = 0.0;
+    double kd = 0.0;
     double output_max;
     double resolution;
 };
@@ -27,7 +27,7 @@ struct PidConfig {
 struct AxisConfig {
     double kp;
     double ki;
-    double kd             = 0.0;
+    double kd = 0.0;
     double target_current;
     double max_current;
 };
@@ -49,38 +49,36 @@ class PidController {
     bool   initialized_ = false;
 
 public:
-    void   init(const PidConfig& cfg);
-    void   update(double measurement, double setpoint);
-    [[nodiscard]] double output()   const;
+    void                 init(const PidConfig& cfg);
+    void                 update(double measurement, double setpoint);
+    [[nodiscard]] double output() const;
 };
 
 class MotorController {
     PidController pid_d_;
     PidController pid_q_;
-    double        target_d_       = 0.0;
-    double        target_q_       = 85.0;
+    double        target_d_ = 0.0;
+    double        target_q_ = 85.0;
     // --- switchable feature flags (default OFF = legacy behaviour) ---
-    bool          use_midpoint_   = false;  // mid-point (zero-sequence) modulation
-    bool          use_decoupling_ = false;  // dq-axis decoupling (non-interacting control)
+    bool use_midpoint_   = false; // mid-point (zero-sequence) modulation
+    bool use_decoupling_ = false; // dq-axis decoupling (non-interacting control)
 
 public:
-    void                       init(Axis axis, const AxisConfig& cfg, double resolution);
+    void init(Axis axis, const AxisConfig& cfg, double resolution);
 
     // Enable/disable mid-point modulation and dq decoupling at run time.
-    void                       set_options(bool use_midpoint, bool use_decoupling)
-    {
+    void set_options(bool use_midpoint, bool use_decoupling) {
         use_midpoint_   = use_midpoint;
         use_decoupling_ = use_decoupling;
     }
 
     // Update the q-axis current reference at run time (used to inject a
     // transient via the --iq_step option).
-    void                       set_target_q(double iq_ref) { target_q_ = iq_ref; }
+    void set_target_q(double iq_ref) { target_q_ = iq_ref; }
 
     // compute() takes the measured 3-phase current, the electrical angle [deg]
     // and the electrical angular velocity [rad/s].  omega_elec is only used
     // when dq decoupling is enabled.
-    [[nodiscard]] ControlOutput compute(const Eigen::Vector3d& current,
-                                        double deg,
+    [[nodiscard]] ControlOutput compute(const Eigen::Vector3d& current, double deg,
                                         double omega_elec = 0.0);
 };

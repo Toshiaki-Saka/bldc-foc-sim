@@ -25,8 +25,7 @@
 #include "motor_model.hpp"
 #include "sim_params.hpp"
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
     double      span       = kEpsCalcSpan;
     double      torque_max = kEpsHandTorqueMax;
     double      ramp_dur   = kEpsRampDuration;
@@ -37,20 +36,29 @@ int main(int argc, char* argv[])
     std::string csv_out    = "data/eps_output.csv";
 
     for (int i = 1; i < argc; ++i) {
-        if      (std::strcmp(argv[i], "--span")    == 0 && i + 1 < argc) span       = std::atof(argv[++i]);
-        else if (std::strcmp(argv[i], "--tmax")    == 0 && i + 1 < argc) torque_max = std::atof(argv[++i]);
-        else if (std::strcmp(argv[i], "--ramp")    == 0 && i + 1 < argc) ramp_dur   = std::atof(argv[++i]);
-        else if (std::strcmp(argv[i], "--csv_out") == 0 && i + 1 < argc) csv_out    = argv[++i];
-        else if (std::strcmp(argv[i], "--no_csv")  == 0) no_csv = true;
-        else if (std::strcmp(argv[i], "--quiet")   == 0) quiet  = true;
-        else if (std::strcmp(argv[i], "--midpoint")   == 0) midpoint   = true;
-        else if (std::strcmp(argv[i], "--decoupling") == 0) decoupling = true;
+        if (std::strcmp(argv[i], "--span") == 0 && i + 1 < argc)
+            span = std::atof(argv[++i]);
+        else if (std::strcmp(argv[i], "--tmax") == 0 && i + 1 < argc)
+            torque_max = std::atof(argv[++i]);
+        else if (std::strcmp(argv[i], "--ramp") == 0 && i + 1 < argc)
+            ramp_dur = std::atof(argv[++i]);
+        else if (std::strcmp(argv[i], "--csv_out") == 0 && i + 1 < argc)
+            csv_out = argv[++i];
+        else if (std::strcmp(argv[i], "--no_csv") == 0)
+            no_csv = true;
+        else if (std::strcmp(argv[i], "--quiet") == 0)
+            quiet = true;
+        else if (std::strcmp(argv[i], "--midpoint") == 0)
+            midpoint = true;
+        else if (std::strcmp(argv[i], "--decoupling") == 0)
+            decoupling = true;
     }
 
     const double ng = kEpsGearRatio;
 
-    // --- EPS mechanical system (steering wheel + torsion bar + column + pinion + rack + spring) ---
-    EpsGearboxModel gearbox { EpsGearboxConfig {
+    // --- EPS mechanical system (steering wheel + torsion bar + column + pinion + rack + spring)
+    // ---
+    EpsGearboxModel gearbox{EpsGearboxConfig{
         .jsw           = kJsw,
         .jcol          = kJcolBase,
         .jmotor        = kJ,
@@ -65,14 +73,14 @@ int main(int argc, char* argv[])
     }};
 
     // --- EPS assist controller (V-curve assist map: torsion torque → iq_ref) ---
-    EpsController eps_ctrl { EpsControllerConfig {
+    EpsController eps_ctrl{EpsControllerConfig{
         .deadzone = kEpsDeadzone,
         .gain     = kEpsAssistGain,
         .iq_max   = kEpsIqMax,
     }};
 
     // --- BLDC motor electrical model (dq current dynamics + torque generation) ---
-    MotorModel motor { MotorConfig {
+    MotorModel motor{MotorConfig{
         .inertia            = kJ,
         .coil_resistance    = kR,
         .counter_emf        = kKe,
@@ -80,7 +88,7 @@ int main(int argc, char* argv[])
         .viscous_resistance = kB,
         .inductance         = kL,
         .resolution         = kResolution,
-        .load_torque        = 0.0,   // mechanical coupling handled by EpsGearboxModel
+        .load_torque        = 0.0, // mechanical coupling handled by EpsGearboxModel
         .vdc                = kVdc,
         .csv_path           = "NUL", // motor-internal CSV suppressed; combined CSV output below
         .pwm_csv_path       = "NUL",
@@ -88,11 +96,13 @@ int main(int argc, char* argv[])
 
     // --- FOC current controller (d/q axis PI) ---
     // 2nd-order pole placement: Kp = 2ζωnL − R, Ki = ωn²L
-    const double kKp = 2.0 * kZeta * kWn * kL - kR;
-    const double kKi = kWn * kWn * kL;
+    const double    kKp = 2.0 * kZeta * kWn * kL - kR;
+    const double    kKi = kWn * kWn * kL;
     MotorController foc;
-    foc.init(Axis::D, { .kp = kKp, .ki = kKi, .target_current = 0.0, .max_current = 120.0 }, kResolution);
-    foc.init(Axis::Q, { .kp = kKp, .ki = kKi, .target_current = 0.0, .max_current = 120.0 }, kResolution);
+    foc.init(Axis::D, {.kp = kKp, .ki = kKi, .target_current = 0.0, .max_current = 120.0},
+             kResolution);
+    foc.init(Axis::Q, {.kp = kKp, .ki = kKi, .target_current = 0.0, .max_current = 120.0},
+             kResolution);
     foc.set_vdc(kVdc);
     foc.set_options(midpoint, decoupling);
 
@@ -108,7 +118,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    double          sensor_filt   = 0.0;
+    double          sensor_filt = 0.0;
     EpsGearboxState gearbox_state{};
     MotorState      motor_state{};
     double          last_iq_ref   = 0.0;
@@ -124,16 +134,17 @@ int main(int argc, char* argv[])
         const double hand_torque = torque_max * std::min(t / ramp_dur, 1.0);
 
         // ECU torque sensor LPF (prevents exciting mechanical resonance at ~9.5 Hz)
-        sensor_filt += (gearbox_state.torsion_torque - sensor_filt) * kEpsSensorLpfOmega * kResolution;
+        sensor_filt +=
+            (gearbox_state.torsion_torque - sensor_filt) * kEpsSensorLpfOmega * kResolution;
 
         // EPS ECU: V-curve assist map → q-axis current reference
         const double iq_ref = eps_ctrl.compute_iq_ref(sensor_filt);
-        last_iq_ref = iq_ref;
+        last_iq_ref         = iq_ref;
 
         // FOC: update q-axis target then compute 3-phase voltage commands
         foc.set_target_q(iq_ref);
         const double motor_omega_elec = motor_state.angular_vel * kPolePairs;
-        const auto ctrl = foc.compute(motor_current, motor_deg, motor_omega_elec);
+        const auto   ctrl             = foc.compute(motor_current, motor_deg, motor_omega_elec);
 
         // Kinematic constraint: motor shaft speed = gear_ratio × column speed
         // This enforces the rigid coupling through the gearbox and gives correct back-EMF.
@@ -155,36 +166,20 @@ int main(int argc, char* argv[])
                 "{:.6f},{:.6f},{:.6f},{:.6f},"
                 "{:.6f},{:.6f},{:.9f},{:.6f},{:.4f},"
                 "{:.6f},{:.6f},{:.4f}\n",
-                t,
-                hand_torque,
-                gearbox_state.torsion_torque,
-                sensor_filt,
-                iq_ref,
-                motor_state.q_current,
-                motor_state.electric_torque,
-                gearbox_state.assist_torque,
-                gearbox_state.theta_sw,
-                gearbox_state.theta_col,
-                gearbox_state.omega_sw,
-                gearbox_state.omega_col,
-                gearbox_state.rack_disp,
-                gearbox_state.rack_vel,
-                gearbox_state.rack_force,
-                motor_state.angular_vel,
-                motor_state.d_current,
+                t, hand_torque, gearbox_state.torsion_torque, sensor_filt, iq_ref,
+                motor_state.q_current, motor_state.electric_torque, gearbox_state.assist_torque,
+                gearbox_state.theta_sw, gearbox_state.theta_col, gearbox_state.omega_sw,
+                gearbox_state.omega_col, gearbox_state.rack_disp, gearbox_state.rack_vel,
+                gearbox_state.rack_force, motor_state.angular_vel, motor_state.d_current,
                 motor_state.mech_deg);
         }
     }
 
     // Machine-parseable result line (used by eps_vcurve_sweep.py)
-    std::printf(
-        "RESULT torsion_ss=%.6f assist_ss=%.6f rack_force_ss=%.2f"
-        " rack_disp_mm=%.3f iq_ref_ss=%.4f\n",
-        gearbox_state.torsion_torque,
-        gearbox_state.assist_torque,
-        gearbox_state.rack_force,
-        gearbox_state.rack_disp * 1000.0,
-        last_iq_ref);
+    std::printf("RESULT torsion_ss=%.6f assist_ss=%.6f rack_force_ss=%.2f"
+                " rack_disp_mm=%.3f iq_ref_ss=%.4f\n",
+                gearbox_state.torsion_torque, gearbox_state.assist_torque, gearbox_state.rack_force,
+                gearbox_state.rack_disp * 1000.0, last_iq_ref);
 
     if (!quiet) {
         const double max_assist = ng * kKt * kEpsIqMax;
@@ -204,7 +199,7 @@ int main(int argc, char* argv[])
         std::printf("  Iq 指令                      : %.2f A\n", last_iq_ref);
         std::printf("  Iq 実際 (q 電流)             : %.2f A\n", motor_state.q_current);
         std::printf("  アシストトルク (ピニオン)     : %.4f Nm\n", gearbox_state.assist_torque);
-        std::printf("  ラック推力                   : %.2f N\n",  gearbox_state.rack_force);
+        std::printf("  ラック推力                   : %.2f N\n", gearbox_state.rack_force);
         std::printf("  ラック変位                   : %.2f mm\n", gearbox_state.rack_disp * 1000.0);
         std::printf("  モータ角速度                 : %.2f rad/s\n", motor_state.angular_vel);
         if (!no_csv)

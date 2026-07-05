@@ -28,15 +28,15 @@ struct EpsGearboxConfig {
 
 // All state variables output by one simulation step.
 struct EpsGearboxState {
-    double theta_sw;        // Steering wheel angle [rad]
-    double omega_sw;        // Steering wheel angular velocity [rad/s]
-    double theta_col;       // Lower column / pinion angle [rad]
-    double omega_col;       // Lower column / pinion angular velocity [rad/s]
-    double rack_disp;       // Rack displacement [m]  = pinion_radius * theta_col
-    double rack_vel;        // Rack velocity [m/s]
-    double rack_force;      // Spring + damper force on rack [N]
-    double torsion_torque;  // Torsion bar torque = torque sensor reading [Nm]
-    double assist_torque;   // Assist torque delivered at pinion [Nm] = gear_ratio * Tm
+    double theta_sw;       // Steering wheel angle [rad]
+    double omega_sw;       // Steering wheel angular velocity [rad/s]
+    double theta_col;      // Lower column / pinion angle [rad]
+    double omega_col;      // Lower column / pinion angular velocity [rad/s]
+    double rack_disp;      // Rack displacement [m]  = pinion_radius * theta_col
+    double rack_vel;       // Rack velocity [m/s]
+    double rack_force;     // Spring + damper force on rack [N]
+    double torsion_torque; // Torsion bar torque = torque sensor reading [Nm]
+    double assist_torque;  // Assist torque delivered at pinion [Nm] = gear_ratio * Tm
 };
 
 // Two-mass EPS mechanical model:

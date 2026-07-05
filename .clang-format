@@ -1,0 +1,21 @@
+# bldc-foc-sim コードスタイル (CONTRIBUTING.md に対応)
+# 基本: LLVM をベースに、スペース4・付着ブレース・連続整列を有効化。
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++20
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+AccessModifierOffset: -4
+ColumnLimit: 100
+BreakBeforeBraces: Attach
+AllowShortFunctionsOnASingleLine: InlineOnly
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignTrailingComments: true
+PointerAlignment: Left
+SpaceAfterCStyleCast: true
+SortIncludes: false
+IndentCaseLabels: true

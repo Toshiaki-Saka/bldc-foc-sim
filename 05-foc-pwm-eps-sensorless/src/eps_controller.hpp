@@ -10,9 +10,9 @@
 // =============================================================================
 
 struct EpsControllerConfig {
-    double deadzone;  // Torque sensor dead zone [Nm]
-    double gain;      // Assist gain [A/Nm] above dead zone
-    double iq_max;    // Maximum q-axis current [A]
+    double deadzone; // Torque sensor dead zone [Nm]
+    double gain;     // Assist gain [A/Nm] above dead zone
+    double iq_max;   // Maximum q-axis current [A]
 };
 
 // V-curve assist map: Iq_ref = clamp( gain * (|Tsensor| − deadzone) * sign(Tsensor), ±iq_max )
@@ -26,6 +26,6 @@ public:
     EpsController() = default;
     explicit EpsController(const EpsControllerConfig& cfg) { init(cfg); }
 
-    void init(const EpsControllerConfig& cfg);
+    void                 init(const EpsControllerConfig& cfg);
     [[nodiscard]] double compute_iq_ref(double sensor_torque) const;
 };
