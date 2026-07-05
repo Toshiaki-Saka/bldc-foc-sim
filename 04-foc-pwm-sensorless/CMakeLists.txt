@@ -45,6 +45,25 @@ if(MSVC)
     add_compile_options(/utf-8)
 endif()
 
+# --- 警告設定 (CI で有効化) ----------------------------------------------------
+# BLDC_ENABLE_WARNINGS=ON で高警告レベル、BLDC_WARNINGS_AS_ERRORS=ON で警告をエラー化。
+# 既定 OFF なのでローカルの通常ビルドは妨げない。CI で品質ゲートとして使う。
+option(BLDC_ENABLE_WARNINGS "Enable a high compiler warning level" OFF)
+option(BLDC_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+if(BLDC_ENABLE_WARNINGS)
+    if(MSVC)
+        add_compile_options(/W4)
+        if(BLDC_WARNINGS_AS_ERRORS)
+            add_compile_options(/WX)
+        endif()
+    else()
+        add_compile_options(-Wall -Wextra -Wpedantic)
+        if(BLDC_WARNINGS_AS_ERRORS)
+            add_compile_options(-Werror)
+        endif()
+    endif()
+endif()
+
 # --- 依存ライブラリ : Eigen3 ---------------------------------------------------
 # まずシステムインストール済みの Eigen3 を検索する。
 find_package(Eigen3 3.4 QUIET CONFIG)
@@ -92,3 +111,16 @@ add_test(NAME smoke_BrushlessDCMotor
 set_tests_properties(smoke_BrushlessDCMotor PROPERTIES
     PASS_REGULAR_EXPRESSION "RESULT "
     FAIL_REGULAR_EXPRESSION "nan|inf|NaN|Inf")
+
+# --- 数値単体テスト (CTest) : 座標変換の不変条件 --------------------------------
+#  リポジトリ共通のテストソース (tests/test_vector_conv.cpp) を、このモデル自身の
+#  motor_vector_conv.cpp と一緒にビルドする。Clarke/Park 変換の可逆性・零相成分・
+#  中点変調の線間電圧保存を検証し、モデル間実装のドリフトも検出する。
+add_executable(test_vector_conv
+    ${CMAKE_CURRENT_SOURCE_DIR}/../tests/test_vector_conv.cpp
+    src/motor_vector_conv.cpp)
+target_include_directories(test_vector_conv PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(test_vector_conv PRIVATE Eigen3::Eigen)
+add_test(NAME unit_vector_conv COMMAND test_vector_conv)
+set_tests_properties(unit_vector_conv PROPERTIES
+    PASS_REGULAR_EXPRESSION "RESULT unit_vector_conv PASS")
