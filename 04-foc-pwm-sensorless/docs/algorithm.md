@@ -131,7 +131,7 @@ $$
 e_\alpha = \frac{\sqrt{2}}{2} K_e \omega \sin\theta, \quad e_\beta = \frac{\sqrt{2}}{2} K_e \omega \cos\theta
 $$
 
-Cross-product error (linearises to `C·sin(θ_true − θ_est) ≈ C·(θ_true − θ_est)` near lock):
+Cross-product error (linearises to $C\sin(\theta_{true} - \theta_{est}) \approx C(\theta_{true} - \theta_{est})$ near lock):
 
 $$
 \varepsilon = e_{\alpha,\text{filt}} \cos\hat{\theta} - e_{\beta,\text{filt}} \sin\hat{\theta}

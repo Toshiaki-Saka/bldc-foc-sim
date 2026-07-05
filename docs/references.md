@@ -34,6 +34,17 @@
   本コードの定格電圧 (48 V)、極対数、トルク定数などのパラメータ設定の
   参考とした製品データシート。
 
+- EPS 用モータが三相ブラシレス DC モータであることの参考:
+  ABLIC「Automotive Electric Power Steering Motors (EPS Motors)」
+  <https://www.ablic.com/en/semicon/applications/electric-power-steering-motor/>
+  Bosch「Electric power steering systems」
+  <https://www.bosch-mobility.com/en/solutions/steering/electric-power-steering-systems/>
+
+- ラックアシスト式 EPS が高出力（重量車・高前軸荷重）用途向けである
+  ことの参考:
+  Nexteer「Rack-Assist Electric Power Steering」
+  <https://www.nexteer.com/electric-power-steering/rack-assist-electric-power-steering/>
+
 ---
 
 ## 3. 機能安全 (付属プレゼン資料の機能安全パート)
