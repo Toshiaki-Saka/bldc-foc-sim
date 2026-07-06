@@ -25,6 +25,11 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+      # 見出しの日本語を保持した GitHub 互換スラッグを生成する。既定の slugify は
+      # 非 ASCII を除去して `#4` のようになり、日本語アンカーへのリンクが壊れるため。
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
   - admonition
   - pymdownx.details
 
