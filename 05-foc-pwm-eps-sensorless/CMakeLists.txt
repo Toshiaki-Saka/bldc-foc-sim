@@ -134,6 +134,13 @@ set_tests_properties(smoke_BrushlessDCMotor PROPERTIES
     PASS_REGULAR_EXPRESSION "RESULT "
     FAIL_REGULAR_EXPRESSION "nan|inf|NaN|Inf")
 
+# EPS 機構シミュレータも同じ健全性テストを行う (RESULT 行を NaN/Inf なく出力)。
+add_test(NAME smoke_EpsGearboxSim
+         COMMAND EpsGearboxSim --span 0.05 --no_csv --quiet)
+set_tests_properties(smoke_EpsGearboxSim PROPERTIES
+    PASS_REGULAR_EXPRESSION "RESULT "
+    FAIL_REGULAR_EXPRESSION "nan|inf|NaN|Inf")
+
 # --- 数値単体テスト (CTest) : 座標変換の不変条件 --------------------------------
 #  リポジトリ共通のテストソース (tests/test_vector_conv.cpp) を、このモデル自身の
 #  motor_vector_conv.cpp と一緒にビルドする。Clarke/Park 変換の可逆性・零相成分・
