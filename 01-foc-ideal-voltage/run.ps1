@@ -1,25 +1,25 @@
 #Requires -Version 7
 <#
 .SYNOPSIS
-    BrushlessDCMotor シミュレーションを実行します。
+    Runs the BrushlessDCMotor simulation.
 
 .PARAMETER IqRef
-    q 軸電流指令値 [A] (--iq_ref)
+    q-axis current reference [A] (--iq_ref)
 
 .PARAMETER Tload
-    負荷トルク [Nm] (--tload)
+    Load torque [Nm] (--tload)
 
 .PARAMETER Span
-    シミュレーション時間 [s] (--span)
+    Simulation time [s] (--span)
 
 .PARAMETER CsvOut
-    CSV 出力ファイルパス (--csv_out)。省略時はデフォルトパスを使用します。
+    CSV output file path (--csv_out). When omitted, the default path is used.
 
 .PARAMETER NoCsv
-    CSV 出力を無効にします (--no_csv)。
+    Disables CSV output (--no_csv).
 
 .PARAMETER Quiet
-    RESULT 行のみ出力します (--quiet)。
+    Prints only the RESULT line (--quiet).
 
 .EXAMPLE
     .\run.ps1
@@ -42,7 +42,7 @@ $ErrorActionPreference = "Stop"
 $ExePath = Join-Path $PSScriptRoot "BrushlessDCMotor.exe"
 
 if (-not (Test-Path $ExePath)) {
-    Write-Error "実行ファイルが見つかりません: $ExePath`nまず .\build.ps1 を実行してください。"
+    Write-Error "Executable not found: $ExePath`nRun .\build.ps1 first."
     exit 1
 }
 

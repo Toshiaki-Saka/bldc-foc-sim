@@ -1,11 +1,12 @@
 // =============================================================================
-//  motor_controller.cpp  —  FOC コントローラ・PI 制御器 — 実装
+//  motor_controller.cpp  —  FOC controller / PI controllers — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 05-foc-pwm-eps-sensorless
-//  測定電流を dq 軸に変換し、PI 制御で電圧指令を算出する。
-//  オプションで非干渉制御のフィードフォワード項と中点変調を適用する。
+//  Project     : bldc-foc-sim / 05-foc-pwm-eps-sensorless
+//  Transforms the measured currents onto the dq axes and computes the voltage
+//  commands via PI control.  Optionally applies the decoupling feed-forward
+//  terms and midpoint modulation.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "motor_controller.hpp"

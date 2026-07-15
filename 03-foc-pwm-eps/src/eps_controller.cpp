@@ -1,10 +1,10 @@
 // =============================================================================
-//  eps_controller.cpp  —  EPS アシスト制御 — 実装
+//  eps_controller.cpp  —  EPS assist control — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  トーションバー検出トルクに対する V カーブのアシストマップを実装する。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Implements the V-curve assist map applied to the torsion-bar sensed torque.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "eps_controller.hpp"

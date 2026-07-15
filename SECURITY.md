@@ -1,20 +1,22 @@
-# セキュリティポリシー
+# Security Policy
 
-本リポジトリは教育・シミュレーション用途の教材であり、実機制御や本番環境での
-利用を想定していません。とはいえ、ビルドスクリプトや依存関係に関する
-セキュリティ上の懸念を歓迎します。
+This repository is courseware for educational and simulation purposes, and is not
+intended for real-hardware control or production use. That said, we welcome security
+concerns regarding the build scripts or dependencies.
 
-## 脆弱性の報告
+## Reporting a vulnerability
 
-脆弱性や懸念を見つけた場合は、公開 Issue を作成する前に、メールで
-**toraneko6791@gmail.com** までご連絡ください。可能であれば以下を含めてください。
+If you find a vulnerability or concern, please contact us by email at
+**toraneko6791@gmail.com** before opening a public Issue. If possible, please include
+the following.
 
-- 影響を受ける箇所(ファイル・モデル・依存関係)
-- 再現手順
-- 想定される影響
+- The affected location (file, model, or dependency)
+- Steps to reproduce
+- The expected impact
 
-対応可能な範囲で、受領確認と対処方針を返信します。
+We will reply with an acknowledgment and a plan for how to address it, to the extent
+we are able.
 
-## サポート対象
+## Supported versions
 
-最新の `main` ブランチのみをサポート対象とします。
+Only the latest `main` branch is supported.

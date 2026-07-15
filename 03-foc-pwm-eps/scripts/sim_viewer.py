@@ -1,7 +1,7 @@
 """
 BrushlessDCMotor / EPS Gearbox Simulation Viewer (03-foc-pwm-eps)
-sim_output.csv / eps_output.csv の結果を表示する PyQt6 GUI
-シミュレーション実行 (BrushlessDCMotor.exe / EpsGearboxSim.exe) にも対応。
+PyQt6 GUI that displays the results in sim_output.csv / eps_output.csv
+Also supports running the simulation (BrushlessDCMotor.exe / EpsGearboxSim.exe).
 """
 
 import sys
@@ -35,38 +35,38 @@ RESOLUTION = 0.00025  # 250 usec (motor calculation step)
 
 # ── Motor sim chart groups ─────────────────────────────────────────────────────
 CHART_GROUPS_MOTOR = [
-    ("3相電流 (出力)", [
-        ("U",  "U相電流 [A]", "#e74c3c"),
-        ("V",  "V相電流 [A]", "#2ecc71"),
-        ("W",  "W相電流 [A]", "#3498db"),
+    ("3-phase current (output)", [
+        ("U",  "U-phase current [A]", "#e74c3c"),
+        ("V",  "V-phase current [A]", "#2ecc71"),
+        ("W",  "W-phase current [A]", "#3498db"),
     ]),
-    ("dq軸電流", [
-        ("id", "d軸電流 id [A]", "#9b59b6"),
-        ("iq", "q軸電流 iq [A]", "#e67e22"),
+    ("dq-axis current", [
+        ("id", "d-axis current id [A]", "#9b59b6"),
+        ("iq", "q-axis current iq [A]", "#e67e22"),
     ]),
-    ("トルク", [
-        ("Te", "電磁トルク Te [N·m]", "#e74c3c"),
-        ("Tm", "機械トルク Tm [N·m]", "#3498db"),
+    ("Torque", [
+        ("Te", "electromagnetic torque Te [N·m]", "#e74c3c"),
+        ("Tm", "mechanical torque Tm [N·m]", "#3498db"),
     ]),
-    ("角速度", [
-        ("omega", "角速度 ω [rad/s]", "#1abc9c"),
+    ("Angular velocity", [
+        ("omega", "angular velocity omega [rad/s]", "#1abc9c"),
     ]),
-    ("電気角・機械角", [
-        ("ElecDeg", "電気角 [rad]",  "#f39c12"),
-        ("MechDeg", "機械角 [rad]",  "#8e44ad"),
+    ("Electrical / mechanical angle", [
+        ("ElecDeg", "electrical angle [rad]",  "#f39c12"),
+        ("MechDeg", "mechanical angle [rad]",  "#8e44ad"),
     ]),
-    ("角度誤差", [
-        ("AngleError", "角度誤差 [rad]", "#c0392b"),
+    ("Angle error", [
+        ("AngleError", "angle error [rad]", "#c0392b"),
     ]),
-    ("PWM duty比 (三相)", [
-        ("DutyU_pct", "U相 duty比 [%]", "#e74c3c"),
-        ("DutyV_pct", "V相 duty比 [%]", "#2ecc71"),
-        ("DutyW_pct", "W相 duty比 [%]", "#3498db"),
+    ("PWM duty (three-phase)", [
+        ("DutyU_pct", "U-phase duty [%]", "#e74c3c"),
+        ("DutyV_pct", "V-phase duty [%]", "#2ecc71"),
+        ("DutyW_pct", "W-phase duty [%]", "#3498db"),
     ]),
-    ("印加電圧 (三相)", [
-        ("Vu", "U相電圧 Vu [V]", "#e74c3c"),
-        ("Vv", "V相電圧 Vv [V]", "#2ecc71"),
-        ("Vw", "W相電圧 Vw [V]", "#3498db"),
+    ("Applied voltage (three-phase)", [
+        ("Vu", "U-phase voltage Vu [V]", "#e74c3c"),
+        ("Vv", "V-phase voltage Vv [V]", "#2ecc71"),
+        ("Vw", "W-phase voltage Vw [V]", "#3498db"),
     ]),
 ]
 
@@ -75,32 +75,32 @@ ALL_MOTOR_COLS      = REQUIRED_MOTOR_COLS + ["DutyU", "DutyV", "DutyW", "Vu", "V
 
 # ── EPS sim chart groups ───────────────────────────────────────────────────────
 CHART_GROUPS_EPS = [
-    ("操舵トルク / センサ", [
-        ("hand_torque",    "ドライバ操舵トルク Th [Nm]",  "#e74c3c"),
-        ("torsion_torque", "トルクセンサ値 Tsensor [Nm]", "#3498db"),
-        ("sensor_filt",    "センサLPF出力 [Nm]",          "#2ecc71"),
+    ("Steering torque / sensor", [
+        ("hand_torque",    "driver steering torque Th [Nm]",   "#e74c3c"),
+        ("torsion_torque", "torque sensor value Tsensor [Nm]", "#3498db"),
+        ("sensor_filt",    "sensor LPF output [Nm]",           "#2ecc71"),
     ]),
-    ("電流 / アシスト", [
-        ("iq_ref",        "Iq 指令 [A]",                   "#9b59b6"),
-        ("iq_actual",     "Iq 実際 (q電流) [A]",           "#e67e22"),
-        ("assist_torque", "アシストトルク (ピニオン) [Nm]", "#2ecc71"),
+    ("Current / assist", [
+        ("iq_ref",        "Iq reference [A]",              "#9b59b6"),
+        ("iq_actual",     "Iq actual (q current) [A]",     "#e67e22"),
+        ("assist_torque", "assist torque (pinion) [Nm]",   "#2ecc71"),
     ]),
-    ("ラック推力 / 変位", [
-        ("rack_force", "ラック推力 (バネ) [N]", "#f39c12"),
-        ("rack_disp",  "ラック変位 [m]",         "#1abc9c"),
+    ("Rack force / displacement", [
+        ("rack_force", "rack force (spring) [N]", "#f39c12"),
+        ("rack_disp",  "rack displacement [m]",    "#1abc9c"),
     ]),
-    ("角度 (EPS)", [
-        ("theta_sw",  "ステアリングホイール角度 θsw [rad]", "#e74c3c"),
-        ("theta_col", "ピニオン角度 θcol [rad]",           "#3498db"),
+    ("Angle (EPS)", [
+        ("theta_sw",  "steering wheel angle theta_sw [rad]", "#e74c3c"),
+        ("theta_col", "pinion angle theta_col [rad]",        "#3498db"),
     ]),
-    ("角速度 (EPS)", [
-        ("omega_sw",  "ステアリングホイール角速度 [rad/s]", "#e74c3c"),
-        ("omega_col", "ピニオン角速度 [rad/s]",             "#3498db"),
+    ("Angular velocity (EPS)", [
+        ("omega_sw",  "steering wheel angular velocity [rad/s]", "#e74c3c"),
+        ("omega_col", "pinion angular velocity [rad/s]",         "#3498db"),
     ]),
-    ("モーター動態", [
-        ("omega_motor", "モータ角速度 [rad/s]", "#e74c3c"),
-        ("d_current",   "d軸電流 Id [A]",        "#3498db"),
-        ("mech_deg",    "機械角 [deg]",           "#2ecc71"),
+    ("Motor dynamics", [
+        ("omega_motor", "motor angular velocity [rad/s]", "#e74c3c"),
+        ("d_current",   "d-axis current Id [A]",           "#3498db"),
+        ("mech_deg",    "mechanical angle [deg]",          "#2ecc71"),
     ]),
 ]
 
@@ -199,7 +199,7 @@ class PlotCanvas(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         check_row = QHBoxLayout()
-        check_row.addWidget(QLabel("表示切替:"))
+        check_row.addWidget(QLabel("Toggle display:"))
         self.checkboxes = {}
         for col, label, color in signals:
             cb = QCheckBox(label)
@@ -220,8 +220,8 @@ class PlotCanvas(QWidget):
         self._setup_axes()
 
     def _setup_axes(self):
-        self.ax.set_xlabel("時間 [s]")
-        self.ax.set_ylabel("値")
+        self.ax.set_xlabel("time [s]")
+        self.ax.set_ylabel("value")
         self.ax.set_title(self.group_name)
         _dark_ax(self.ax)
         _style_legend(self.ax.legend())
@@ -253,7 +253,7 @@ class DataTableWidget(QWidget):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(4, 4, 4, 4)
-        layout.addWidget(QLabel("先頭 500 行を表示"))
+        layout.addWidget(QLabel("Showing the first 500 rows"))
         self.table = QTableWidget()
         self.table.setAlternatingRowColors(True)
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
@@ -281,9 +281,9 @@ class DataTableWidget(QWidget):
 # ── PwmWaveformWidget ─────────────────────────────────────────────────────────
 class PwmWaveformWidget(QWidget):
     _PHASES = [
-        ("PwmU_V", "U相 PWM [V]", "#e74c3c"),
-        ("PwmV_V", "V相 PWM [V]", "#2ecc71"),
-        ("PwmW_V", "W相 PWM [V]", "#3498db"),
+        ("PwmU_V", "U-phase PWM [V]", "#e74c3c"),
+        ("PwmV_V", "V-phase PWM [V]", "#2ecc71"),
+        ("PwmW_V", "W-phase PWM [V]", "#3498db"),
     ]
 
     def __init__(self, parent=None):
@@ -296,7 +296,7 @@ class PwmWaveformWidget(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         ctrl_row = QHBoxLayout()
-        ctrl_row.addWidget(QLabel("開始時刻:"))
+        ctrl_row.addWidget(QLabel("Start time:"))
         self.t_start = QDoubleSpinBox()
         self.t_start.setRange(0.0, 99999.0)
         self.t_start.setDecimals(3)
@@ -305,7 +305,7 @@ class PwmWaveformWidget(QWidget):
         self.t_start.setSingleStep(1.0)
         ctrl_row.addWidget(self.t_start)
 
-        ctrl_row.addWidget(QLabel("  表示幅:"))
+        ctrl_row.addWidget(QLabel("  Display width:"))
         self.t_span = QDoubleSpinBox()
         self.t_span.setRange(0.05, 500.0)
         self.t_span.setDecimals(3)
@@ -313,7 +313,7 @@ class PwmWaveformWidget(QWidget):
         self.t_span.setSuffix(" ms")
         ctrl_row.addWidget(self.t_span)
 
-        refresh_btn = QPushButton("更新")
+        refresh_btn = QPushButton("Refresh")
         refresh_btn.clicked.connect(self.refresh)
         ctrl_row.addWidget(refresh_btn)
 
@@ -342,7 +342,7 @@ class PwmWaveformWidget(QWidget):
         t1   = t0 + self.t_span.value() / 1000.0
         mask = (self.df_pwm["Time_s"] >= t0) & (self.df_pwm["Time_s"] < t1)
         view = self.df_pwm[mask]
-        self.info_label.setText(f"表示行数: {len(view):,} / {len(self.df_pwm):,}")
+        self.info_label.setText(f"Displayed rows: {len(view):,} / {len(self.df_pwm):,}")
 
         self.fig.clf()
         self.fig.set_facecolor(_DARK['fig_bg'])
@@ -358,7 +358,7 @@ class PwmWaveformWidget(QWidget):
             ax.set_yticks([0, 48])
             ax.set_yticklabels(["0 V", "Vdc"])
             if i == n - 1:
-                ax.set_xlabel("時間 [μs]", fontsize=9)
+                ax.set_xlabel("time [μs]", fontsize=9)
             _dark_ax(ax)
             _style_legend(ax.legend(fontsize=8, loc="upper right"))
         self.canvas.draw()
@@ -382,9 +382,9 @@ class VCurveCanvas(QWidget):
 
     def _draw_empty(self):
         self.ax.cla()
-        self.ax.set_xlabel("操舵トルク Th [Nm]")
-        self.ax.set_ylabel("ラック推力 [N]")
-        self.ax.set_title("V字カーブ: ラック推力 vs 操舵トルク")
+        self.ax.set_xlabel("steering torque Th [Nm]")
+        self.ax.set_ylabel("rack force [N]")
+        self.ax.set_title("V-curve: rack force vs. steering torque")
         _dark_ax(self.ax)
         self.canvas.draw()
 
@@ -398,12 +398,12 @@ class VCurveCanvas(QWidget):
         self.ax.cla()
         th = self.df["hand_torque"].values
         fr = self.df["rack_force"].values
-        self.ax.plot( th, fr, color="#3498db", linewidth=1.5, label="ラック推力 (正方向)")
+        self.ax.plot( th, fr, color="#3498db", linewidth=1.5, label="rack force (positive dir.)")
         self.ax.plot(-th, fr, color="#e74c3c", linewidth=1.5, linestyle="--",
-                     label="ラック推力 (負方向 ※鏡像)")
-        self.ax.set_xlabel("操舵トルク Th [Nm]")
-        self.ax.set_ylabel("ラック推力 [N]")
-        self.ax.set_title("V字カーブ: ラック推力 vs 操舵トルク")
+                     label="rack force (negative dir., mirrored)")
+        self.ax.set_xlabel("steering torque Th [Nm]")
+        self.ax.set_ylabel("rack force [N]")
+        self.ax.set_title("V-curve: rack force vs. steering torque")
         self.ax.axhline(0, color=_DARK['spine'], linewidth=0.5)
         self.ax.axvline(0, color=_DARK['spine'], linewidth=0.5)
         _dark_ax(self.ax)
@@ -424,7 +424,7 @@ class EpsTimeChart(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         check_row = QHBoxLayout()
-        check_row.addWidget(QLabel("表示切替:"))
+        check_row.addWidget(QLabel("Toggle display:"))
         self.checkboxes = {}
         for col, label, color in signals:
             cb = QCheckBox(label)
@@ -445,7 +445,7 @@ class EpsTimeChart(QWidget):
         self._setup_axes()
 
     def _setup_axes(self):
-        self.ax.set_xlabel("時間 [s]")
+        self.ax.set_xlabel("time [s]")
         self.ax.set_title(self.group_name)
         _dark_ax(self.ax)
         _style_legend(self.ax.legend())
@@ -486,7 +486,7 @@ class SimRunner(QThread):
 
     def run(self):
         try:
-            self.log.emit("シミュレーション実行中...")
+            self.log.emit("Running simulation...")
             result = subprocess.run(
                 [self._exe_path] + self._args,
                 capture_output=True,
@@ -496,13 +496,13 @@ class SimRunner(QThread):
             )
             if result.returncode != 0:
                 stderr = result.stderr[:600] if result.stderr else "(no stderr)"
-                self.error.emit(f"exe がコード {result.returncode} で終了しました\n{stderr}")
+                self.error.emit(f"exe exited with code {result.returncode}\n{stderr}")
                 return
             self.result_ready.emit(self._csv_path)
         except FileNotFoundError:
-            self.error.emit(f"実行ファイルが見つかりません:\n{self._exe_path}")
+            self.error.emit(f"Executable not found:\n{self._exe_path}")
         except subprocess.TimeoutExpired:
-            self.error.emit("タイムアウト: 300 秒以内に完了しませんでした")
+            self.error.emit("Timeout: did not finish within 300 seconds")
         except Exception as exc:
             self.error.emit(str(exc))
 
@@ -543,35 +543,35 @@ class SettingsTab(QWidget):
         lay.setSpacing(12)
         lay.setContentsMargins(10, 10, 10, 10)
 
-        # ── シミュレーションモード ─────────────────────────────────────
-        mode_grp = QGroupBox("シミュレーションモード")
+        # -- Simulation mode ------------------------------------------------
+        mode_grp = QGroupBox("Simulation mode")
         mode_lay = QHBoxLayout(mode_grp)
-        self.mode_motor = QRadioButton("モータ単体  (BrushlessDCMotor.exe)")
-        self.mode_eps   = QRadioButton("EPS 統合  (EpsGearboxSim.exe)")
+        self.mode_motor = QRadioButton("Motor only  (BrushlessDCMotor.exe)")
+        self.mode_eps   = QRadioButton("EPS integrated  (EpsGearboxSim.exe)")
         self.mode_motor.setChecked(True)
         mode_lay.addWidget(self.mode_motor)
         mode_lay.addWidget(self.mode_eps)
         mode_lay.addStretch()
         lay.addWidget(mode_grp)
 
-        # ── モータ物理定数 (コンパイル時定数、参照用) ──────────────────
-        minfo_grp = QGroupBox("モータパラメータ  (コンパイル時定数 — 参照用)")
+        # -- Motor physical constants (compile-time constants, for reference) --
+        minfo_grp = QGroupBox("Motor parameters  (compile-time constants — for reference)")
         minfo_form = QFormLayout(minfo_grp)
         minfo_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         for label, val in [
-            ("Kt — トルク定数:",       "0.0533  Nm/A"),
-            ("Ke — 逆起電力定数:",     "0.0533  V·s/rad"),
-            ("R  — 相抵抗:",           "0.1  Ω"),
-            ("L  — 相インダクタンス:", "0.0001  H"),
-            ("B  — 粘性抵抗:",         f"{self._B_DEFAULT:.8f}  Nm·s/rad"),
-            ("J  — 慣性モーメント:",   "3.5e-4  kg·m²"),
-            ("極対数:",                "4  pair"),
+            ("Kt — torque constant:",      "0.0533  Nm/A"),
+            ("Ke — back-EMF constant:",    "0.0533  V·s/rad"),
+            ("R  — phase resistance:",     "0.1  Ω"),
+            ("L  — phase inductance:",     "0.0001  H"),
+            ("B  — viscous damping:",      f"{self._B_DEFAULT:.8f}  Nm·s/rad"),
+            ("J  — moment of inertia:",    "3.5e-4  kg·m²"),
+            ("pole pairs:",                "4  pair"),
         ]:
             minfo_form.addRow(label, self._info_label(val))
         lay.addWidget(minfo_grp)
 
-        # ── PI 電流制御 (コンパイル時定数、参照用) ────────────────────
-        pi_grp = QGroupBox("PI電流制御チューニング  (参照用: Kp = 2ζωnL − R,  Ki = ωn²L)")
+        # -- PI current control (compile-time constants, for reference) --------
+        pi_grp = QGroupBox("PI current control tuning  (for reference: Kp = 2ζωnL − R,  Ki = ωn²L)")
         pi_form = QFormLayout(pi_grp)
         pi_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         wn, zeta, L, R = 1000.0, 1.0, 0.0001, 0.1
@@ -588,57 +588,57 @@ class SettingsTab(QWidget):
             pi_form.addRow(label, lbl)
         lay.addWidget(pi_grp)
 
-        # ── モータシミュレーション条件 ────────────────────────────────
-        self.motor_cond_grp = QGroupBox("モータシミュレーション条件")
+        # -- Motor simulation conditions ------------------------------------
+        self.motor_cond_grp = QGroupBox("Motor simulation conditions")
         mc_form = QFormLayout(self.motor_cond_grp)
         mc_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.iqref_sb    = self._dspin(85.0,  -5000.0, 5000.0, 2, "A")
         self.tload_sb    = self._dspin(4.3,    0.0,    1000.0, 3, "Nm")
         self.span_sb     = self._dspin(5.0,    0.1,    3600.0, 1, "s")
         self.vdc_sb      = self._dspin(48.0,   1.0,     800.0, 1, "V")
-        self.midpoint_cb = QCheckBox("ミッドポイント変調 (SVPWM)")
-        self.decouple_cb = QCheckBox("dq 軸非干渉制御 (デカップリング)")
-        mc_form.addRow("IqRef — q軸電流指令:", self.iqref_sb)
-        mc_form.addRow("Tload — 負荷トルク:",  self.tload_sb)
-        mc_form.addRow("Span  — 計算時間:",    self.span_sb)
-        mc_form.addRow("Vdc   — DC電圧:",      self.vdc_sb)
+        self.midpoint_cb = QCheckBox("Midpoint modulation (SVPWM)")
+        self.decouple_cb = QCheckBox("dq-axis decoupling control (decoupling)")
+        mc_form.addRow("IqRef — q-axis current reference:", self.iqref_sb)
+        mc_form.addRow("Tload — load torque:",  self.tload_sb)
+        mc_form.addRow("Span  — computation time:", self.span_sb)
+        mc_form.addRow("Vdc   — DC voltage:",   self.vdc_sb)
         mc_form.addRow("",                      self.midpoint_cb)
         mc_form.addRow("",                      self.decouple_cb)
         lay.addWidget(self.motor_cond_grp)
 
-        # ── iq ステップ変化 ───────────────────────────────────────────
-        self.step_grp = QGroupBox("iq ステップ変化  (モータシミュレーション)")
+        # -- iq step change -------------------------------------------------
+        self.step_grp = QGroupBox("iq step change  (motor simulation)")
         step_form = QFormLayout(self.step_grp)
         step_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
-        self.step_en_cb   = QCheckBox("iq ステップを有効にする")
+        self.step_en_cb   = QCheckBox("Enable iq step")
         self.step_time_sb = self._dspin(2.0, 0.0, 3600.0, 2, "s")
         self.step_val_sb  = self._dspin(0.0, -5000.0, 5000.0, 1, "A")
         self.step_time_sb.setEnabled(False)
         self.step_val_sb.setEnabled(False)
         self.step_en_cb.stateChanged.connect(self._toggle_step)
-        step_form.addRow("",               self.step_en_cb)
-        step_form.addRow("ステップ時刻:",  self.step_time_sb)
-        step_form.addRow("ステップ後 iq:", self.step_val_sb)
+        step_form.addRow("",             self.step_en_cb)
+        step_form.addRow("Step time:",   self.step_time_sb)
+        step_form.addRow("iq after step:", self.step_val_sb)
         lay.addWidget(self.step_grp)
 
-        # ── EPS シミュレーション条件 ──────────────────────────────────
-        self.eps_cond_grp = QGroupBox("EPS シミュレーション条件")
+        # -- EPS simulation conditions --------------------------------------
+        self.eps_cond_grp = QGroupBox("EPS simulation conditions")
         eps_form = QFormLayout(self.eps_cond_grp)
         eps_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.eps_span_sb = self._dspin(5.0,  0.1,  3600.0, 1, "s")
         self.eps_tmax_sb = self._dspin(5.0,  0.1,   100.0, 2, "Nm")
         self.eps_ramp_sb = self._dspin(2.0,  0.1,   600.0, 2, "s")
-        self.eps_mid_cb  = QCheckBox("ミッドポイント変調 (SVPWM)")
-        self.eps_dec_cb  = QCheckBox("dq 軸非干渉制御 (デカップリング)")
-        eps_form.addRow("Span    — 計算時間:",         self.eps_span_sb)
-        eps_form.addRow("Tmax    — 最大操舵トルク:",   self.eps_tmax_sb)
-        eps_form.addRow("RampDur — トルクランプ時間:", self.eps_ramp_sb)
+        self.eps_mid_cb  = QCheckBox("Midpoint modulation (SVPWM)")
+        self.eps_dec_cb  = QCheckBox("dq-axis decoupling control (decoupling)")
+        eps_form.addRow("Span    — computation time:",   self.eps_span_sb)
+        eps_form.addRow("Tmax    — max steering torque:", self.eps_tmax_sb)
+        eps_form.addRow("RampDur — torque ramp time:",   self.eps_ramp_sb)
         eps_form.addRow("",                             self.eps_mid_cb)
         eps_form.addRow("",                             self.eps_dec_cb)
         lay.addWidget(self.eps_cond_grp)
 
-        # ── 実行ファイル設定 ──────────────────────────────────────────
-        exe_grp = QGroupBox("実行ファイル設定")
+        # -- Executable settings --------------------------------------------
+        exe_grp = QGroupBox("Executable settings")
         exe_form = QFormLayout(exe_grp)
         exe_form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.motor_exe_edit = QLineEdit(self._default_exe("BrushlessDCMotor.exe"))
@@ -647,7 +647,7 @@ class SettingsTab(QWidget):
             (self.motor_exe_edit, "BrushlessDCMotor.exe:"),
             (self.eps_exe_edit,   "EpsGearboxSim.exe:"),
         ]:
-            browse_btn = QPushButton("参照...")
+            browse_btn = QPushButton("Browse...")
             browse_btn.clicked.connect(lambda _, e=edit: self._browse_exe(e))
             row_w   = QWidget()
             row_lay = QHBoxLayout(row_w)
@@ -677,7 +677,7 @@ class SettingsTab(QWidget):
 
     def _browse_exe(self, edit: QLineEdit):
         path, _ = QFileDialog.getOpenFileName(
-            self, "実行ファイルを選択", "", "Executable (*.exe);;All Files (*)"
+            self, "Select executable", "", "Executable (*.exe);;All Files (*)"
         )
         if path:
             edit.setText(path)
@@ -747,19 +747,19 @@ class MainWindow(QMainWindow):
         root = QVBoxLayout(central)
         root.setContentsMargins(8, 8, 8, 4)
 
-        # ── ツールバー ────────────────────────────────────────────────
+        # -- Toolbar --------------------------------------------------------
         toolbar_row = QHBoxLayout()
         self.run_btn = QPushButton("▶  Simulation Run")
         self.run_btn.setObjectName("run_btn")
         self.run_btn.setFixedHeight(34)
         self.run_btn.clicked.connect(self._run_simulation)
-        reload_btn   = QPushButton("再読込")
+        reload_btn   = QPushButton("Reload")
         reload_btn.clicked.connect(self._reload)
-        save_png_btn = QPushButton("PNG保存")
+        save_png_btn = QPushButton("Save PNG")
         save_png_btn.clicked.connect(self._save_png)
-        csv_btn      = QPushButton("CSV読込")
+        csv_btn      = QPushButton("Load CSV")
         csv_btn.clicked.connect(self._open_file)
-        self.file_label = QLabel("ファイル未選択")
+        self.file_label = QLabel("No file selected")
         self.file_label.setFont(QFont("", 9))
         toolbar_row.addWidget(self.run_btn)
         toolbar_row.addWidget(reload_btn)
@@ -773,7 +773,7 @@ class MainWindow(QMainWindow):
         self.stats_label.setStyleSheet("color:#888888;")
         root.addWidget(self.stats_label)
 
-        # ── タブ ──────────────────────────────────────────────────────
+        # -- Tabs -----------------------------------------------------------
         self.tabs = QTabWidget()
         root.addWidget(self.tabs, 1)
 
@@ -784,17 +784,17 @@ class MainWindow(QMainWindow):
             self.plot_canvases.append(w)
             self.tabs.addTab(w, group_name)
 
-        self.tabs.addTab(self._build_overview_tab(), "全波形")
+        self.tabs.addTab(self._build_overview_tab(), "All waveforms")
 
         self.pwm_widget = PwmWaveformWidget()
-        self.tabs.addTab(self.pwm_widget, "PWM波形 (三相)")
+        self.tabs.addTab(self.pwm_widget, "PWM waveforms (three-phase)")
 
         self.motor_table = DataTableWidget()
-        self.tabs.addTab(self.motor_table, "データ (モータ)")
+        self.tabs.addTab(self.motor_table, "Data (motor)")
 
         # EPS tabs
         self.vcurve = VCurveCanvas()
-        self.tabs.addTab(self.vcurve, "V字カーブ")
+        self.tabs.addTab(self.vcurve, "V-curve")
 
         self.eps_charts = []
         for group_name, signals in CHART_GROUPS_EPS:
@@ -803,11 +803,11 @@ class MainWindow(QMainWindow):
             self.tabs.addTab(w, group_name)
 
         self.eps_table = DataTableWidget()
-        self.tabs.addTab(self.eps_table, "データ (EPS)")
+        self.tabs.addTab(self.eps_table, "Data (EPS)")
 
         # Settings tab
         self.settings_tab = SettingsTab()
-        self.tabs.addTab(self.settings_tab, "⚙ 設定")
+        self.tabs.addTab(self.settings_tab, "⚙ Settings")
 
         self.status = QStatusBar()
         self.setStatusBar(self.status)
@@ -843,9 +843,9 @@ class MainWindow(QMainWindow):
                     ax.plot(time, self.df_motor[col].values,
                             label=label, color=color, linewidth=0.8)
             ax.set_title(group_name, fontsize=9)
-            ax.set_ylabel("値", fontsize=8)
+            ax.set_ylabel("value", fontsize=8)
             if i == n - 1:
-                ax.set_xlabel("時間 [s]", fontsize=8)
+                ax.set_xlabel("time [s]", fontsize=8)
             _dark_ax(ax)
             _style_legend(ax.legend(fontsize=7, loc="upper right"))
         self.overview_cw.draw()
@@ -853,13 +853,13 @@ class MainWindow(QMainWindow):
     # ── Simulation Run ────────────────────────────────────────────────────────
     def _run_simulation(self):
         if self._runner and self._runner.isRunning():
-            self.status.showMessage("シミュレーション実行中です — 完了をお待ちください", 3000)
+            self.status.showMessage("Simulation is running — please wait for it to finish", 3000)
             return
 
         exe = self.settings_tab.exe_path()
         if not os.path.isfile(exe):
             self.status.showMessage(
-                f"実行ファイルが見つかりません: {exe}  (⚙ 設定タブで確認してください)", 7000)
+                f"Executable not found: {exe}  (check the ⚙ Settings tab)", 7000)
             return
 
         work_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
@@ -867,7 +867,7 @@ class MainWindow(QMainWindow):
         args     = self.settings_tab.build_args()
 
         self.run_btn.setEnabled(False)
-        self.run_btn.setText("⏳ 実行中...")
+        self.run_btn.setText("⏳ Running...")
 
         self._runner = SimRunner(exe, args, csv_path, work_dir)
         self._runner.log.connect(lambda msg: self.status.showMessage(msg))
@@ -877,7 +877,7 @@ class MainWindow(QMainWindow):
 
     def _on_sim_finished(self, csv_path: str):
         self._reset_run_btn()
-        self.status.showMessage("完了 — CSV 読み込み中...", 1000)
+        self.status.showMessage("Done — loading CSV...", 1000)
         if "eps_output" in csv_path:
             self._load_eps_csv(csv_path)
         else:
@@ -885,7 +885,7 @@ class MainWindow(QMainWindow):
 
     def _on_sim_error(self, msg: str):
         self._reset_run_btn()
-        self.status.showMessage(f"エラー: {msg.splitlines()[0][:120]}", 10_000)
+        self.status.showMessage(f"Error: {msg.splitlines()[0][:120]}", 10_000)
 
     def _reset_run_btn(self):
         self.run_btn.setEnabled(True)
@@ -904,7 +904,7 @@ class MainWindow(QMainWindow):
 
     def _open_file(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "CSV を選択", "", "CSV Files (*.csv);;All Files (*)")
+            self, "Select CSV", "", "CSV Files (*.csv);;All Files (*)")
         if not path:
             return
         try:
@@ -914,7 +914,7 @@ class MainWindow(QMainWindow):
             else:
                 self._load_motor_csv(path)
         except Exception as e:
-            self.status.showMessage(f"読込エラー: {e}", 8000)
+            self.status.showMessage(f"Load error: {e}", 8000)
 
     def _reload(self):
         if not self._current_path:
@@ -934,7 +934,7 @@ class MainWindow(QMainWindow):
             df = pd.read_csv(path)
             missing = [c for c in REQUIRED_MOTOR_COLS if c not in df.columns]
             if missing:
-                self.status.showMessage(f"列が見つかりません: {missing}", 5000)
+                self.status.showMessage(f"Columns not found: {missing}", 5000)
                 return
 
             available = [c for c in ALL_MOTOR_COLS if c in df.columns]
@@ -950,11 +950,11 @@ class MainWindow(QMainWindow):
             total_time = rows * RESOLUTION
             duty_u_val = self.df_motor["DutyU_pct"].iloc[-1] if "DutyU_pct" in self.df_motor.columns else float("nan")
             vu_val     = self.df_motor["Vu"].iloc[-1]         if "Vu" in self.df_motor.columns         else float("nan")
-            duty_str   = f"  |  U相 duty: {duty_u_val:.1f} %" if not pd.isna(duty_u_val) else ""
-            vu_str     = f"  |  U相電圧: {vu_val:.2f} V"       if not pd.isna(vu_val)     else ""
+            duty_str   = f"  |  U-phase duty: {duty_u_val:.1f} %" if not pd.isna(duty_u_val) else ""
+            vu_str     = f"  |  U-phase voltage: {vu_val:.2f} V"  if not pd.isna(vu_val)     else ""
             self.stats_label.setText(
-                f"[モータ]  行数: {rows:,}  |  計算時間: {total_time:.4f} s  |  "
-                f"ステップ: {RESOLUTION*1e6:.0f} μs{duty_str}{vu_str}"
+                f"[Motor]  rows: {rows:,}  |  computation time: {total_time:.4f} s  |  "
+                f"step: {RESOLUTION*1e6:.0f} μs{duty_str}{vu_str}"
             )
 
             for canvas in self.plot_canvases:
@@ -968,23 +968,23 @@ class MainWindow(QMainWindow):
                     df_pwm = pd.read_csv(pwm_path)
                     self.pwm_widget.load_data(df_pwm)
                     self.status.showMessage(
-                        f"読込完了: {os.path.basename(path)}  (PWM: {len(df_pwm):,} 行)", 4000)
+                        f"Loaded: {os.path.basename(path)}  (PWM: {len(df_pwm):,} rows)", 4000)
                 except Exception as e_pwm:
                     self.status.showMessage(
-                        f"読込完了: {os.path.basename(path)}  (PWM CSVエラー: {e_pwm})", 6000)
+                        f"Loaded: {os.path.basename(path)}  (PWM CSV error: {e_pwm})", 6000)
             else:
-                self.status.showMessage(f"読込完了: {os.path.basename(path)}", 3000)
+                self.status.showMessage(f"Loaded: {os.path.basename(path)}", 3000)
 
             self.tabs.setCurrentIndex(0)
         except Exception as e:
-            self.status.showMessage(f"読込エラー: {e}", 8000)
+            self.status.showMessage(f"Load error: {e}", 8000)
 
     def _load_eps_csv(self, path: str):
         try:
             df = pd.read_csv(path)
             missing = [c for c in REQUIRED_EPS_COLS if c not in df.columns]
             if missing:
-                self.status.showMessage(f"EPS 列が見つかりません: {missing}", 5000)
+                self.status.showMessage(f"EPS columns not found: {missing}", 5000)
                 return
 
             self.df_eps        = df
@@ -996,27 +996,27 @@ class MainWindow(QMainWindow):
             fr_max = df["rack_force"].max()
             th_max = df["hand_torque"].max()
             self.stats_label.setText(
-                f"[EPS]  行数: {rows:,}  |  時間: {t_end:.3f} s  |  "
-                f"最大操舵: {th_max:.2f} Nm  |  最大ラック推力: {fr_max:.1f} N"
+                f"[EPS]  rows: {rows:,}  |  time: {t_end:.3f} s  |  "
+                f"max steering: {th_max:.2f} Nm  |  max rack force: {fr_max:.1f} N"
             )
 
             self.vcurve.load_data(df)
             for chart in self.eps_charts:
                 chart.load_data(df)
             self.eps_table.load_data(df, has_time_col=True)
-            self.status.showMessage(f"読込完了: {os.path.basename(path)}", 3000)
+            self.status.showMessage(f"Loaded: {os.path.basename(path)}", 3000)
 
             self.tabs.setCurrentIndex(self.tabs.indexOf(self.vcurve))
         except Exception as e:
-            self.status.showMessage(f"EPS 読込エラー: {e}", 8000)
+            self.status.showMessage(f"EPS load error: {e}", 8000)
 
-    # ── PNG保存 ───────────────────────────────────────────────────────────────
+    # -- Save PNG --------------------------------------------------------------
     def _save_png(self):
         if self.df_motor is None and self.df_eps is None:
-            self.status.showMessage("データが読み込まれていません", 4000)
+            self.status.showMessage("No data loaded", 4000)
             return
         path, _ = QFileDialog.getSaveFileName(
-            self, "PNG保存先を選択", "sim_output.png", "PNG Files (*.png)")
+            self, "Select PNG save location", "sim_output.png", "PNG Files (*.png)")
         if not path:
             return
         if self.df_motor is not None:
@@ -1040,7 +1040,7 @@ class MainWindow(QMainWindow):
                                 marker=".", markersize=1.5,
                                 markevery=max(1, len(self.df_motor) // 500))
                 ax.set_title(group_name, fontsize=9, color="white")
-                ax.set_ylabel("値", fontsize=8, color="white")
+                ax.set_ylabel("value", fontsize=8, color="white")
                 ax.tick_params(colors="white", labelsize=7)
                 ax.grid(True, alpha=0.25, color="gray")
                 ax.legend(fontsize=7, loc="upper right",
@@ -1048,13 +1048,13 @@ class MainWindow(QMainWindow):
                 for sp in ax.spines.values():
                     sp.set_edgecolor("gray")
                 if i == n - 1:
-                    ax.set_xlabel("時間 [s]", fontsize=8, color="white")
+                    ax.set_xlabel("time [s]", fontsize=8, color="white")
             fig.tight_layout(rect=[0, 0, 1, 0.97])
             fig.suptitle("BrushlessDCMotor Simulation Output",
                          fontsize=11, color="white", y=0.99)
             fig.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
             plt.close(fig)
-        self.status.showMessage(f"PNG保存完了: {path}", 4000)
+        self.status.showMessage(f"PNG saved: {path}", 4000)
 
     def _save_eps_png(self, path: str):
         n   = 1 + len(CHART_GROUPS_EPS)
@@ -1062,12 +1062,12 @@ class MainWindow(QMainWindow):
         t = self.df_eps["time"].values
         ax = axes[0]
         ax.plot(self.df_eps["hand_torque"].values, self.df_eps["rack_force"].values,
-                color="#3498db", linewidth=1.5, label="ラック推力 (正方向)")
+                color="#3498db", linewidth=1.5, label="rack force (positive dir.)")
         ax.plot(-self.df_eps["hand_torque"].values, self.df_eps["rack_force"].values,
-                color="#e74c3c", linewidth=1.5, linestyle="--", label="ラック推力 (負方向 ※鏡像)")
-        ax.set_title("V字カーブ: ラック推力 vs 操舵トルク", fontsize=9)
-        ax.set_xlabel("操舵トルク [Nm]")
-        ax.set_ylabel("ラック推力 [N]")
+                color="#e74c3c", linewidth=1.5, linestyle="--", label="rack force (negative dir., mirrored)")
+        ax.set_title("V-curve: rack force vs. steering torque", fontsize=9)
+        ax.set_xlabel("steering torque [Nm]")
+        ax.set_ylabel("rack force [N]")
         ax.legend(fontsize=7)
         ax.grid(True, alpha=0.3)
         for i, (group_name, signals) in enumerate(CHART_GROUPS_EPS):
@@ -1076,14 +1076,14 @@ class MainWindow(QMainWindow):
                 if col in self.df_eps.columns:
                     ax.plot(t, self.df_eps[col].values, label=label, color=color, linewidth=0.9)
             ax.set_title(group_name, fontsize=9)
-            ax.set_xlabel("時間 [s]")
+            ax.set_xlabel("time [s]")
             ax.legend(fontsize=7, loc="upper right")
             ax.grid(True, alpha=0.3)
         fig.tight_layout()
         fig.suptitle("EPS Gearbox Simulation Output", fontsize=11, y=1.01)
         fig.savefig(path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        self.status.showMessage(f"PNG保存完了: {path}", 4000)
+        self.status.showMessage(f"PNG saved: {path}", 4000)
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

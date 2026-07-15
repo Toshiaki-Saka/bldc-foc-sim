@@ -1,72 +1,78 @@
 #pragma once
 // =============================================================================
-//  eps_sim_params.hpp  —  EPS 機構の物理定数
+//  eps_sim_params.hpp  —  EPS mechanism physical constants
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  ステアリングコラム慣性、トーションバー剛性・減衰、減速ギア比、
-//  ラック質量、アシストマップ係数など EPS 機構固有の定数を定義する。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Defines constants specific to the EPS mechanism, such as steering column
+//  inertia, torsion bar stiffness/damping, reduction gear ratio, rack mass,
+//  and assist map coefficients.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <numbers>
 #include "sim_params.hpp"
 
 // =============================================================================
-//  EPS 機構諸元 — 公開情報ベース
+//  EPS mechanism specifications — based on public information
 // =============================================================================
-//  本ファイルの EPS 機構諸元は以下の出典を主に参照しています。
+//  The EPS mechanism specifications in this file mainly reference the
+//  following source.
 //
 //   [1] Pang, Jang, Lee, "Steering Wheel Torque Control of Electric Power
 //       Steering by PD-Control", ICCAS 2005, Table 1.
-//       コラム式EPS (CEPS) の代表値: J_SW, M_R, R_P 他.
+//       Representative values for column-type EPS (CEPS): J_SW, M_R, R_P, etc.
 //       https://2005.iccas.org/submission/paper/upload/2final_CEPS_ICCAS2005.pdf
 //
-//  ICCAS 2005 はコラム式EPS (C-EPS, 減速比 N1=49/3≈16.33) の例ですが、
-//  本シミュレーションは「モータ→ピニオン直結 + 小減速ギア」型 (R-EPS/P-EPS
-//  系) を想定しており、ギア比のみは設計上の動作点を維持するため独自値を採用
-//  しています。これにより本ファイルの kEpsGearRatio を ICCAS の N1=49/3 に
-//  差し替えれば C-EPS シミュレーションに切り替え可能です。
+//  ICCAS 2005 is an example of column-type EPS (C-EPS, reduction ratio
+//  N1=49/3≈16.33), but this simulation assumes a "motor -> pinion direct-drive
+//  + small reduction gear" type (R-EPS/P-EPS family). Only the gear ratio uses
+//  an independent value in order to maintain the design operating point.
+//  Because of this, the simulation can be switched to C-EPS by replacing
+//  kEpsGearRatio in this file with ICCAS's N1=49/3.
 // =============================================================================
 
 // -----------------------------------------------------------------------------
 //  EPS gearbox
 // -----------------------------------------------------------------------------
-constexpr double kEpsMaxAssistTorque = 9.5; // [Nm] ピニオン側 最大アシストトルク
+constexpr double kEpsMaxAssistTorque = 9.5; // [Nm] max assist torque on the pinion side
 // Gear ratio derived so that Ng * Kt * Iq_max == kEpsMaxAssistTorque
-//   設計動作点の維持を優先し、本シミュレーションでは小減速ギア型を採用.
-//   C-EPS (コラム式) を想定する場合は ICCAS 2005 の N1=49/3≈16.33 に差し替え.
+//   Prioritizing maintenance of the design operating point, this simulation
+//   adopts a small reduction gear type.
+//   To assume C-EPS (column type), replace with ICCAS 2005's N1=49/3≈16.33.
 constexpr double kEpsGearRatio = kEpsMaxAssistTorque / (kKt * kDefaultIqRef);
 // 9.5 / (0.0533 * 85) ≈ 2.097
 
 // -----------------------------------------------------------------------------
 //  Torsion bar (torque sensor compliance)
 // -----------------------------------------------------------------------------
-//  実機トルクセンサの典型値 (1.5–2.5 Nm/deg) に整合させた値を採用。
-//  ICCAS 2005 の K_TR=42057 Nm/rad は減速ギアまで含めた等価剛性で、
-//  トルクセンサ単体のコンプライアンスとは性質が異なるため別扱い。
+//  A value matched to the typical range of a real torque sensor (1.5–2.5 Nm/deg)
+//  is adopted. ICCAS 2005's K_TR=42057 Nm/rad is the equivalent stiffness
+//  including the reduction gear, which differs in nature from the compliance of
+//  the torque sensor alone, so it is treated separately.
 constexpr double kTorsionBarStiffness =
     2.5 * 180.0 / std::numbers::pi; // 2.5 Nm/deg → ≈143.24 Nm/rad
-// ζ_sw = Ctb / (2*sqrt(Ktb*Jsw)) → Ctb=2.0 で ζ≈0.42 (機械共振 9.5Hz を抑制)
+// ζ_sw = Ctb / (2*sqrt(Ktb*Jsw)) → with Ctb=2.0, ζ≈0.42 (suppresses the 9.5Hz mechanical resonance)
 constexpr double kTorsionBarDamping = 2.0; // [Nm·s/rad]
 
 // -----------------------------------------------------------------------------
-//  Steering wheel & column inertia  (出典 [1] ICCAS 2005)
+//  Steering wheel & column inertia  (source [1] ICCAS 2005)
 // -----------------------------------------------------------------------------
-constexpr double kJsw = 0.03444; // [kg·m²] J_SW (旧 0.04)
+constexpr double kJsw = 0.03444; // [kg·m²] J_SW (old 0.04)
 // Lower column base inertia (excluding motor and rack)
-//   ICCAS 2005 の J_SC=0.03444 はステアリングコラム単体相当. 本モデルでは
-//   モータ/ラック慣性を別途持つため、ベース慣性のみとして 1/N²側成分を除外.
-constexpr double kJcolBase = 0.002; // [kg·m²] (実装ノート: 旧値維持)
+//   ICCAS 2005's J_SC=0.03444 corresponds to the steering column alone. Since
+//   this model holds the motor/rack inertias separately, it takes only the base
+//   inertia and excludes the 1/N²-side component.
+constexpr double kJcolBase = 0.002; // [kg·m²] (implementation note: old value retained)
 
 // -----------------------------------------------------------------------------
-//  Pinion and rack  (出典 [1] ICCAS 2005)
+//  Pinion and rack  (source [1] ICCAS 2005)
 // -----------------------------------------------------------------------------
-constexpr double kPinionRadius = 0.007367; // [m]  R_P (旧 0.008)
-constexpr double kRackMass     = 2.0;      // [kg] M_R (旧 0.5)
-// ラックに付加する仮想バネ・ダンパ (路面反力を簡易表現)
-constexpr double kRackSpringConst  = 80000.0; // [N/m]  (実装値、旧値維持)
-constexpr double kRackDampingConst = 500.0;   // [N·s/m] (実装値、旧値維持)
+constexpr double kPinionRadius = 0.007367; // [m]  R_P (old 0.008)
+constexpr double kRackMass     = 2.0;      // [kg] M_R (old 0.5)
+// Virtual spring/damper added to the rack (simplified representation of road reaction)
+constexpr double kRackSpringConst  = 80000.0; // [N/m]  (implementation value, old value retained)
+constexpr double kRackDampingConst = 500.0;   // [N·s/m] (implementation value, old value retained)
 
 // -----------------------------------------------------------------------------
 //  EPS controller (assist map)

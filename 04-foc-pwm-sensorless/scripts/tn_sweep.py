@@ -1,7 +1,7 @@
 """
 TIN Characteristics Sweep
-パラメータ（iq_ref）を変えながらC++シミュレーションを複数回実行し、
-T-n / I-T / P-T / η-T 特性曲線を描画する。
+Runs the C++ simulation multiple times while varying the parameter (iq_ref)
+and plots the T-n / I-T / P-T / η-T characteristic curves.
 """
 
 import subprocess
@@ -13,32 +13,32 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
-# ── 設定 ──────────────────────────────────────────────────────────────────────
-# 実行ファイルはプロジェクトルート（tools/ の一階層上）に生成される
+# ── Settings ──────────────────────────────────────────────────────────────────────
+# The executable is generated in the project root (one level above tools/)
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 EXE_PATH = os.path.join(_SCRIPT_DIR, "..", "BrushlessDCMotor.exe")
 
-# 固定モータパラメータ（sim_params.hpp と一致させること）
+# Fixed motor parameters (must match sim_params.hpp)
 KT   = 0.0533                      # Nm/A   (sim_params.hpp kKt)
 KE   = 0.0533                      # V·s/rad (sim_params.hpp kKe)
 R    = 0.1                         # Ω     (sim_params.hpp kR)
 B    = 1.0e-2 / (2.0 * np.pi)     # Nm·s/rad
 V_DC = 48.0                        # V     (sim_params.hpp kVdc)
 
-# スイープするiq_ref [A]（FOCのq軸電流指令値）
+# iq_ref values to sweep [A] (FOC q-axis current reference)
 IQ_REF_LIST = [20.0, 40.0, 60.0, 85.0]
 
-# 各iq_refにつき何点のT_loadを打つか
+# How many T_load points to sample for each iq_ref
 N_TLOAD_POINTS = 12
 
-# シミュレーションスパン [s]（定常到達に十分な時間）
+# Simulation span [s] (enough time to reach steady state)
 SIM_SPAN = 5.0
 
-# ── カラーパレット ────────────────────────────────────────────────────────────
+# ── Color palette ────────────────────────────────────────────────────────────
 COLORS = ["#FFB800", "#22CC55", "#FF5577", "#4499FF",
           "#AA44FF", "#FF8833", "#00CCCC", "#FF4444"]
 
-# ── 実行 & パース ────────────────────────────────────────────────────────────
+# ── Run & parse ────────────────────────────────────────────────────────────
 _RESULT_RE = re.compile(
     r"RESULT omega_ss=([0-9eE+\-.]+)"
     r" iq_ss=([0-9eE+\-.]+)"
@@ -49,7 +49,7 @@ _RESULT_RE = re.compile(
 
 
 def run_sim(iq_ref: float, tload: float) -> dict | None:
-    """C++シミュレーションを1回実行し、定常状態量を返す。"""
+    """Run the C++ simulation once and return the steady-state quantities."""
     cmd = [
         EXE_PATH,
         "--iq_ref", str(iq_ref),
@@ -62,7 +62,7 @@ def run_sim(iq_ref: float, tload: float) -> dict | None:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
         m = _RESULT_RE.search(result.stdout)
         if m is None:
-            print(f"  [WARN] RESULT行が見つかりません (iq={iq_ref}, tl={tload})")
+            print(f"  [WARN] RESULT line not found (iq={iq_ref}, tl={tload})")
             print(f"         stdout: {result.stdout.strip()}")
             return None
         return {
@@ -73,16 +73,16 @@ def run_sim(iq_ref: float, tload: float) -> dict | None:
             "te_ss":    float(m.group(5)),
         }
     except FileNotFoundError:
-        print(f"[ERROR] 実行ファイルが見つかりません: {EXE_PATH}")
+        print(f"[ERROR] Executable not found: {EXE_PATH}")
         sys.exit(1)
     except subprocess.TimeoutExpired:
-        print(f"  [WARN] タイムアウト (iq={iq_ref}, tl={tload})")
+        print(f"  [WARN] Timeout (iq={iq_ref}, tl={tload})")
         return None
 
 
 def sweep_iq(iq_ref: float, color: str) -> dict:
-    """iq_refを固定してT_loadをスイープし、各物理量の配列を返す。"""
-    te_max = KT * iq_ref          # 理論上の最大トルク [Nm]
+    """Fix iq_ref, sweep T_load, and return arrays of each physical quantity."""
+    te_max = KT * iq_ref          # Theoretical maximum torque [Nm]
     tload_values = np.linspace(0.0, te_max * 0.98, N_TLOAD_POINTS)
 
     T_list, N_list, I_list, P_list = [], [], [], []
@@ -114,14 +114,14 @@ def sweep_iq(iq_ref: float, color: str) -> dict:
     I = np.array(I_list)
     P = np.array(P_list)
 
-    # 効率（概算：Pout / (V_dc * I_rms) ×100）
+    # Efficiency (approximate: Pout / (V_dc * I_rms) * 100)
     pin = V_DC * I
     eta = np.where(pin > 1e-6, np.clip(P / pin * 100.0, 0.0, 100.0), 0.0)
 
     return {"iq_ref": iq_ref, "T": T, "N": N, "I": I, "P": P, "eta": eta, "color": color}
 
 
-# ── プロット ──────────────────────────────────────────────────────────────────
+# ── Plot ──────────────────────────────────────────────────────────────────
 _LINE_STYLES = ["-", "--", "-.", ":"]
 
 # (key, ylabel, peak_marker, title)
@@ -183,18 +183,18 @@ def plot_tin(results: list[dict]):
     plt.show()
 
 
-# ── エントリポイント ──────────────────────────────────────────────────────────
+# ── Entry point ──────────────────────────────────────────────────────────
 def main():
     if not os.path.exists(EXE_PATH):
-        print(f"[ERROR] 実行ファイルが見つかりません: {EXE_PATH}")
-        print("  先にCMakeでビルドしてください。")
+        print(f"[ERROR] Executable not found: {EXE_PATH}")
+        print("  Build with CMake first.")
         sys.exit(1)
 
     print(f"BrushlessDCMotor TIN Sweep")
     print(f"  EXE       : {EXE_PATH}")
-    print(f"  iq_ref 値 : {IQ_REF_LIST}")
-    print(f"  T_load 点数: {N_TLOAD_POINTS} 点/曲線")
-    print(f"  シミュスパン: {SIM_SPAN} s")
+    print(f"  iq_ref values : {IQ_REF_LIST}")
+    print(f"  T_load points: {N_TLOAD_POINTS} points/curve")
+    print(f"  Sim span: {SIM_SPAN} s")
     print()
 
     results = []
@@ -203,7 +203,7 @@ def main():
         results.append(res)
         print()
 
-    print("グラフを表示中...")
+    print("Displaying the plot...")
     plot_tin(results)
 
 

@@ -1,11 +1,13 @@
 // =============================================================================
-//  motor_model.cpp  —  モータ電気・機械モデル (プラント) — 実装
+//  motor_model.cpp  —  motor electrical/mechanical model (plant) — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 04-foc-pwm-sensorless
-//  電気系は前進オイラー法、機械系は台形積分法で離散化し、印加電圧から
-//  相電流・電磁トルク・回転速度・角度を 1 ステップ更新する。
+//  Project : bldc-foc-sim / 04-foc-pwm-sensorless
+//  Discretizes the electrical subsystem with forward Euler and the mechanical
+//  subsystem with trapezoidal integration, advancing the phase currents,
+//  electromagnetic torque, rotational speed, and angle by one step from the
+//  applied voltage.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "motor_model.hpp"

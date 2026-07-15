@@ -1,15 +1,16 @@
 #pragma once
 // =============================================================================
-//  csv_verifier.hpp  —  CSV 回帰照合ユーティリティ — 宣言
+//  csv_verifier.hpp  —  CSV regression comparison utility — declarations
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim (全モデル共通)
-//  シミュレーション結果 CSV をリファレンス CSV と列ごとに比較し、
-//  最大/平均絶対誤差を求める関数を宣言する。
+//  Project : bldc-foc-sim (shared across all models)
+//  Declares the function that compares a simulation-result CSV against a
+//  reference CSV column by column and computes the maximum/mean absolute error.
 //
-//  ※ 本ファイルは全モデル (01〜05) で同一。変更時は全モデルへ反映すること。
-//     CI (consistency ジョブ) がモデル間の一致を検査し、ドリフトを検出する。
+//  NOTE: This file is identical across all models (01-05). When changed, the
+//        change must be propagated to every model. CI (the consistency job)
+//        checks cross-model agreement and detects drift.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <string>

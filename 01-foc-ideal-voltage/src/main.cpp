@@ -1,12 +1,12 @@
 // =============================================================================
-//  main.cpp  —  シミュレーションのエントリポイント
+//  main.cpp  —  simulation entry point
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 01-foc-ideal-voltage
-//  コマンドライン引数を解析し、モータモデルと FOC コントローラを構成して
-//  時間ステップごとのシミュレーションループを実行する。
-//  結果は RESULT 行 (標準出力) と CSV ファイルに出力される。
+//  Project : bldc-foc-sim / 01-foc-ideal-voltage
+//  Parses the command-line arguments, configures the motor model and the FOC
+//  controller, and runs the time-stepped simulation loop.
+//  Results are written to a RESULT line (standard output) and to a CSV file.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <cstdio>

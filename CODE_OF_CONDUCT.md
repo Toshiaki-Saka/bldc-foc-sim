@@ -1,38 +1,39 @@
-# Contributor Covenant 行動規範
+# Contributor Covenant Code of Conduct
 
-## 私たちの誓い
+## Our pledge
 
-コミュニティの一員として、私たちは年齢・体格・目に見える/見えない障害・
-民族・性自認と性表現・経験の程度・国籍・容姿・人種・宗教・性的指向にかかわらず、
-誰もがハラスメントのない体験を得られるようにすることを誓います。
+As members of the community, we pledge to make participation a harassment-free
+experience for everyone, regardless of age, body size, visible or invisible
+disability, ethnicity, gender identity and expression, level of experience,
+nationality, personal appearance, race, religion, or sexual orientation.
 
-## 行動基準
+## Standards of behavior
 
-コミュニティにとって好ましい行動の例:
+Examples of behavior that is favorable to the community:
 
-- 他者への共感と親切さを示す
-- 異なる意見・視点・経験を尊重する
-- 建設的なフィードバックを与え、また快く受け入れる
-- 過ちに対して責任を持ち、影響を受けた人々に謝罪し、経験から学ぶ
+- Demonstrating empathy and kindness toward others
+- Respecting differing opinions, viewpoints, and experiences
+- Giving and gracefully accepting constructive feedback
+- Taking responsibility for our mistakes, apologizing to those affected, and learning from the experience
 
-許容されない行動の例:
+Examples of unacceptable behavior:
 
-- 性的な言動、および望まれない性的な注目や誘い
-- 侮辱的・軽蔑的なコメント、個人的・政治的な攻撃(トローリング)
-- 公私を問わないハラスメント
-- 明示的な許可なく他者の私的情報(住所やメールアドレス等)を公開すること
+- Sexual language or conduct, and unwelcome sexual attention or advances
+- Insulting or derogatory comments, and personal or political attacks (trolling)
+- Harassment, whether public or private
+- Publishing others' private information (such as a physical or email address) without explicit permission
 
-## 適用範囲
+## Scope
 
-本行動規範は、プロジェクトの全空間(Issue・Pull Request・ディスカッション等)、
-および個人がプロジェクトを公に代表する場に適用されます。
+This Code of Conduct applies within all project spaces (Issues, Pull Requests,
+discussions, etc.), and also when an individual is officially representing the project
+in public.
 
-## 執行
+## Enforcement
 
-不適切な行動は、リポジトリ管理者(toraneko6791@gmail.com)まで報告してください。
-すべての苦情は速やかかつ公正に検討・調査されます。
+Report inappropriate behavior to the repository maintainer (toraneko6791@gmail.com).
+All complaints will be reviewed and investigated promptly and fairly.
 
-## 帰属
+## Attribution
 
-本行動規範は [Contributor Covenant](https://www.contributor-covenant.org) v2.1
-を基にしています。
+This Code of Conduct is based on the [Contributor Covenant](https://www.contributor-covenant.org) v2.1.

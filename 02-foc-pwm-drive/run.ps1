@@ -1,21 +1,21 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    BrushlessDCMotor シミュレーションを実行します。
+    Runs the BrushlessDCMotor simulation.
 .PARAMETER IqRef
-    q 軸電流指令 [A]（デフォルト: 85.0）
+    q-axis current reference [A] (default: 85.0)
 .PARAMETER Tload
-    負荷トルク [Nm]（デフォルト: 4.3）
+    Load torque [Nm] (default: 4.3)
 .PARAMETER Vdc
-    DC リンク電圧 [V]（デフォルト: 48.0）
+    DC link voltage [V] (default: 48.0)
 .PARAMETER Span
-    シミュレーション時間 [s]（デフォルト: 5.0）
+    Simulation time [s] (default: 5.0)
 .PARAMETER CsvOut
-    出力 CSV パス（デフォルト: data/sim_output.csv）
+    Output CSV path (default: data/sim_output.csv)
 .PARAMETER NoCsv
-    CSV 出力をスキップします。
+    Skip CSV output.
 .PARAMETER Quiet
-    詳細表示を抑制します（RESULT 行のみ出力）。
+    Suppress verbose output (print only the RESULT line).
 .EXAMPLE
     .\run.ps1
     .\run.ps1 -IqRef 5.0 -Tload 0.3 -Vdc 48.0
@@ -39,7 +39,7 @@ $ProjectRoot = $PSScriptRoot
 $Exe = Join-Path $ProjectRoot "BrushlessDCMotor.exe"
 
 if (-not (Test-Path $Exe)) {
-    Write-Error "実行ファイルが見つかりません: $Exe`nまず .\build.ps1 を実行してください。"
+    Write-Error "Executable not found: $Exe`nRun .\build.ps1 first."
     exit 1
 }
 
@@ -69,7 +69,7 @@ Write-Host ""
 Push-Location $ProjectRoot
 try {
     & $Exe @exeArgs
-    if ($LASTEXITCODE -ne 0) { throw "シミュレーション終了コード: $LASTEXITCODE" }
+    if ($LASTEXITCODE -ne 0) { throw "Simulation exit code: $LASTEXITCODE" }
 } finally {
     Pop-Location
 }

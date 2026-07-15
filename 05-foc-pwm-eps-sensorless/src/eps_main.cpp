@@ -1,11 +1,12 @@
 // =============================================================================
-//  eps_main.cpp  —  EPS 統合シミュレーションのエントリポイント
+//  eps_main.cpp  —  Entry point for the integrated EPS simulation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 05-foc-pwm-eps-sensorless
-//  BLDC モータ・FOC コントローラに加えて EPS 機構 (コラム・トーションバー・
-//  減速ギア・ラック) を結合し、ドライバ操舵に対するアシスト動作を再現する。
+//  Project    : bldc-foc-sim / 05-foc-pwm-eps-sensorless
+//  Couples the EPS mechanism (column, torsion bar, reduction gear, rack) with
+//  the BLDC motor and FOC controller to reproduce the assist behavior in
+//  response to driver steering.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License    : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <algorithm>
@@ -183,27 +184,28 @@ int main(int argc, char* argv[]) {
 
     if (!quiet) {
         const double max_assist = ng * kKt * kEpsIqMax;
-        std::printf("\n=== EPS 統合モデル シミュレーション ===\n");
-        std::printf("  構成: BLDC モータ (FOC) + 減速機 + ピニオン・ラック + バネ負荷\n");
-        std::printf("\n  --- パラメータ ---\n");
-        std::printf("  ギア比 Ng                    : %.4f\n", ng);
-        std::printf("  モータ Kt                    : %.6f Nm/A\n", kKt);
-        std::printf("  最大アシストトルク (ピニオン)  : %.3f Nm  (Ng × Kt × Iq_max)\n", max_assist);
-        std::printf("  トルクバー剛性               : %.2f Nm/rad\n", kTorsionBarStiffness);
-        std::printf("  ラックばね定数               : %.0f N/m\n", kRackSpringConst);
-        std::printf("  ピニオン半径                 : %.1f mm\n", kPinionRadius * 1000.0);
-        std::printf("  アシストゲイン               : %.1f A/Nm  (不感帯: %.2f Nm)\n",
+        std::printf("\n=== EPS integrated model simulation ===\n");
+        std::printf("  Configuration: BLDC motor (FOC) + reduction gear + pinion/rack + spring "
+                    "load\n");
+        std::printf("\n  --- Parameters ---\n");
+        std::printf("  Gear ratio Ng                : %.4f\n", ng);
+        std::printf("  Motor Kt                     : %.6f Nm/A\n", kKt);
+        std::printf("  Max assist torque (pinion)   : %.3f Nm  (Ng × Kt × Iq_max)\n", max_assist);
+        std::printf("  Torsion bar stiffness        : %.2f Nm/rad\n", kTorsionBarStiffness);
+        std::printf("  Rack spring constant         : %.0f N/m\n", kRackSpringConst);
+        std::printf("  Pinion radius                : %.1f mm\n", kPinionRadius * 1000.0);
+        std::printf("  Assist gain                  : %.1f A/Nm  (dead zone: %.2f Nm)\n",
                     kEpsAssistGain, kEpsDeadzone);
-        std::printf("\n  --- 定常状態 (t = %.2f s,  Th = %.2f Nm) ---\n", span, torque_max);
-        std::printf("  トルクセンサ値               : %.4f Nm\n", gearbox_state.torsion_torque);
-        std::printf("  Iq 指令                      : %.2f A\n", last_iq_ref);
-        std::printf("  Iq 実際 (q 電流)             : %.2f A\n", motor_state.q_current);
-        std::printf("  アシストトルク (ピニオン)     : %.4f Nm\n", gearbox_state.assist_torque);
-        std::printf("  ラック推力                   : %.2f N\n", gearbox_state.rack_force);
-        std::printf("  ラック変位                   : %.2f mm\n", gearbox_state.rack_disp * 1000.0);
-        std::printf("  モータ角速度                 : %.2f rad/s\n", motor_state.angular_vel);
+        std::printf("\n  --- Steady state (t = %.2f s,  Th = %.2f Nm) ---\n", span, torque_max);
+        std::printf("  Torque sensor reading        : %.4f Nm\n", gearbox_state.torsion_torque);
+        std::printf("  Iq command                   : %.2f A\n", last_iq_ref);
+        std::printf("  Iq actual (q current)        : %.2f A\n", motor_state.q_current);
+        std::printf("  Assist torque (pinion)       : %.4f Nm\n", gearbox_state.assist_torque);
+        std::printf("  Rack force                   : %.2f N\n", gearbox_state.rack_force);
+        std::printf("  Rack displacement            : %.2f mm\n", gearbox_state.rack_disp * 1000.0);
+        std::printf("  Motor angular velocity       : %.2f rad/s\n", motor_state.angular_vel);
         if (!no_csv)
-            std::printf("  出力 CSV                     : %s\n", csv_out.c_str());
+            std::printf("  Output CSV                   : %s\n", csv_out.c_str());
     }
 
     return 0;

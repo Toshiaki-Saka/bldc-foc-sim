@@ -1,7 +1,7 @@
 """
 EPS Gearbox Simulation Viewer
-data/eps_output.csv の結果を表示する PyQt6 GUI
-メインタブ: V字カーブ (ラック推力 vs 操舵トルク)
+PyQt6 GUI that displays the results in data/eps_output.csv
+Main tab: V-curve (rack force vs steering torque)
 """
 
 import sys
@@ -30,32 +30,32 @@ DEFAULT_CSV = "data/eps_output.csv"
 
 # Time-domain chart definitions: (tab_name, [(column, label, color), ...])
 CHART_GROUPS = [
-    ("操舵トルク / センサ", [
-        ("hand_torque",    "ドライバ操舵トルク Th [Nm]",       "#e74c3c"),
-        ("torsion_torque", "トルクセンサ値 Tsensor [Nm]",      "#3498db"),
-        ("sensor_filt",    "センサLPF出力 [Nm]",               "#2ecc71"),
+    ("Steering torque / sensor", [
+        ("hand_torque",    "Driver steering torque Th [Nm]",   "#e74c3c"),
+        ("torsion_torque", "Torque sensor value Tsensor [Nm]", "#3498db"),
+        ("sensor_filt",    "Sensor LPF output [Nm]",           "#2ecc71"),
     ]),
-    ("電流 / アシスト", [
-        ("iq_ref",        "Iq 指令 [A]",                        "#9b59b6"),
-        ("iq_actual",     "Iq 実際 (q電流) [A]",               "#e67e22"),
-        ("assist_torque", "アシストトルク (ピニオン) [Nm]",     "#2ecc71"),
+    ("Current / assist", [
+        ("iq_ref",        "Iq command [A]",                     "#9b59b6"),
+        ("iq_actual",     "Iq actual (q-axis current) [A]",     "#e67e22"),
+        ("assist_torque", "Assist torque (pinion) [Nm]",        "#2ecc71"),
     ]),
-    ("ラック推力 / 変位", [
-        ("rack_force", "ラック推力 (バネ) [N]",   "#f39c12"),
-        ("rack_disp",  "ラック変位 [m]",           "#1abc9c"),
+    ("Rack force / displacement", [
+        ("rack_force", "Rack force (spring) [N]",  "#f39c12"),
+        ("rack_disp",  "Rack displacement [m]",     "#1abc9c"),
     ]),
-    ("角度", [
-        ("theta_sw",  "ステアリングホイール角度 θsw [rad]",  "#e74c3c"),
-        ("theta_col", "ピニオン角度 θcol [rad]",            "#3498db"),
+    ("Angle", [
+        ("theta_sw",  "Steering wheel angle theta_sw [rad]", "#e74c3c"),
+        ("theta_col", "Pinion angle theta_col [rad]",        "#3498db"),
     ]),
-    ("角速度", [
-        ("omega_sw",  "ステアリングホイール角速度 [rad/s]",  "#e74c3c"),
-        ("omega_col", "ピニオン角速度 [rad/s]",              "#3498db"),
+    ("Angular velocity", [
+        ("omega_sw",  "Steering wheel angular velocity [rad/s]", "#e74c3c"),
+        ("omega_col", "Pinion angular velocity [rad/s]",         "#3498db"),
     ]),
-    ("モーター動態", [
-        ("omega_motor", "モータ角速度 [rad/s]",  "#e74c3c"),
-        ("d_current",   "d軸電流 Id [A]",         "#3498db"),
-        ("mech_deg",    "機械角 [deg]",            "#2ecc71"),
+    ("Motor dynamics", [
+        ("omega_motor", "Motor angular velocity [rad/s]",  "#e74c3c"),
+        ("d_current",   "d-axis current Id [A]",           "#3498db"),
+        ("mech_deg",    "Mechanical angle [deg]",          "#2ecc71"),
     ]),
 ]
 
@@ -125,7 +125,7 @@ def _style_legend(leg):
 
 
 class VCurveCanvas(QWidget):
-    """ラック推力 vs 操舵トルク の V 字カーブを描画するウィジェット"""
+    """Widget that draws the V-curve of rack force vs steering torque"""
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -144,9 +144,9 @@ class VCurveCanvas(QWidget):
 
     def _draw_empty(self):
         self.ax.cla()
-        self.ax.set_xlabel("操舵トルク Th [Nm]")
-        self.ax.set_ylabel("ラック推力 [N]")
-        self.ax.set_title("V字カーブ: ラック推力 vs 操舵トルク")
+        self.ax.set_xlabel("Steering torque Th [Nm]")
+        self.ax.set_ylabel("Rack force [N]")
+        self.ax.set_title("V-curve: rack force vs steering torque")
         _dark_ax(self.ax)
         self.canvas.draw()
 
@@ -162,12 +162,12 @@ class VCurveCanvas(QWidget):
         fr  = self.df["rack_force"].values
 
         # Plot positive side only (symmetric V: also show negative by mirroring label)
-        self.ax.plot(th,  fr, color="#3498db", linewidth=1.5, label="ラック推力 (正方向)")
-        self.ax.plot(-th, fr, color="#e74c3c", linewidth=1.5, linestyle="--", label="ラック推力 (負方向 ※鏡像)")
+        self.ax.plot(th,  fr, color="#3498db", linewidth=1.5, label="Rack force (positive direction)")
+        self.ax.plot(-th, fr, color="#e74c3c", linewidth=1.5, linestyle="--", label="Rack force (negative direction, mirrored)")
 
-        self.ax.set_xlabel("操舵トルク Th [Nm]")
-        self.ax.set_ylabel("ラック推力 [N]")
-        self.ax.set_title("V字カーブ: ラック推力 vs 操舵トルク")
+        self.ax.set_xlabel("Steering torque Th [Nm]")
+        self.ax.set_ylabel("Rack force [N]")
+        self.ax.set_title("V-curve: rack force vs steering torque")
         self.ax.axhline(0, color=_DARK['spine'], linewidth=0.5)
         self.ax.axvline(0, color=_DARK['spine'], linewidth=0.5)
         _dark_ax(self.ax)
@@ -176,7 +176,7 @@ class VCurveCanvas(QWidget):
 
 
 class TimeChart(QWidget):
-    """単一チャートグループの時間域表示ウィジェット"""
+    """Time-domain display widget for a single chart group"""
 
     def __init__(self, group_name: str, signals: list, parent=None):
         super().__init__(parent)
@@ -189,7 +189,7 @@ class TimeChart(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         check_row = QHBoxLayout()
-        check_row.addWidget(QLabel("表示切替:"))
+        check_row.addWidget(QLabel("Toggle display:"))
         self.checkboxes = {}
         for col, label, color in signals:
             cb = QCheckBox(label)
@@ -210,7 +210,7 @@ class TimeChart(QWidget):
         self._setup_axes()
 
     def _setup_axes(self):
-        self.ax.set_xlabel("時間 [s]")
+        self.ax.set_xlabel("Time [s]")
         self.ax.set_title(self.group_name)
         _dark_ax(self.ax)
         _style_legend(self.ax.legend())
@@ -242,7 +242,7 @@ class DataTableWidget(QWidget):
         super().__init__(parent)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(4, 4, 4, 4)
-        layout.addWidget(QLabel("先頭 500 行を表示"))
+        layout.addWidget(QLabel("Showing the first 500 rows"))
         self.table = QTableWidget()
         self.table.setAlternatingRowColors(True)
         self.table.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
@@ -279,13 +279,13 @@ class MainWindow(QMainWindow):
         root.setContentsMargins(8, 8, 8, 4)
 
         toolbar_row = QHBoxLayout()
-        load_btn   = QPushButton("CSV を開く")
-        reload_btn = QPushButton("再読込")
-        save_btn   = QPushButton("PNG 保存")
+        load_btn   = QPushButton("Open CSV")
+        reload_btn = QPushButton("Reload")
+        save_btn   = QPushButton("Save PNG")
         load_btn.clicked.connect(self._open_file)
         reload_btn.clicked.connect(self._reload)
         save_btn.clicked.connect(self._save_png)
-        self.file_label = QLabel("ファイル未選択")
+        self.file_label = QLabel("No file selected")
         self.file_label.setFont(QFont("", 9))
         toolbar_row.addWidget(load_btn)
         toolbar_row.addWidget(reload_btn)
@@ -302,7 +302,7 @@ class MainWindow(QMainWindow):
 
         # V-curve tab (first, most important)
         self.vcurve = VCurveCanvas()
-        self.tabs.addTab(self.vcurve, "V字カーブ")
+        self.tabs.addTab(self.vcurve, "V-curve")
 
         # Time-domain tabs
         self.time_charts = []
@@ -313,7 +313,7 @@ class MainWindow(QMainWindow):
 
         # Data table
         self.data_table = DataTableWidget()
-        self.tabs.addTab(self.data_table, "データテーブル")
+        self.tabs.addTab(self.data_table, "Data table")
 
         self.status = QStatusBar()
         self.setStatusBar(self.status)
@@ -325,7 +325,7 @@ class MainWindow(QMainWindow):
 
     def _open_file(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "eps_output.csv を選択", "", "CSV Files (*.csv);;All Files (*)")
+            self, "Select eps_output.csv", "", "CSV Files (*.csv);;All Files (*)")
         if path:
             self._load_csv(path)
 
@@ -338,7 +338,7 @@ class MainWindow(QMainWindow):
             df = pd.read_csv(path)
             missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
             if missing:
-                self.status.showMessage(f"列が見つかりません: {missing}", 6000)
+                self.status.showMessage(f"Columns not found: {missing}", 6000)
                 return
             self.df = df
             self._current_path = path
@@ -349,24 +349,24 @@ class MainWindow(QMainWindow):
             fr_max    = df["rack_force"].max()
             th_max    = df["hand_torque"].max()
             self.stats_label.setText(
-                f"行数: {rows:,}  |  シミュレーション時間: {t_end:.3f} s  |  "
-                f"最大操舵トルク: {th_max:.2f} Nm  |  最大ラック推力: {fr_max:.1f} N"
+                f"Rows: {rows:,}  |  Simulation time: {t_end:.3f} s  |  "
+                f"Max steering torque: {th_max:.2f} Nm  |  Max rack force: {fr_max:.1f} N"
             )
 
             self.vcurve.load_data(df)
             for chart in self.time_charts:
                 chart.load_data(df)
             self.data_table.load_data(df)
-            self.status.showMessage(f"読込完了: {path}", 3000)
+            self.status.showMessage(f"Load complete: {path}", 3000)
         except Exception as e:
-            self.status.showMessage(f"読込エラー: {e}", 8000)
+            self.status.showMessage(f"Load error: {e}", 8000)
 
     def _save_png(self):
         if self.df is None:
-            self.status.showMessage("データが読み込まれていません", 4000)
+            self.status.showMessage("No data loaded", 4000)
             return
         path, _ = QFileDialog.getSaveFileName(
-            self, "PNG 保存先を選択", "eps_output.png", "PNG Files (*.png)")
+            self, "Select PNG destination", "eps_output.png", "PNG Files (*.png)")
         if not path:
             return
 
@@ -377,12 +377,12 @@ class MainWindow(QMainWindow):
         # V-curve
         ax = axes[0]
         ax.plot(self.df["hand_torque"].values, self.df["rack_force"].values,
-                color="#3498db", linewidth=1.5, label="ラック推力 (正方向)")
+                color="#3498db", linewidth=1.5, label="Rack force (positive direction)")
         ax.plot(-self.df["hand_torque"].values, self.df["rack_force"].values,
-                color="#e74c3c", linewidth=1.5, linestyle="--", label="ラック推力 (負方向 ※鏡像)")
-        ax.set_title("V字カーブ: ラック推力 vs 操舵トルク", fontsize=9)
-        ax.set_xlabel("操舵トルク [Nm]", fontsize=8)
-        ax.set_ylabel("ラック推力 [N]", fontsize=8)
+                color="#e74c3c", linewidth=1.5, linestyle="--", label="Rack force (negative direction, mirrored)")
+        ax.set_title("V-curve: rack force vs steering torque", fontsize=9)
+        ax.set_xlabel("Steering torque [Nm]", fontsize=8)
+        ax.set_ylabel("Rack force [N]", fontsize=8)
         ax.legend(fontsize=7)
         ax.grid(True, alpha=0.3)
 
@@ -393,7 +393,7 @@ class MainWindow(QMainWindow):
                 if col in self.df.columns:
                     ax.plot(t, self.df[col].values, label=label, color=color, linewidth=0.9)
             ax.set_title(group_name, fontsize=9)
-            ax.set_xlabel("時間 [s]", fontsize=8)
+            ax.set_xlabel("Time [s]", fontsize=8)
             ax.legend(fontsize=7, loc="upper right")
             ax.grid(True, alpha=0.3)
 
@@ -401,7 +401,7 @@ class MainWindow(QMainWindow):
         fig.suptitle("EPS Gearbox Simulation Output", fontsize=11, y=1.01)
         fig.savefig(path, dpi=150, bbox_inches="tight")
         plt.close(fig)
-        self.status.showMessage(f"PNG 保存完了: {path}", 4000)
+        self.status.showMessage(f"PNG saved: {path}", 4000)
 
 
 def main():

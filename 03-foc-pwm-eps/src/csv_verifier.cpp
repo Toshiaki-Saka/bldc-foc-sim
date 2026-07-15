@@ -1,14 +1,15 @@
 // =============================================================================
-//  csv_verifier.cpp  —  CSV 回帰照合ユーティリティ — 実装
+//  csv_verifier.cpp  —  CSV regression comparison utility — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim (全モデル共通)
-//  2 つの CSV を読み込んで共通列の差分を計算し、差分 CSV を出力する。
-//  コードを変更した際の回帰検出に用いる。
+//  Project     : bldc-foc-sim (common to all models)
+//  Reads two CSV files, computes the differences of their common columns, and
+//  outputs a diff CSV. Used for regression detection when code is changed.
 //
-//  ※ 本ファイルは全モデル (01〜05) で同一。変更時は全モデルへ反映すること。
-//     CI (consistency ジョブ) がモデル間の一致を検査し、ドリフトを検出する。
+//  * This file is identical across all models (01–05). When changing it,
+//    reflect the change in all models. CI (the consistency job) checks the
+//    match between models and detects drift.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "csv_verifier.hpp"

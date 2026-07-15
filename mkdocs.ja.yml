@@ -1,0 +1,55 @@
+site_name: bldc-foc-sim 理論ドキュメント
+site_description: 三相ブラシレスモータ FOC / EPS シミュレーション教材
+
+# 日本語サイト。既定（英語）は mkdocs.yml。ビルド: mkdocs build -f mkdocs.ja.yml
+docs_dir: docs_ja
+theme:
+  name: material
+  language: ja
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - tables
+  - toc:
+      permalink: true
+      # 見出しの日本語を保持した GitHub 互換スラッグを生成する。既定の slugify は
+      # 非 ASCII を除去して `#4` のようになり、日本語アンカーへのリンクが壊れるため。
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - admonition
+  - pymdownx.details
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - ホーム: index.md
+  - 理論ドキュメント:
+    - モータモデル (電気・機械方程式): theory/motor-model.md
+    - 座標変換 (Clarke / Park): theory/coordinate-transform.md
+    - ベクトル制御 (FOC): theory/foc.md
+    - PI ゲイン設計 (極配置): theory/pi-tuning.md
+    - PWM インバータ・中点変調: theory/pwm-inverter.md
+    - センサーレス制御: theory/sensorless.md
+    - 電動パワーステアリング (EPS): theory/eps.md
+    - 機能安全 (HARA / ISO 26262): theory/functional-safety.md
+    - 波形差の解析 (A/B 型・センサーレス): theory/waveform-analysis.md
+  - 数式導出: derivations.md
+  - 用語集: glossary.md
+  - 参考文献: references.md

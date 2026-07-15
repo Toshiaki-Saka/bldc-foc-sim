@@ -133,7 +133,7 @@ class MotorCharacteristicsApp:
         btn_row.pack(fill=tk.X, padx=14, pady=(0, 4))
 
         load_btn = tk.Button(
-            btn_row, text='CSVを開く',
+            btn_row, text='Open CSV',
             bg='#3a3a3a', fg=C['text'],
             relief='flat', font=('Arial', 8),
             activebackground='#555555', activeforeground='white',
@@ -142,7 +142,7 @@ class MotorCharacteristicsApp:
         load_btn.pack(side=tk.LEFT)
 
         clear_btn = tk.Button(
-            btn_row, text='クリア',
+            btn_row, text='Clear',
             bg='#3a3a3a', fg=C['text'],
             relief='flat', font=('Arial', 8),
             activebackground='#555555', activeforeground='white',
@@ -150,7 +150,7 @@ class MotorCharacteristicsApp:
         )
         clear_btn.pack(side=tk.LEFT, padx=(6, 0))
 
-        self.sim_status_var = tk.StringVar(value='未読込')
+        self.sim_status_var = tk.StringVar(value='Not loaded')
         tk.Label(parent, textvariable=self.sim_status_var,
                  bg=C['panel'], fg='#aaaaaa',
                  font=('Courier', 8), wraplength=260, justify='left',
@@ -242,7 +242,7 @@ class MotorCharacteristicsApp:
     # ── PNG export ──────────────────────────────────────────────────────────
     def _build_save_section(self, parent):
         save_btn = tk.Button(
-            parent, text='PNG 保存',
+            parent, text='Save PNG',
             bg='#2a4a2a', fg='#88ff88',
             relief='flat', font=('Arial', 9, 'bold'),
             activebackground='#3a6a3a', activeforeground='white',
@@ -252,7 +252,7 @@ class MotorCharacteristicsApp:
 
     def _save_png(self):
         path = filedialog.asksaveasfilename(
-            title='PNG として保存',
+            title='Save as PNG',
             defaultextension='.png',
             filetypes=[('PNG Image', '*.png'), ('All Files', '*.*')],
             initialfile='motor_characteristics.png',
@@ -261,7 +261,7 @@ class MotorCharacteristicsApp:
             return
         self.fig.savefig(path, dpi=150, bbox_inches='tight',
                          facecolor=self.fig.get_facecolor())
-        messagebox.showinfo('保存完了', f'保存しました:\n{path}')
+        messagebox.showinfo('Saved', f'Saved to:\n{path}')
 
     # ── Simulation CSV ───────────────────────────────────────────────────────
     def _try_autoload_csv(self):
@@ -271,7 +271,7 @@ class MotorCharacteristicsApp:
 
     def _open_csv(self):
         path = filedialog.askopenfilename(
-            title='sim_output.csv を選択',
+            title='Select sim_output.csv',
             filetypes=[('CSV Files', '*.csv'), ('All Files', '*.*')],
         )
         if path:
@@ -279,7 +279,7 @@ class MotorCharacteristicsApp:
 
     def _clear_csv(self):
         self.sim_data = None
-        self.sim_status_var.set('未読込')
+        self.sim_status_var.set('Not loaded')
         self._update()
 
     def _load_csv(self, path: str):
@@ -288,7 +288,7 @@ class MotorCharacteristicsApp:
             required = ('omega', 'Tm', 'id', 'iq')
             missing = [c for c in required if c not in data.dtype.names]
             if missing:
-                messagebox.showerror('列不足', f'列が見つかりません: {missing}')
+                messagebox.showerror('Missing columns', f'Columns not found: {missing}')
                 return
 
             omega = data['omega']
@@ -301,7 +301,7 @@ class MotorCharacteristicsApp:
             I_A   = np.sqrt(id_**2 + iq**2)
             P_W   = np.abs(Tm * omega)
 
-            # 間引き（最大500点）
+            # Downsample (max 500 points)
             step = max(1, len(T_mNm) // 500)
             self.sim_data = {
                 'T': T_mNm[::step],
@@ -312,11 +312,11 @@ class MotorCharacteristicsApp:
             n_pts = len(self.sim_data['T'])
             self.sim_status_var.set(
                 f'{os.path.basename(path)}\n'
-                f'点数: {n_pts}  T_max: {T_mNm.max():.1f} mN·m'
+                f'points: {n_pts}  T_max: {T_mNm.max():.1f} mN·m'
             )
             self._update()
         except Exception as e:
-            messagebox.showerror('読込エラー', str(e))
+            messagebox.showerror('Load error', str(e))
 
     def _overlay_sim_data(self):
         if self.sim_data is None:

@@ -1,9 +1,9 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    BrushlessDCMotor シミュレータの起動スクリプト
+    Launch script for the BrushlessDCMotor simulator
 .PARAMETER Args
-    実行ファイルに渡す追加引数
+    Additional arguments passed to the executable
 .EXAMPLE
     .\run.ps1
 #>

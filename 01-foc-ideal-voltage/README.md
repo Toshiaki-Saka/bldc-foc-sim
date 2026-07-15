@@ -1,76 +1,81 @@
-# 01 - FOC 理想電圧源モデル (BrushlessDCMotor)
+# 01 - FOC Ideal Voltage Source Model (BrushlessDCMotor)
 
-三相ブラシレスモータ (BLDC / PMSM) のベクトル制御 (FOC) を最小構成で再現する
-C++ / CMake シミュレーションです。インバータの電圧飽和や PWM を含まない
-「理想電圧源」モデルで、FOC の電流制御ループそのものの挙動を学ぶための
-出発点となるモデルです。
+A C++ / CMake simulation that reproduces Field-Oriented Control (FOC) of a
+three-phase brushless (BLDC/PMSM) motor in a minimal configuration. It uses an
+"ideal voltage source" model that includes neither inverter voltage saturation
+nor PWM, serving as the starting point for studying the behavior of the FOC
+current control loop itself.
 
-> **シリーズ構成**
-> 本リポジトリは 5 つのモデルで構成され、要素を段階的に積み上げていきます。
-> 本モデル `01` はその最初のステップです。
+> **Series structure**
+> This repository consists of five models that build up the elements step by step.
+> This model `01` is the first step.
 >
-> | モデル | 内容 |
+> | Model | Contents |
 > |--------|------|
-> | **01-foc-ideal-voltage** | FOC 基本 (理想電圧源駆動) ← 本モデル |
-> | 02-foc-pwm-drive | 01 + PWM インバータ駆動 |
-> | 03-foc-pwm-eps | 02 + 電動パワーステアリング機構 |
-> | 04-foc-pwm-sensorless | 02 + センサーレス制御 (誘起電圧オブザーバ + PLL) |
-> | 05-foc-pwm-eps-sensorless | 03 + 04 の統合 |
+> | **01-foc-ideal-voltage** | FOC basics (ideal voltage source drive) ← this model |
+> | 02-foc-pwm-drive | 01 + PWM inverter drive |
+> | 03-foc-pwm-eps | 02 + Electric Power Steering mechanism |
+> | 04-foc-pwm-sensorless | 02 + sensorless control (back-EMF observer + PLL) |
+> | 05-foc-pwm-eps-sensorless | integration of 03 + 04 |
 
 ---
 
-## 概要 (Overview)
+## Overview
 
-- **対象**: 表面磁石型 三相同期モータ (SPMSM, $L_d = L_q$) の dq 軸電流制御
-- **制御**: dq 軸それぞれに PI 制御器を持つ FOC。ゲインは極配置法で自動算出
-- **駆動**: 理想電圧源。PI 制御器が要求した電圧をそのままモータへ印加
-  (PWM・DC リンク電圧制限・キャリアは扱わない → `02` 以降で導入)
-- **オプション機能**: 中点変調・dq 軸非干渉制御を実行時フラグで ON/OFF 可能
-  (理想電圧源では電圧制限が無いため効果は限定的。学習・比較用)
+- **Target**: dq-axis current control of a surface-mounted three-phase
+  synchronous motor (SPMSM, $L_d = L_q$)
+- **Control**: FOC with a PI controller on each of the d- and q-axes. Gains are
+  computed automatically by pole placement
+- **Drive**: Ideal voltage source. The voltage requested by the PI controllers
+  is applied to the motor as-is (PWM, DC-link voltage limits, and the carrier
+  are not handled → introduced from `02` onward)
+- **Optional features**: Midpoint modulation and dq-axis decoupling control can
+  be toggled ON/OFF via runtime flags (with an ideal voltage source there is no
+  voltage limit, so the effect is limited; for study and comparison)
 
-理論的背景は **[`../docs/theory/`](../docs/theory/)** を参照してください。
+For the theoretical background, see **[`../docs_en/theory/`](../docs_en/theory/)**.
 
 ---
 
-## ディレクトリ構成 (Repository Layout)
+## Repository Layout
 
 ```
 01-foc-ideal-voltage/
-├── CMakeLists.txt          # ビルド定義
-├── README.md               # 本ファイル
-├── LICENSE                 # MIT ライセンス
-├── build.ps1               # Windows 用ビルドスクリプト
-├── run.ps1                 # Windows 用実行スクリプト
-├── src/                    # C++ ソース
-│   ├── main.cpp                # エントリポイント・シミュレーションループ
-│   ├── motor_controller.{hpp,cpp}  # PI 制御器・FOC コントローラ
-│   ├── motor_model.{hpp,cpp}       # モータ電気・機械モデル (プラント)
-│   ├── motor_vector_conv.{hpp,cpp} # Clarke / Park 変換・中点変調
-│   ├── csv_verifier.{hpp,cpp}      # リファレンス CSV との回帰照合
-│   └── sim_params.hpp              # 物理定数・シミュレーション設定
-├── scripts/                # Python 可視化・解析スクリプト
-│   ├── sim_viewer.py               # 波形ビューア (PyQt6 GUI)
-│   ├── motor_characteristics_gui.py # モータ特性マップ GUI
-│   ├── tn_sweep.py                 # T-n / I-T / P-T / η-T 特性スイープ
-│   ├── plot_result.py              # 波形 PNG 出力
-│   ├── compare_modulation.py       # 中点変調・非干渉制御の ON/OFF 比較
-│   └── requirements.txt            # Python 依存パッケージ
-├── data/                   # シミュレーション出力 CSV / リファレンス
-└── docs/                   # 本モデル固有の図表
+├── CMakeLists.txt          # Build definition
+├── README.md               # This file
+├── LICENSE                 # MIT license
+├── build.ps1               # Build script for Windows
+├── run.ps1                 # Run script for Windows
+├── src/                    # C++ source
+│   ├── main.cpp                # Entry point / simulation loop
+│   ├── motor_controller.{hpp,cpp}  # PI controller / FOC controller
+│   ├── motor_model.{hpp,cpp}       # Motor electrical/mechanical model (plant)
+│   ├── motor_vector_conv.{hpp,cpp} # Clarke / Park transforms / midpoint modulation
+│   ├── csv_verifier.{hpp,cpp}      # Regression check against reference CSV
+│   └── sim_params.hpp              # Physical constants / simulation settings
+├── scripts/                # Python visualization / analysis scripts
+│   ├── sim_viewer.py               # Waveform viewer (PyQt6 GUI)
+│   ├── motor_characteristics_gui.py # Motor characteristics map GUI
+│   ├── tn_sweep.py                 # T-n / I-T / P-T / η-T characteristic sweep
+│   ├── plot_result.py              # Waveform PNG output
+│   ├── compare_modulation.py       # ON/OFF comparison of midpoint modulation / decoupling
+│   └── requirements.txt            # Python dependencies
+├── data/                   # Simulation output CSV / reference
+└── docs/                   # Figures specific to this model
 ```
 
 ---
 
-## 必要環境 (Requirements)
+## Requirements
 
-| 項目 | 要件 |
+| Item | Requirement |
 |------|------|
-| C++ コンパイラ | C++20 対応 (GCC 11+, Clang 14+, MSVC 2022) |
-| CMake | 3.16 以上 |
-| Eigen3 | 3.4 以上 (線形代数ライブラリ) |
-| Python (任意) | 3.9 以上 — 可視化スクリプト用 |
+| C++ compiler | C++20 support (GCC 11+, Clang 14+, MSVC 2022) |
+| CMake | 3.16 or later |
+| Eigen3 | 3.4 or later (linear algebra library) |
+| Python (optional) | 3.9 or later — for visualization scripts |
 
-### Eigen3 のインストール
+### Installing Eigen3
 
 ```sh
 # Ubuntu / Debian
@@ -83,25 +88,25 @@ brew install eigen
 vcpkg install eigen3
 ```
 
-CMake が Eigen3 を見つけられない場合は、`FetchContent` による自動取得に
-フォールバックします (ネットワーク接続が必要)。
+If CMake cannot find Eigen3, it falls back to automatic retrieval via
+`FetchContent` (a network connection is required).
 
 ---
 
-## ビルド (Build)
+## Build
 
 ```sh
-# 1. 構成 (初回、または CMakeLists.txt 変更後)
+# 1. Configure (first time, or after changing CMakeLists.txt)
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
-# 2. ビルド
+# 2. Build
 cmake --build build --config Release
 ```
 
-ビルドが成功すると、プロジェクト直下に実行ファイル `BrushlessDCMotor`
-(Windows では `BrushlessDCMotor.exe`) が生成されます。
+Once the build succeeds, the executable `BrushlessDCMotor`
+(`BrushlessDCMotor.exe` on Windows) is generated directly under the project.
 
-Windows では `build.ps1` を実行しても同じ結果が得られます。
+On Windows, running `build.ps1` produces the same result.
 
 ```powershell
 ./build.ps1
@@ -109,70 +114,73 @@ Windows では `build.ps1` を実行しても同じ結果が得られます。
 
 ---
 
-## 実行 (Run)
+## Run
 
 ```sh
-# 既定パラメータで実行 (src/sim_params.hpp の値)
+# Run with default parameters (values in src/sim_params.hpp)
 ./BrushlessDCMotor
 
-# q 軸電流指令・負荷トルク・シミュレーション時間を指定
+# Specify q-axis current command, load torque, and simulation time
 ./BrushlessDCMotor --iq_ref 85 --tload 4.3 --span 2.0
 
-# RESULT 行のみ出力 (機械可読、スクリプト連携用)
+# Output the RESULT line only (machine-readable, for script integration)
 ./BrushlessDCMotor --quiet
 ```
 
-### コマンドラインオプション
+### Command-line options
 
-| オプション | 既定値 | 説明 |
+| Option | Default | Description |
 |------------|--------|------|
-| `--iq_ref <A>` | sim_params.hpp | q 軸電流指令値 [A] |
-| `--tload <Nm>` | sim_params.hpp | 負荷トルク [Nm] |
-| `--span <s>` | sim_params.hpp | シミュレーション時間 [s] |
-| `--csv_out <path>` | data/sim_output.csv | CSV 出力先パス |
-| `--no_csv` | — | CSV 出力を無効化 |
-| `--quiet` | — | RESULT 行のみ出力 (詳細出力を抑制) |
-| `--midpoint` | ON | 中点変調 (SVPWM) を有効化 (既定 ON) |
-| `--no-midpoint` | — | 中点変調を無効化 |
-| `--decoupling` | ON | dq 軸非干渉制御を有効化 (既定 ON) |
-| `--no-decoupling` | — | dq 軸非干渉制御を無効化 |
+| `--iq_ref <A>` | sim_params.hpp | q-axis current command [A] |
+| `--tload <Nm>` | sim_params.hpp | Load torque [Nm] |
+| `--span <s>` | sim_params.hpp | Simulation time [s] |
+| `--csv_out <path>` | data/sim_output.csv | CSV output path |
+| `--no_csv` | — | Disable CSV output |
+| `--quiet` | — | Output the RESULT line only (suppress detailed output) |
+| `--midpoint` | ON | Enable midpoint modulation (SVPWM) (default ON) |
+| `--no-midpoint` | — | Disable midpoint modulation |
+| `--decoupling` | ON | Enable dq-axis decoupling control (default ON) |
+| `--no-decoupling` | — | Disable dq-axis decoupling control |
 
 ---
 
-## 出力 (Output)
+## Output
 
-### コンソール出力
+### Console output
 
-`RESULT` 行は常に出力され、定常状態の主要量を機械可読な形式で示します。
+The `RESULT` line is always emitted and reports the key steady-state quantities
+in a machine-readable form.
 
 ```
 RESULT omega_ss=... iq_ss=... id_ss=... tload=... te_ss=...
 ```
 
-`--quiet` を付けない場合、これに加えて T-n 特性表や CSV 照合結果が表示されます。
+When `--quiet` is not given, the T-n characteristic table and CSV verification
+results are shown in addition to this.
 
-### CSV ファイル (`data/sim_output.csv`)
+### CSV file (`data/sim_output.csv`)
 
-各計算ステップごとに、三相電流・dq 軸電流・電磁トルク・回転速度・角度などを
-記録します。`scripts/sim_viewer.py` で波形として可視化できます。
+For each computation step, it records the three-phase currents, dq-axis
+currents, electromagnetic torque, rotational speed, angle, and so on. The data
+can be visualized as waveforms with `scripts/sim_viewer.py`.
 
 ---
 
-## Python スクリプト (`scripts/`)
+## Python scripts (`scripts/`)
 
-事前に依存パッケージをインストールしてください。
+Install the dependencies in advance.
 
 ```sh
 pip install -r scripts/requirements.txt
 ```
 
-| スクリプト | 説明 |
+| Script | Description |
 |------------|------|
-| `sim_viewer.py` | `data/sim_output.csv` の波形ビューア (PyQt6 GUI) |
-| `motor_characteristics_gui.py` | モータ特性マップ (N/I/P/η vs トルク) GUI |
-| `tn_sweep.py` | `iq_ref` を変えて複数回実行し T-n 等の特性をプロット |
-| `plot_result.py` | 波形を PNG 画像として保存 |
-| `compare_modulation.py` | 中点変調・非干渉制御の ON/OFF 波形比較 |
+| `sim_viewer.py` | Waveform viewer for `data/sim_output.csv` (PyQt6 GUI) |
+| `motor_characteristics_gui.py` | Motor characteristics map (N/I/P/η vs torque) GUI |
+| `tn_sweep.py` | Runs multiple times while varying `iq_ref` and plots T-n and other characteristics |
+| `plot_result.py` | Saves waveforms as PNG images |
+| `compare_modulation.py` | Waveform comparison of midpoint modulation / decoupling ON/OFF |
 
 ```sh
 python scripts/sim_viewer.py
@@ -181,23 +189,23 @@ python scripts/compare_modulation.py --span 2.0
 
 ---
 
-## 理論的背景 (Theory)
+## Theory
 
-モータモデル・FOC・座標変換・PI チューニングの理論は、リポジトリ共通の
-ドキュメントにまとめてあります。
+The theory of the motor model, FOC, coordinate transforms, and PI tuning is
+collected in the repository-wide documentation.
 
-| ドキュメント | 内容 |
+| Document | Contents |
 |--------------|------|
-| [`docs/theory/motor-model.md`](../docs/theory/motor-model.md) | モータの電気・機械方程式 |
-| [`docs/theory/foc.md`](../docs/theory/foc.md) | ベクトル制御 (FOC) の原理 |
-| [`docs/theory/coordinate-transform.md`](../docs/theory/coordinate-transform.md) | Clarke / Park 変換 |
-| [`docs/theory/pi-tuning.md`](../docs/theory/pi-tuning.md) | PI ゲインの極配置設計 |
-| [`docs/derivations.md`](../docs/derivations.md) | 数式の導出 |
-| [`docs/glossary.md`](../docs/glossary.md) | 用語集 |
+| [`docs_en/theory/motor-model.md`](../docs_en/theory/motor-model.md) | Electrical and mechanical equations of the motor |
+| [`docs_en/theory/foc.md`](../docs_en/theory/foc.md) | Principle of Field-Oriented Control (FOC) |
+| [`docs_en/theory/coordinate-transform.md`](../docs_en/theory/coordinate-transform.md) | Clarke / Park transforms |
+| [`docs_en/theory/pi-tuning.md`](../docs_en/theory/pi-tuning.md) | Pole-placement design of PI gains |
+| [`docs_en/derivations.md`](../docs_en/derivations.md) | Derivations of the equations |
+| [`docs_en/glossary.md`](../docs_en/glossary.md) | Glossary |
 
 ---
 
-## ライセンス (License)
+## License
 
-本プロジェクトは MIT ライセンスで公開されています。詳細は [`LICENSE`](LICENSE) を
-参照してください。
+This project is released under the MIT license. See [`LICENSE`](LICENSE) for
+details.

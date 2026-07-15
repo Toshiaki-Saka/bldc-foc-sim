@@ -1,14 +1,16 @@
 // =============================================================================
-//  motor_vector_conv.cpp  —  座標変換ユーティリティ — 実装
+//  motor_vector_conv.cpp  —  coordinate transform utility — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim (全モデル共通)
-//  振幅不変形の Clarke / Park 変換と、線間電圧利用率を 2/√3 倍に
-//  拡張する min-max 方式の中点変調を実装する。
+//  Project : bldc-foc-sim (shared across all models)
+//  Implements the amplitude-invariant Clarke / Park transforms and the min-max
+//  midpoint modulation that extends the line-to-line voltage utilization by a
+//  factor of 2/sqrt(3).
 //
-//  ※ 本ファイルは全モデル (01〜05) で同一。変更時は全モデルへ反映すること。
-//     CI (consistency ジョブ) がモデル間の一致を検査し、ドリフトを検出する。
+//  NOTE: This file is identical across all models (01-05). When changed, the
+//        change must be propagated to every model. CI (the consistency job)
+//        checks cross-model agreement and detects drift.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "motor_vector_conv.hpp"

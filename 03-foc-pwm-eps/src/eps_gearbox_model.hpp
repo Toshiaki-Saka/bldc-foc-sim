@@ -1,12 +1,12 @@
 #pragma once
 // =============================================================================
-//  eps_gearbox_model.hpp  —  EPS 機構の力学モデル — 宣言
+//  eps_gearbox_model.hpp  —  EPS mechanism dynamics model — declarations
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  ステアリングコラム・トーションバー (ばね-ダンパ)・減速ギア・ラックの
-//  機械力学を表現するクラスを宣言する。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Declares the class that represents the mechanical dynamics of the steering
+//  column, torsion bar (spring-damper), reduction gear, and rack.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "sim_params.hpp"
@@ -19,9 +19,9 @@ struct EpsGearboxConfig {
     double rack_mass;     // Rack mass [kg]
     double ktb;           // Torsion bar stiffness [Nm/rad]
     double ctb;           // Torsion bar damping   [Nm·s/rad]
-    double gear_ratio;    // Motor-to-column gear ratio (减速机)
+    double gear_ratio;    // Motor-to-column gear ratio (reduction gear)
     double pinion_radius; // Pinion radius [m]
-    double spring_const;  // Rack spring load [N/m]  (バネ負荷)
+    double spring_const;  // Rack spring load [N/m]  (spring load)
     double damping_const; // Rack viscous damping [N·s/m]
     double resolution;    // Simulation time step [s]
 };

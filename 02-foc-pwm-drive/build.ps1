@@ -1,15 +1,15 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    BrushlessDCMotor プロジェクトをビルドします。
+    Builds the BrushlessDCMotor project.
 .PARAMETER Generator
-    CMake ジェネレータ。"VS2022"（デフォルト）または "Ninja"。
+    CMake generator. "VS2022" (default) or "Ninja".
 .PARAMETER Config
-    ビルド構成。"Release"（デフォルト）または "Debug"。
+    Build configuration. "Release" (default) or "Debug".
 .PARAMETER Eigen3Dir
-    Eigen3Config.cmake があるディレクトリ（自動検出できない場合に指定）。
+    Directory containing Eigen3Config.cmake (specify when it cannot be auto-detected).
 .PARAMETER Clean
-    既存の build ディレクトリを削除してからビルドします。
+    Remove the existing build directory before building.
 .EXAMPLE
     .\build.ps1
     .\build.ps1 -Generator Ninja -Config Debug
@@ -40,7 +40,7 @@ Write-Host "Config    : $Config"
 Write-Host "BuildDir  : $BuildDir"
 
 if ($Clean -and (Test-Path $BuildDir)) {
-    Write-Host "既存の build ディレクトリを削除します..." -ForegroundColor Yellow
+    Write-Host "Removing existing build directory..." -ForegroundColor Yellow
     Remove-Item $BuildDir -Recurse -Force
 }
 
@@ -83,7 +83,7 @@ try {
 
 $Exe = Join-Path $ProjectRoot "BrushlessDCMotor.exe"
 if (Test-Path $Exe) {
-    Write-Host "`nビルド成功: $Exe" -ForegroundColor Green
+    Write-Host "`nBuild succeeded: $Exe" -ForegroundColor Green
 } else {
-    Write-Warning "実行ファイルが見つかりません: $Exe"
+    Write-Warning "Executable not found: $Exe"
 }

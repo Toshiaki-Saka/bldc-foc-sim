@@ -1,15 +1,17 @@
 #pragma once
 // =============================================================================
-//  motor_vector_conv.hpp  —  座標変換ユーティリティ — 宣言
+//  motor_vector_conv.hpp  —  coordinate transform utility — declaration
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim (全モデル共通)
-//  Clarke 変換 (三相 UVW → 二相 αβ)、Park 変換 (αβ → 回転 dq)、
-//  および中点変調 (零相注入 SVPWM) の静的関数を宣言する。
+//  Project      : bldc-foc-sim (shared across all models)
+//  Declares the static functions for the Clarke transform (three-phase UVW ->
+//  two-phase alpha-beta), the Park transform (alpha-beta -> rotating dq), and
+//  midpoint modulation (zero-sequence injection SVPWM).
 //
-//  ※ 本ファイルは全モデル (01〜05) で同一。変更時は全モデルへ反映すること。
-//     CI (consistency ジョブ) がモデル間の一致を検査し、ドリフトを検出する。
+//  NOTE: This file is identical across all models (01-05). When changing it,
+//        propagate the change to every model. The CI (consistency job) checks
+//        cross-model equality and detects drift.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License      : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <cmath>

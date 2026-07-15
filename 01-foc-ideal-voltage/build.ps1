@@ -1,21 +1,21 @@
 #Requires -Version 7
 <#
 .SYNOPSIS
-    BrushlessDCMotor プロジェクトをビルドします。
+    Builds the BrushlessDCMotor project.
 
 .PARAMETER Config
-    ビルド構成 (Release / Debug)。デフォルト: Release
+    Build configuration (Release / Debug). Default: Release
 
 .PARAMETER ToolchainFile
-    vcpkg ツールチェーンファイルのパス。
-    省略時は C:\vcpkg\scripts\buildsystems\vcpkg.cmake を使用します。
+    Path to the vcpkg toolchain file.
+    When omitted, C:\vcpkg\scripts\buildsystems\vcpkg.cmake is used.
 
 .PARAMETER Eigen3Dir
-    vcpkg を使わない場合の Eigen3 CMake ディレクトリ。
-    指定すると ToolchainFile より優先されます。
+    Eigen3 CMake directory to use when not using vcpkg.
+    When specified, it takes precedence over ToolchainFile.
 
 .PARAMETER Clean
-    指定するとビルドディレクトリを削除してからビルドします。
+    When specified, deletes the build directory before building.
 
 .EXAMPLE
     .\build.ps1
@@ -41,7 +41,7 @@ $ProjectRoot = $PSScriptRoot
 $BuildDir    = Join-Path $ProjectRoot "build"
 
 if ($Clean -and (Test-Path $BuildDir)) {
-    Write-Host ">> ビルドディレクトリを削除します: $BuildDir"
+    Write-Host ">> Deleting build directory: $BuildDir"
     Remove-Item -Recurse -Force $BuildDir
 }
 
@@ -51,31 +51,31 @@ if (-not (Test-Path $BuildDir)) {
 
 Push-Location $BuildDir
 try {
-    Write-Host ">> CMake 構成 ($Config) ..."
+    Write-Host ">> CMake configure ($Config) ..."
 
     if ($Eigen3Dir -ne "") {
         cmake .. "-DEigen3_DIR=$Eigen3Dir" "-DVCPKG_APPLOCAL_DEPS=OFF"
     } elseif (Test-Path $ToolchainFile) {
         cmake .. "-DCMAKE_TOOLCHAIN_FILE=$ToolchainFile" "-DVCPKG_APPLOCAL_DEPS=OFF"
     } else {
-        Write-Warning "vcpkg ツールチェーンが見つかりません: $ToolchainFile"
-        Write-Warning "-Eigen3Dir オプションで Eigen3 のパスを指定してください。"
+        Write-Warning "vcpkg toolchain not found: $ToolchainFile"
+        Write-Warning "Specify the Eigen3 path with the -Eigen3Dir option."
         cmake ..
     }
 
-    if ($LASTEXITCODE -ne 0) { throw "CMake 構成に失敗しました。" }
+    if ($LASTEXITCODE -ne 0) { throw "CMake configure failed." }
 
-    Write-Host ">> ビルド中 ($Config) ..."
+    Write-Host ">> Building ($Config) ..."
     cmake --build . --config $Config
 
-    if ($LASTEXITCODE -ne 0) { throw "ビルドに失敗しました。" }
+    if ($LASTEXITCODE -ne 0) { throw "Build failed." }
 
     $ExePath = Join-Path $ProjectRoot "BrushlessDCMotor.exe"
     if (Test-Path $ExePath) {
         Write-Host ""
-        Write-Host "ビルド成功: $ExePath" -ForegroundColor Green
+        Write-Host "Build succeeded: $ExePath" -ForegroundColor Green
     } else {
-        Write-Warning "実行ファイルが見つかりません: $ExePath"
+        Write-Warning "Executable not found: $ExePath"
     }
 } finally {
     Pop-Location

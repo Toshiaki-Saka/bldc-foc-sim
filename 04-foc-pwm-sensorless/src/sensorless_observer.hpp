@@ -1,12 +1,13 @@
 #pragma once
 // =============================================================================
-//  sensorless_observer.hpp  —  センサーレス角度推定器 — 宣言
+//  sensorless_observer.hpp  —  sensorless angle estimator — declaration
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 04-foc-pwm-sensorless
-//  誘起電圧オブザーバと PLL (位相同期ループ) によりロータの電気角・
-//  角速度を推定するクラス SensorlessObserver を宣言する。
+//  Project : bldc-foc-sim / 04-foc-pwm-sensorless
+//  Declares the SensorlessObserver class, which estimates the rotor electrical
+//  angle and angular velocity using a back-EMF observer and a PLL (phase-locked
+//  loop).
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <Eigen/Dense>

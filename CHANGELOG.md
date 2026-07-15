@@ -1,30 +1,31 @@
-# 変更履歴 (Changelog)
+# Changelog
 
-本ファイルの記法は [Keep a Changelog](https://keepachangelog.com/ja/1.1.0/) に、
-バージョニングは [Semantic Versioning](https://semver.org/lang/ja/) に準じます。
+The format of this file follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+and versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
 ### Added
-- GitHub コミュニティ標準ファイル: Issue / Pull Request テンプレート、
-  `CODE_OF_CONDUCT.md`、`SECURITY.md`、`CITATION.cff`、本 `CHANGELOG.md`。
-- `.editorconfig` / `.clang-format` によるコードスタイルの機械化。
-- 数値単体テスト(Clarke/Park 変換の可逆性、定常解の解析値照合など)。
-- MkDocs サイトを GitHub Pages へ自動デプロイするワークフロー。
-- 共通コア (`common/`) の切り出しによる重複ソースの共有化。
-- 英語版 README (`README.en.md`)。
+- GitHub community-standard files: Issue / Pull Request templates,
+  `CODE_OF_CONDUCT.md`, `SECURITY.md`, `CITATION.cff`, and this `CHANGELOG.md`.
+- Mechanized code style via `.editorconfig` / `.clang-format`.
+- Numerical unit tests (invertibility of the Clarke/Park transforms, checking the
+  steady-state solution against analytical values, etc.).
+- A workflow that automatically deploys the MkDocs site to GitHub Pages.
+- Sharing of duplicated sources by extracting a common core (`common/`).
+- English README (`README.md`).
 
 ### Changed
-- CI に警告昇格 (`-Wall -Wextra`)・`clang-format` 検査・Sanitizer ジョブを追加。
-- `.gitignore` の `build/` を `build*/` に拡張。
+- Added warning promotion (`-Wall -Wextra`), a `clang-format` check, and a Sanitizer job to CI.
+- Extended `build/` in `.gitignore` to `build*/`.
 
 ### Removed
-- 作業残骸ファイル(`sim_viewer_updated.py` 各所、`voltage_output.imag.png`)。
+- Stray work-in-progress files (`sim_viewer_updated.py` in several places, `voltage_output.imag.png`).
 
 ## [0.1.0] - 2025
 
 ### Added
-- 5 モデル構成 (`01`〜`05`) の初期公開。FOC 基本・PWM 駆動・EPS 機構・
-  センサーレス制御・統合モデル。
-- 共通理論ドキュメント (`docs/`)、CTest スモークテスト、
-  GitHub Actions による 5 モデル × 2 OS のビルド/テストマトリクス。
+- Initial public release of the 5-model structure (`01`–`05`). FOC basics, PWM drive,
+  EPS mechanism, sensorless control, and the integrated model.
+- Shared theory documentation (`docs/`), CTest smoke tests, and a 5-model × 2-OS
+  build/test matrix via GitHub Actions.

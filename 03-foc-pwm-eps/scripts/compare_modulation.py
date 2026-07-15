@@ -1,29 +1,29 @@
 """
 compare_modulation.py
 =====================
-中点変調 (mid-point modulation) と dq 軸非干渉制御 (decoupling control) の
-ON/OFF による波形差を比較するツール。
+Tool for comparing the waveform differences between midpoint (mid-point) modulation
+and dq-axis decoupling control turned ON/OFF.
 
-同じシミュレーションを以下の 4 条件で実行し、iq / Te / omega / id の波形を
-重ね描きして、各機能の効果を視覚的に確認できる。
+The same simulation is run under the following 4 conditions, overlaying the iq / Te /
+omega / id waveforms so the effect of each feature can be checked visually.
 
-    1. baseline      : midpoint OFF, decoupling OFF  (従来動作)
+    1. baseline      : midpoint OFF, decoupling OFF  (legacy behavior)
     2. midpoint      : midpoint ON,  decoupling OFF
     3. decoupling    : midpoint OFF, decoupling ON
     4. both          : midpoint ON,  decoupling ON
 
-使い方:
+Usage:
     python scripts/compare_modulation.py
     python scripts/compare_modulation.py --span 2.0 --iq_ref 100
     python scripts/compare_modulation.py --exe ./BrushlessDCMotor --no-show
 
-CLI 引数:
-    --exe   PATH   実行ファイルのパス (既定: ビルド済み BrushlessDCMotor を自動探索)
-    --span  SEC    シミュレーション時間 [s]   (既定 2.0)
-    --iq_ref AMP   q 軸電流指令 [A]            (既定 85)
-    --tload  NM    負荷トルク [Nm]             (既定 4.3)
-    --out   PATH   グラフ画像の保存先          (既定 data/compare_modulation.png)
-    --no-show      画面表示せず画像保存のみ
+CLI arguments:
+    --exe   PATH   path to the executable (default: auto-detect built BrushlessDCMotor)
+    --span  SEC    simulation time [s]        (default 2.0)
+    --iq_ref AMP   q-axis current reference [A] (default 85)
+    --tload  NM    load torque [Nm]           (default 4.3)
+    --out   PATH   output path for the figure image (default data/compare_modulation.png)
+    --no-show      save the image only, without opening a window
 """
 
 import argparse
@@ -38,7 +38,7 @@ import matplotlib.pyplot as plt
 
 RESOLUTION = 0.00025  # 250 us / step
 
-# 比較する 4 条件: (ラベル, midpoint, decoupling, 色)
+# The 4 conditions to compare: (label, midpoint, decoupling, color)
 CONDITIONS = [
     ("baseline (both OFF)", False, False, "#7f8c8d"),
     ("midpoint ON",         True,  False, "#e74c3c"),
@@ -46,7 +46,7 @@ CONDITIONS = [
     ("both ON",             True,  True,  "#27ae60"),
 ]
 
-# 表示する波形: (CSV列名, タイトル, y軸ラベル)
+# Waveforms to display: (CSV column name, title, y-axis label)
 SIGNALS = [
     ("iq",    "q-axis current",        "iq [A]"),
     ("Te",    "electromagnetic torque", "Te [Nm]"),
@@ -56,7 +56,7 @@ SIGNALS = [
 
 
 def find_executable() -> str:
-    """ビルド済み実行ファイルを探索する。"""
+    """Search for the built executable."""
     candidates = [
         "./BrushlessDCMotor",
         "./BrushlessDCMotor.exe",
@@ -73,7 +73,7 @@ def find_executable() -> str:
 
 
 def run_simulation(exe, span, iq_ref, tload, midpoint, decoupling):
-    """1 条件分のシミュレーションを実行し、CSV を読んで列ごとの配列を返す。"""
+    """Run the simulation for one condition, read the CSV, and return per-column arrays."""
     tmp = tempfile.NamedTemporaryFile(suffix=".csv", delete=False)
     tmp.close()
     csv_path = tmp.name
@@ -111,7 +111,7 @@ def run_simulation(exe, span, iq_ref, tload, midpoint, decoupling):
 
     os.unlink(csv_path)
 
-    # RESULT 行 (stdout 末尾) も拾っておく
+    # Also pick up the RESULT line (at the end of stdout)
     summary = ""
     for line in result.stdout.splitlines():
         if line.startswith("RESULT"):
@@ -137,7 +137,7 @@ def main():
     print(f"Conditions : span={args.span}s, iq_ref={args.iq_ref}A, tload={args.tload}Nm")
     print()
 
-    # 4 条件すべて実行
+    # Run all 4 conditions
     runs = []
     for label, midpoint, decoupling, color in CONDITIONS:
         data, summary = run_simulation(
@@ -146,7 +146,7 @@ def main():
         runs.append((label, color, data))
         print(f"  [{label:22s}] {summary}")
 
-    # 波形を 2x2 で重ね描き
+    # Overlay the waveforms in a 2x2 grid
     fig, axes = plt.subplots(2, 2, figsize=(13, 8))
     axes = axes.ravel()
 

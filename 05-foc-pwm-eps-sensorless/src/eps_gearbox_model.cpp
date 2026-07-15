@@ -1,11 +1,11 @@
 // =============================================================================
-//  eps_gearbox_model.cpp  —  EPS 機構の力学モデル — 実装
+//  eps_gearbox_model.cpp  —  EPS mechanism dynamics model — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 05-foc-pwm-eps-sensorless
-//  ドライバ操舵トルクとモータトルクを入力に、コラム角・ラック変位・
-//  ラック推力を時間積分で更新する。
+//  Project    : bldc-foc-sim / 05-foc-pwm-eps-sensorless
+//  Takes the driver steering torque and the motor torque as inputs, and updates
+//  the column angle, rack displacement, and rack force by time integration.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License    : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "eps_gearbox_model.hpp"

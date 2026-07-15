@@ -1,12 +1,13 @@
 #pragma once
 // =============================================================================
-//  motor_model.hpp  —  モータ電気・機械モデル (プラント) — 宣言
+//  motor_model.hpp  —  motor electrical and mechanical model (plant) — declarations
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  三相 BLDC モータの電気系 (dq 軸電流) と機械系 (回転速度・角度) の
-//  状態方程式を表現するクラス MotorModel を宣言する。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Declares the class MotorModel, which represents the state equations of the
+//  electrical system (dq-axis currents) and mechanical system (rotational speed
+//  and angle) of a three-phase BLDC motor.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <fstream>

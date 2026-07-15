@@ -1,8 +1,8 @@
 """
 BrushlessDCMotor Simulation Output Viewer (04-foc-pwm-sensorless)
-モータパラメータ / センサーレスオブザーバ設定を GUI で変更し、
-シミュレーションを直接実行して結果を表示する。
-sim_output.csv / pwm_waveform.csv の結果を PyQt6 GUI で可視化。
+Change the motor parameters / sensorless-observer settings from the GUI, run
+the simulation directly, and display the results.
+Visualizes the sim_output.csv / pwm_waveform.csv results in a PyQt6 GUI.
 """
 
 import sys
@@ -35,38 +35,38 @@ from PyQt6.QtGui import QFont
 RESOLUTION = 0.00025  # 250 usec (calculation step)
 
 CHART_GROUPS = [
-    ("3相電流 (出力)", [
-        ("U", "U相電流 [A]", "#e74c3c"),
-        ("V", "V相電流 [A]", "#2ecc71"),
-        ("W", "W相電流 [A]", "#3498db"),
+    ("3-phase current (output)", [
+        ("U", "U-phase current [A]", "#e74c3c"),
+        ("V", "V-phase current [A]", "#2ecc71"),
+        ("W", "W-phase current [A]", "#3498db"),
     ]),
-    ("dq軸電流", [
-        ("id", "d軸電流 id [A]", "#9b59b6"),
-        ("iq", "q軸電流 iq [A]", "#e67e22"),
+    ("dq-axis current", [
+        ("id", "d-axis current id [A]", "#9b59b6"),
+        ("iq", "q-axis current iq [A]", "#e67e22"),
     ]),
-    ("トルク", [
-        ("Te", "電磁トルク Te [N·m]", "#e74c3c"),
-        ("Tm", "機械トルク Tm [N·m]", "#3498db"),
+    ("Torque", [
+        ("Te", "Electromagnetic torque Te [N·m]", "#e74c3c"),
+        ("Tm", "Mechanical torque Tm [N·m]", "#3498db"),
     ]),
-    ("角速度", [
-        ("omega", "角速度 ω [rad/s]", "#1abc9c"),
+    ("Angular velocity", [
+        ("omega", "Angular velocity ω [rad/s]", "#1abc9c"),
     ]),
-    ("電気角・機械角", [
-        ("ElecDeg", "電気角 [rad]", "#f39c12"),
-        ("MechDeg", "機械角 [rad]", "#8e44ad"),
+    ("Electrical / mechanical angle", [
+        ("ElecDeg", "Electrical angle [rad]", "#f39c12"),
+        ("MechDeg", "Mechanical angle [rad]", "#8e44ad"),
     ]),
-    ("角度誤差", [
-        ("AngleError", "角度誤差 [rad]", "#c0392b"),
+    ("Angle error", [
+        ("AngleError", "Angle error [rad]", "#c0392b"),
     ]),
-    ("PWM duty比 (三相)", [
-        ("DutyU_pct", "U相 duty比 [%]", "#e74c3c"),
-        ("DutyV_pct", "V相 duty比 [%]", "#2ecc71"),
-        ("DutyW_pct", "W相 duty比 [%]", "#3498db"),
+    ("PWM duty (3-phase)", [
+        ("DutyU_pct", "U-phase duty [%]", "#e74c3c"),
+        ("DutyV_pct", "V-phase duty [%]", "#2ecc71"),
+        ("DutyW_pct", "W-phase duty [%]", "#3498db"),
     ]),
-    ("印加電圧 (三相)", [
-        ("Vu", "U相電圧 Vu [V]", "#e74c3c"),
-        ("Vv", "V相電圧 Vv [V]", "#2ecc71"),
-        ("Vw", "W相電圧 Vw [V]", "#3498db"),
+    ("Applied voltage (3-phase)", [
+        ("Vu", "U-phase voltage Vu [V]", "#e74c3c"),
+        ("Vv", "V-phase voltage Vv [V]", "#2ecc71"),
+        ("Vw", "W-phase voltage Vw [V]", "#3498db"),
     ]),
 ]
 
@@ -162,7 +162,7 @@ class PlotCanvas(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         check_row = QHBoxLayout()
-        check_row.addWidget(QLabel("表示切替:"))
+        check_row.addWidget(QLabel("Toggle display:"))
         self.checkboxes = {}
         for col, label, color in signals:
             cb = QCheckBox(label)
@@ -184,8 +184,8 @@ class PlotCanvas(QWidget):
         self._setup_axes()
 
     def _setup_axes(self):
-        self.ax.set_xlabel("時間 [s]")
-        self.ax.set_ylabel("値")
+        self.ax.set_xlabel("Time [s]")
+        self.ax.set_ylabel("Value")
         self.ax.set_title(self.group_name)
         _dark_ax(self.ax)
         _style_legend(self.ax.legend())
@@ -219,7 +219,7 @@ class DataTableWidget(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(4, 4, 4, 4)
 
-        info_label = QLabel("先頭 500 行を表示")
+        info_label = QLabel("Showing the first 500 rows")
         info_label.setFont(QFont("", 9))
         layout.addWidget(info_label)
 
@@ -251,9 +251,9 @@ class DataTableWidget(QWidget):
 
 class PwmWaveformWidget(QWidget):
     _PHASES = [
-        ("PwmU_V", "U相 PWM [V]", "#e74c3c"),
-        ("PwmV_V", "V相 PWM [V]", "#2ecc71"),
-        ("PwmW_V", "W相 PWM [V]", "#3498db"),
+        ("PwmU_V", "U-phase PWM [V]", "#e74c3c"),
+        ("PwmV_V", "V-phase PWM [V]", "#2ecc71"),
+        ("PwmW_V", "W-phase PWM [V]", "#3498db"),
     ]
 
     def __init__(self, parent=None):
@@ -266,7 +266,7 @@ class PwmWaveformWidget(QWidget):
         layout.setContentsMargins(4, 4, 4, 4)
 
         ctrl_row = QHBoxLayout()
-        ctrl_row.addWidget(QLabel("開始時刻:"))
+        ctrl_row.addWidget(QLabel("Start time:"))
         self.t_start = QDoubleSpinBox()
         self.t_start.setRange(0.0, 99999.0)
         self.t_start.setDecimals(3)
@@ -275,7 +275,7 @@ class PwmWaveformWidget(QWidget):
         self.t_start.setSingleStep(1.0)
         ctrl_row.addWidget(self.t_start)
 
-        ctrl_row.addWidget(QLabel("  表示幅:"))
+        ctrl_row.addWidget(QLabel("  Display width:"))
         self.t_span = QDoubleSpinBox()
         self.t_span.setRange(0.05, 500.0)
         self.t_span.setDecimals(3)
@@ -283,7 +283,7 @@ class PwmWaveformWidget(QWidget):
         self.t_span.setSuffix(" ms")
         ctrl_row.addWidget(self.t_span)
 
-        refresh_btn = QPushButton("更新")
+        refresh_btn = QPushButton("Refresh")
         refresh_btn.clicked.connect(self.refresh)
         ctrl_row.addWidget(refresh_btn)
 
@@ -314,7 +314,7 @@ class PwmWaveformWidget(QWidget):
         t1 = t0 + self.t_span.value() / 1000.0
         mask = (self.df_pwm["Time_s"] >= t0) & (self.df_pwm["Time_s"] < t1)
         view = self.df_pwm[mask]
-        self.info_label.setText(f"表示行数: {len(view):,} / {len(self.df_pwm):,}")
+        self.info_label.setText(f"Rows shown: {len(view):,} / {len(self.df_pwm):,}")
 
         self.fig.clf()
         self.fig.set_facecolor(_DARK['fig_bg'])
@@ -330,7 +330,7 @@ class PwmWaveformWidget(QWidget):
             ax.set_yticks([0, 48])
             ax.set_yticklabels(["0 V", "Vdc"])
             if i == n - 1:
-                ax.set_xlabel("時間 [μs]", fontsize=9)
+                ax.set_xlabel("Time [μs]", fontsize=9)
             _dark_ax(ax)
             _style_legend(ax.legend(fontsize=8, loc="upper right"))
 
@@ -354,7 +354,7 @@ class SimRunner(QThread):
     def run(self):
         try:
             cmd = [self._exe_path] + self._args
-            self.log.emit("シミュレーション実行中...")
+            self.log.emit("Running simulation...")
             result = subprocess.run(
                 cmd,
                 capture_output=True,
@@ -365,14 +365,14 @@ class SimRunner(QThread):
             if result.returncode != 0:
                 stderr = result.stderr[:600] if result.stderr else "(no stderr)"
                 self.error.emit(
-                    f"exe がコード {result.returncode} で終了しました\n{stderr}"
+                    f"exe exited with code {result.returncode}\n{stderr}"
                 )
                 return
             self.result_ready.emit(self._csv_path)
         except FileNotFoundError:
-            self.error.emit(f"実行ファイルが見つかりません:\n{self._exe_path}")
+            self.error.emit(f"Executable not found:\n{self._exe_path}")
         except subprocess.TimeoutExpired:
-            self.error.emit("タイムアウト: 300 秒以内に完了しませんでした")
+            self.error.emit("Timeout: did not complete within 300 seconds")
         except Exception as exc:
             self.error.emit(str(exc))
 
@@ -418,8 +418,8 @@ class SettingsTab(QWidget):
         lay.setSpacing(12)
         lay.setContentsMargins(10, 10, 10, 10)
 
-        # ── モータパラメータ ──────────────────────────────────────────
-        grp = QGroupBox("モータパラメータ")
+        # ── Motor parameters ──────────────────────────────────────────
+        grp = QGroupBox("Motor parameters")
         form = QFormLayout(grp)
         form.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.kt_sb = self._dspin(0.0533,          1e-6,  100.0, 6, "Nm/A")
@@ -429,17 +429,17 @@ class SettingsTab(QWidget):
         self.b_sb  = self._dspin(self._B_DEFAULT, 0.0,    10.0, 8, "Nm·s/rad")
         self.j_sb  = self._dspin(3.5e-4,          1e-8,  100.0, 7, "kg·m²")
         self.pp_sb = self._ispin(4, 1, 50,                       "pair")
-        form.addRow("Kt — トルク定数:",        self.kt_sb)
-        form.addRow("Ke — 逆起電力定数:",      self.ke_sb)
-        form.addRow("R  — 相抵抗:",           self.r_sb)
-        form.addRow("L  — 相インダクタンス:",  self.l_sb)
-        form.addRow("B  — 粘性抵抗:",         self.b_sb)
-        form.addRow("J  — 慣性モーメント:",   self.j_sb)
-        form.addRow("極対数:",                self.pp_sb)
+        form.addRow("Kt — torque constant:",        self.kt_sb)
+        form.addRow("Ke — back-EMF constant:",      self.ke_sb)
+        form.addRow("R  — phase resistance:",       self.r_sb)
+        form.addRow("L  — phase inductance:",       self.l_sb)
+        form.addRow("B  — viscous friction:",       self.b_sb)
+        form.addRow("J  — moment of inertia:",      self.j_sb)
+        form.addRow("Number of pole pairs:",        self.pp_sb)
         lay.addWidget(grp)
 
-        # ── PI電流制御チューニング ─────────────────────────────────────
-        grp2 = QGroupBox("PI電流制御チューニング  (Kp = 2ζωnL − R,  Ki = ωn²L)")
+        # ── PI current-control tuning ─────────────────────────────────────
+        grp2 = QGroupBox("PI current-control tuning  (Kp = 2ζωnL − R,  Ki = ωn²L)")
         form2 = QFormLayout(grp2)
         form2.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.wn_sb    = self._dspin(1000.0, 10.0, 1_000_000.0, 1, "rad/s")
@@ -448,64 +448,64 @@ class SettingsTab(QWidget):
         self.ki_label = QLabel("---")
         for lbl in (self.kp_label, self.ki_label):
             lbl.setStyleSheet("color: #00cc88; font-family: monospace;")
-        form2.addRow("ωn — 固有角周波数:", self.wn_sb)
-        form2.addRow("ζ  — 減衰比:",      self.zeta_sb)
+        form2.addRow("ωn — natural angular frequency:", self.wn_sb)
+        form2.addRow("ζ  — damping ratio:",      self.zeta_sb)
         form2.addRow("→ Kp [V/A]:",       self.kp_label)
         form2.addRow("→ Ki [V/(A·s)]:",   self.ki_label)
         lay.addWidget(grp2)
 
-        # ── シミュレーション条件 ──────────────────────────────────────
-        grp3 = QGroupBox("シミュレーション条件")
+        # ── Simulation conditions ──────────────────────────────────────
+        grp3 = QGroupBox("Simulation conditions")
         form3 = QFormLayout(grp3)
         form3.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.iqref_sb    = self._dspin(85.0,  -5000.0,  5000.0, 2, "A")
         self.tload_sb    = self._dspin(4.3,    0.0,     1000.0, 3, "Nm")
         self.span_sb     = self._dspin(5.0,    0.1,     3600.0, 1, "s")
         self.vdc_sb      = self._dspin(48.0,   1.0,      800.0, 1, "V")
-        self.midpoint_cb = QCheckBox("ミッドポイント変調 (SVPWM)")
-        self.decouple_cb = QCheckBox("dq 軸非干渉制御 (デカップリング)")
-        form3.addRow("IqRef — q軸電流指令:", self.iqref_sb)
-        form3.addRow("Tload — 負荷トルク:",  self.tload_sb)
-        form3.addRow("Span  — 計算時間:",    self.span_sb)
-        form3.addRow("Vdc   — DC電圧:",      self.vdc_sb)
+        self.midpoint_cb = QCheckBox("Midpoint modulation (SVPWM)")
+        self.decouple_cb = QCheckBox("dq-axis decoupling control")
+        form3.addRow("IqRef — q-axis current reference:", self.iqref_sb)
+        form3.addRow("Tload — load torque:",  self.tload_sb)
+        form3.addRow("Span  — computation time:",    self.span_sb)
+        form3.addRow("Vdc   — DC voltage:",      self.vdc_sb)
         form3.addRow("",                     self.midpoint_cb)
         form3.addRow("",                     self.decouple_cb)
         lay.addWidget(grp3)
 
-        # ── センサーレスオブザーバ設定 ────────────────────────────────
-        grp_obs = QGroupBox("センサーレスオブザーバ設定")
+        # ── Sensorless observer settings ────────────────────────────────
+        grp_obs = QGroupBox("Sensorless observer settings")
         form_obs = QFormLayout(grp_obs)
         form_obs.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.obs_lpf_sb = self._dspin(2000.0,   1.0,  200000.0, 1, "rad/s")
         self.pll_kp_sb  = self._dspin(500.0,    0.0,  100000.0, 1, "rad/s/V")
         self.pll_ki_sb  = self._dspin(100000.0, 0.0, 10000000.0, 0, "rad/s²/V")
-        form_obs.addRow("BEMF LPF カットオフ:", self.obs_lpf_sb)
+        form_obs.addRow("BEMF LPF cutoff:", self.obs_lpf_sb)
         form_obs.addRow("PLL Kp:",              self.pll_kp_sb)
         form_obs.addRow("PLL Ki:",              self.pll_ki_sb)
         lay.addWidget(grp_obs)
 
-        # ── iq ステップ変化 ───────────────────────────────────────────
-        grp4 = QGroupBox("iq ステップ変化")
+        # ── iq step change ───────────────────────────────────────────
+        grp4 = QGroupBox("iq step change")
         form4 = QFormLayout(grp4)
         form4.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
-        self.step_en_cb   = QCheckBox("iq ステップを有効にする")
+        self.step_en_cb   = QCheckBox("Enable iq step")
         self.step_time_sb = self._dspin(2.0,  0.0,   3600.0, 2, "s")
         self.step_val_sb  = self._dspin(0.0, -5000.0, 5000.0, 1, "A")
         self.step_time_sb.setEnabled(False)
         self.step_val_sb.setEnabled(False)
         self.step_en_cb.stateChanged.connect(self._toggle_step)
         form4.addRow("",               self.step_en_cb)
-        form4.addRow("ステップ時刻:",  self.step_time_sb)
-        form4.addRow("ステップ後 iq:", self.step_val_sb)
+        form4.addRow("Step time:",  self.step_time_sb)
+        form4.addRow("iq after step:", self.step_val_sb)
         lay.addWidget(grp4)
 
-        # ── 実行ファイルパス ──────────────────────────────────────────
-        grp5 = QGroupBox("実行ファイル設定")
+        # ── Executable path ──────────────────────────────────────────
+        grp5 = QGroupBox("Executable settings")
         form5 = QFormLayout(grp5)
         form5.setLabelAlignment(Qt.AlignmentFlag.AlignRight)
         self.exe_edit = QLineEdit()
         self.exe_edit.setText(self._default_exe())
-        browse_btn = QPushButton("参照...")
+        browse_btn = QPushButton("Browse...")
         browse_btn.clicked.connect(self._browse_exe)
         exe_row = QHBoxLayout()
         exe_row.addWidget(self.exe_edit, 1)
@@ -539,7 +539,7 @@ class SettingsTab(QWidget):
 
     def _browse_exe(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "実行ファイルを選択", "", "Executable (*.exe);;All Files (*)"
+            self, "Select executable", "", "Executable (*.exe);;All Files (*)"
         )
         if path:
             self.exe_edit.setText(path)
@@ -605,7 +605,7 @@ class MainWindow(QMainWindow):
         root_layout = QVBoxLayout(central)
         root_layout.setContentsMargins(8, 8, 8, 4)
 
-        # ── ツールバー行 ──────────────────────────────────────────────
+        # ── Toolbar row ──────────────────────────────────────────────
         toolbar_row = QHBoxLayout()
 
         self.run_btn = QPushButton("▶  Simulation Run")
@@ -613,16 +613,16 @@ class MainWindow(QMainWindow):
         self.run_btn.setFixedHeight(34)
         self.run_btn.clicked.connect(self._run_simulation)
 
-        reload_btn = QPushButton("再読込")
+        reload_btn = QPushButton("Reload")
         reload_btn.clicked.connect(self._reload)
 
-        save_png_btn = QPushButton("PNG保存")
+        save_png_btn = QPushButton("Save PNG")
         save_png_btn.clicked.connect(self._save_png)
 
-        csv_btn = QPushButton("CSV読込")
+        csv_btn = QPushButton("Load CSV")
         csv_btn.clicked.connect(self._open_file)
 
-        self.file_label = QLabel("ファイル未選択")
+        self.file_label = QLabel("No file selected")
         self.file_label.setFont(QFont("", 9))
 
         toolbar_row.addWidget(self.run_btn)
@@ -632,13 +632,13 @@ class MainWindow(QMainWindow):
         toolbar_row.addWidget(self.file_label, 1)
         root_layout.addLayout(toolbar_row)
 
-        # 統計情報ラベル
+        # Statistics label
         self.stats_label = QLabel("")
         self.stats_label.setFont(QFont("", 9))
         self.stats_label.setStyleSheet("color:#888888;")
         root_layout.addWidget(self.stats_label)
 
-        # ── タブウィジェット ──────────────────────────────────────────
+        # ── Tab widget ──────────────────────────────────────────
         self.tabs = QTabWidget()
         root_layout.addWidget(self.tabs, 1)
 
@@ -648,16 +648,16 @@ class MainWindow(QMainWindow):
             self.plot_canvases.append(canvas)
             self.tabs.addTab(canvas, group_name)
 
-        self.tabs.addTab(self._build_overview_tab(), "全波形")
+        self.tabs.addTab(self._build_overview_tab(), "All waveforms")
 
         self.pwm_widget = PwmWaveformWidget()
-        self.tabs.addTab(self.pwm_widget, "PWM波形 (三相)")
+        self.tabs.addTab(self.pwm_widget, "PWM waveform (3-phase)")
 
         self.data_table = DataTableWidget()
-        self.tabs.addTab(self.data_table, "データテーブル")
+        self.tabs.addTab(self.data_table, "Data table")
 
         self.settings_tab = SettingsTab()
-        self.tabs.addTab(self.settings_tab, "⚙ 設定")
+        self.tabs.addTab(self.settings_tab, "⚙ Settings")
 
         self.status = QStatusBar()
         self.setStatusBar(self.status)
@@ -695,9 +695,9 @@ class MainWindow(QMainWindow):
                 if col in self.df.columns:
                     ax.plot(time, self.df[col].values, label=label, color=color, linewidth=0.8)
             ax.set_title(group_name, fontsize=9)
-            ax.set_ylabel("値", fontsize=8)
+            ax.set_ylabel("Value", fontsize=8)
             if i == n - 1:
-                ax.set_xlabel("時間 [s]", fontsize=8)
+                ax.set_xlabel("Time [s]", fontsize=8)
             _dark_ax(ax)
             _style_legend(ax.legend(fontsize=7, loc="upper right"))
 
@@ -707,13 +707,13 @@ class MainWindow(QMainWindow):
 
     def _run_simulation(self):
         if self._runner and self._runner.isRunning():
-            self.status.showMessage("シミュレーション実行中です — 完了をお待ちください", 3000)
+            self.status.showMessage("Simulation is running — please wait for it to finish", 3000)
             return
 
         exe = self.settings_tab.exe_path()
         if not os.path.isfile(exe):
             self.status.showMessage(
-                f"実行ファイルが見つかりません: {exe}  (⚙ 設定タブで確認してください)", 7000
+                f"Executable not found: {exe}  (check the ⚙ Settings tab)", 7000
             )
             return
 
@@ -722,7 +722,7 @@ class MainWindow(QMainWindow):
         args     = self.settings_tab.build_args()
 
         self.run_btn.setEnabled(False)
-        self.run_btn.setText("⏳ 実行中...")
+        self.run_btn.setText("⏳ Running...")
 
         self._runner = SimRunner(exe, args, csv_path, work_dir)
         self._runner.log.connect(lambda msg: self.status.showMessage(msg))
@@ -732,12 +732,12 @@ class MainWindow(QMainWindow):
 
     def _on_sim_finished(self, csv_path: str):
         self._reset_run_btn()
-        self.status.showMessage("完了 — CSV 読み込み中...", 1000)
+        self.status.showMessage("Done — loading CSV...", 1000)
         self._load_csv(csv_path)
 
     def _on_sim_error(self, msg: str):
         self._reset_run_btn()
-        self.status.showMessage(f"エラー: {msg.splitlines()[0][:120]}", 10_000)
+        self.status.showMessage(f"Error: {msg.splitlines()[0][:120]}", 10_000)
 
     def _reset_run_btn(self):
         self.run_btn.setEnabled(True)
@@ -755,7 +755,7 @@ class MainWindow(QMainWindow):
 
     def _open_file(self):
         path, _ = QFileDialog.getOpenFileName(
-            self, "sim_output.csv を選択", "", "CSV Files (*.csv);;All Files (*)"
+            self, "Select sim_output.csv", "", "CSV Files (*.csv);;All Files (*)"
         )
         if path:
             self._load_csv(path)
@@ -769,7 +769,7 @@ class MainWindow(QMainWindow):
             df = pd.read_csv(path)
             missing = [c for c in REQUIRED_COLUMNS if c not in df.columns]
             if missing:
-                self.status.showMessage(f"列が見つかりません: {missing}", 5000)
+                self.status.showMessage(f"Columns not found: {missing}", 5000)
                 return
             available = [c for c in ALL_COLUMNS if c in df.columns]
             self.df = df[available].copy()
@@ -785,11 +785,11 @@ class MainWindow(QMainWindow):
             total_time = rows * RESOLUTION
             duty_u_val = self.df["DutyU_pct"].iloc[-1] if "DutyU_pct" in self.df.columns else float("nan")
             vu_val     = self.df["Vu"].iloc[-1]         if "Vu" in self.df.columns         else float("nan")
-            duty_str = f"  |  U相 duty: {duty_u_val:.1f} %" if not pd.isna(duty_u_val) else ""
-            vu_str   = f"  |  U相電圧 Vu: {vu_val:.2f} V"   if not pd.isna(vu_val)     else ""
+            duty_str = f"  |  U-phase duty: {duty_u_val:.1f} %" if not pd.isna(duty_u_val) else ""
+            vu_str   = f"  |  U-phase voltage Vu: {vu_val:.2f} V"   if not pd.isna(vu_val)     else ""
             self.stats_label.setText(
-                f"行数: {rows:,}  |  計算時間: {total_time:.4f} s  |  "
-                f"ステップ: {RESOLUTION * 1e6:.0f} μs{duty_str}{vu_str}"
+                f"Rows: {rows:,}  |  Computation time: {total_time:.4f} s  |  "
+                f"Step: {RESOLUTION * 1e6:.0f} μs{duty_str}{vu_str}"
             )
 
             for canvas in self.plot_canvases:
@@ -804,25 +804,25 @@ class MainWindow(QMainWindow):
                     df_pwm = pd.read_csv(pwm_path)
                     self.pwm_widget.load_data(df_pwm)
                     self.status.showMessage(
-                        f"読込完了: {os.path.basename(path)}  (PWM波形: {len(df_pwm):,} 行)", 4000)
+                        f"Loaded: {os.path.basename(path)}  (PWM waveform: {len(df_pwm):,} rows)", 4000)
                 except Exception as e_pwm:
                     self.status.showMessage(
-                        f"読込完了: {os.path.basename(path)}  (PWM CSVエラー: {e_pwm})", 6000)
+                        f"Loaded: {os.path.basename(path)}  (PWM CSV error: {e_pwm})", 6000)
             else:
-                self.status.showMessage(f"読込完了: {os.path.basename(path)}", 3000)
+                self.status.showMessage(f"Loaded: {os.path.basename(path)}", 3000)
 
         except Exception as e:
-            self.status.showMessage(f"読込エラー: {e}", 8000)
+            self.status.showMessage(f"Load error: {e}", 8000)
 
-    # ── PNG保存 ───────────────────────────────────────────────────────────────
+    # ── Save PNG ───────────────────────────────────────────────────────────────
 
     def _save_png(self):
         if self.df is None:
-            self.status.showMessage("データが読み込まれていません", 4000)
+            self.status.showMessage("No data has been loaded", 4000)
             return
 
         path, _ = QFileDialog.getSaveFileName(
-            self, "PNG保存先を選択", "sim_output.png", "PNG Files (*.png)"
+            self, "Select PNG save location", "sim_output.png", "PNG Files (*.png)"
         )
         if not path:
             return
@@ -843,7 +843,7 @@ class MainWindow(QMainWindow):
                                 linewidth=0.8, marker=".", markersize=1.5,
                                 markevery=max(1, len(self.df) // 500))
                 ax.set_title(group_name, fontsize=9, color="white")
-                ax.set_ylabel("値", fontsize=8, color="white")
+                ax.set_ylabel("Value", fontsize=8, color="white")
                 ax.tick_params(colors="white", labelsize=7)
                 ax.grid(True, alpha=0.25, color="gray")
                 ax.legend(fontsize=7, loc="upper right",
@@ -851,7 +851,7 @@ class MainWindow(QMainWindow):
                 for spine in ax.spines.values():
                     spine.set_edgecolor("gray")
                 if i == n - 1:
-                    ax.set_xlabel("時間 [s]", fontsize=8, color="white")
+                    ax.set_xlabel("Time [s]", fontsize=8, color="white")
 
             fig.tight_layout(rect=[0, 0, 1, 0.97])
             fig.suptitle("BrushlessDCMotor Simulation Output (Sensorless)", fontsize=11,
@@ -859,7 +859,7 @@ class MainWindow(QMainWindow):
             fig.savefig(path, dpi=150, bbox_inches="tight", facecolor=fig.get_facecolor())
             plt.close(fig)
 
-        self.status.showMessage(f"PNG保存完了: {path}", 4000)
+        self.status.showMessage(f"PNG saved: {path}", 4000)
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────

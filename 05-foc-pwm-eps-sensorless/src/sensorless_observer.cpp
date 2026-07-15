@@ -1,11 +1,12 @@
 // =============================================================================
-//  sensorless_observer.cpp  —  センサーレス角度推定器 — 実装
+//  sensorless_observer.cpp  —  sensorless angle estimator — implementation
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 05-foc-pwm-eps-sensorless
-//  αβ 座標系で誘起電圧を推定し、LPF で平滑化したのち PLL で角度・速度に
-//  ロックする。LPF の位相遅れは get_angle_deg() で補償する。
+//  Project     : bldc-foc-sim / 05-foc-pwm-eps-sensorless
+//  Estimates the back-EMF in the alpha-beta frame, smooths it with an LPF, and
+//  then locks onto the angle and speed with a PLL.  The LPF phase lag is
+//  compensated in get_angle_deg().
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include "sensorless_observer.hpp"

@@ -1,10 +1,11 @@
-site_name: bldc-foc-sim 理論ドキュメント
-site_description: 三相ブラシレスモータ FOC / EPS シミュレーション教材
+site_name: bldc-foc-sim Theory Documentation
+site_description: Educational material for three-phase brushless motor FOC / EPS simulation
 
-docs_dir: docs
+# English site (default). For the Japanese site, build with: mkdocs build -f mkdocs.ja.yml
+docs_dir: docs_en
 theme:
   name: material
-  language: ja
+  language: en
   features:
     - navigation.tabs
     - navigation.sections
@@ -25,8 +26,9 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
-      # 見出しの日本語を保持した GitHub 互換スラッグを生成する。既定の slugify は
-      # 非 ASCII を除去して `#4` のようになり、日本語アンカーへのリンクが壊れるため。
+      # Generate GitHub-compatible slugs that preserve heading text. The default
+      # slugify strips non-ASCII characters (relevant for the Japanese site); we
+      # keep the same configuration here for parity between the two language builds.
       slugify: !!python/object/apply:pymdownx.slugs.slugify
         kwds:
           case: lower
@@ -38,17 +40,17 @@ extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 nav:
-  - ホーム: index.md
-  - 理論ドキュメント:
-    - モータモデル (電気・機械方程式): theory/motor-model.md
-    - 座標変換 (Clarke / Park): theory/coordinate-transform.md
-    - ベクトル制御 (FOC): theory/foc.md
-    - PI ゲイン設計 (極配置): theory/pi-tuning.md
-    - PWM インバータ・中点変調: theory/pwm-inverter.md
-    - センサーレス制御: theory/sensorless.md
-    - 電動パワーステアリング (EPS): theory/eps.md
-    - 機能安全 (HARA / ISO 26262): theory/functional-safety.md
-    - 波形差の解析 (A/B 型・センサーレス): theory/waveform-analysis.md
-  - 数式導出: derivations.md
-  - 用語集: glossary.md
-  - 参考文献: references.md
+  - Home: index.md
+  - Theory:
+    - Motor Model (Electrical & Mechanical Equations): theory/motor-model.md
+    - Coordinate Transforms (Clarke / Park): theory/coordinate-transform.md
+    - Field-Oriented Control (FOC): theory/foc.md
+    - PI Gain Design (Pole Placement): theory/pi-tuning.md
+    - PWM Inverter & Midpoint Modulation: theory/pwm-inverter.md
+    - Sensorless Control: theory/sensorless.md
+    - Electric Power Steering (EPS): theory/eps.md
+    - Functional Safety (HARA / ISO 26262): theory/functional-safety.md
+    - Waveform Difference Analysis (Type A/B & Sensorless): theory/waveform-analysis.md
+  - Derivations: derivations.md
+  - Glossary: glossary.md
+  - References: references.md

@@ -43,22 +43,22 @@ t = np.arange(len(df)) * 0.00025
 fig, axes = plt.subplots(2, 1, figsize=(10, 7), tight_layout=True, facecolor=_BG)
 
 ax = axes[0]
-ax.plot(t, df['iq'], color='#e67e22', label='q軸電流 iq [A]', linewidth=1.2)
-ax.plot(t, df['id'], color='#9b59b6', label='d軸電流 id [A]', linewidth=1.2)
-ax.axhline(85.0, color='#888888', linestyle='--', linewidth=0.8, label='iq目標値 85A')
-ax.set_title('dq軸電流  (Tload=4.3 Nm, iq*=85 A)')
-ax.set_xlabel('時間 [s]')
-ax.set_ylabel('電流 [A]')
+ax.plot(t, df['iq'], color='#e67e22', label='q-axis current iq [A]', linewidth=1.2)
+ax.plot(t, df['id'], color='#9b59b6', label='d-axis current id [A]', linewidth=1.2)
+ax.axhline(85.0, color='#888888', linestyle='--', linewidth=0.8, label='iq target 85A')
+ax.set_title('dq-axis current  (Tload=4.3 Nm, iq*=85 A)')
+ax.set_xlabel('time [s]')
+ax.set_ylabel('current [A]')
 _dark_ax(ax)
 _style_legend(ax.legend())
 ax.set_xlim(0, 5)
 
 ax2 = axes[1]
-ax2.plot(t, df['Te'], color='#e74c3c', label='電磁トルク Te [Nm]', linewidth=1.2)
-ax2.plot(t, df['Tm'], color='#3498db', label='機械トルク Tm [Nm]', linewidth=1.2)
-ax2.set_title('トルク')
-ax2.set_xlabel('時間 [s]')
-ax2.set_ylabel('トルク [Nm]')
+ax2.plot(t, df['Te'], color='#e74c3c', label='electromagnetic torque Te [Nm]', linewidth=1.2)
+ax2.plot(t, df['Tm'], color='#3498db', label='mechanical torque Tm [Nm]', linewidth=1.2)
+ax2.set_title('torque')
+ax2.set_xlabel('time [s]')
+ax2.set_ylabel('torque [Nm]')
 _dark_ax(ax2)
 _style_legend(ax2.legend())
 ax2.set_xlim(0, 5)
@@ -71,13 +71,13 @@ checkpoints = [
     (0,     't=0ms'),
     (40,    't=10ms'),
     (100,   't=25ms'),
-    (332,   't=83ms (omega転換)'),
+    (332,   't=83ms (omega reversal)'),
     (1000,  't=250ms'),
     (4000,  't=1s'),
-    (19999, 't=5s (定常)'),
+    (19999, 't=5s (steady state)'),
 ]
 print()
-print('=== 過渡応答サマリ (Tload=4.3 Nm) ===')
+print('=== Transient response summary (Tload=4.3 Nm) ===')
 for step, label in checkpoints:
     if step < len(df):
         row = df.iloc[step]

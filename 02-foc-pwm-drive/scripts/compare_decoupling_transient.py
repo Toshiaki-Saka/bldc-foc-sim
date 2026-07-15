@@ -1,41 +1,40 @@
 """
 compare_decoupling_transient.py
 ================================
-dq 軸非干渉制御 (decoupling control) の効果を「過渡応答」で比較するツール。
+Tool to compare the effect of dq-axis decoupling control via the "transient response".
 
-非干渉制御は dq 軸間の干渉項 (omega_e * L * i) を打ち消す制御である。
-干渉項は定常状態 (とくに id ≈ 0) ではほとんど顔を出さないため、
-steady-state を見るだけでは効果がほぼ見えない。
+Decoupling control cancels the cross-coupling term (omega_e * L * i) between the
+dq axes. Because the coupling term barely appears in steady state (especially at
+id ~ 0), its effect is almost invisible if you only look at the steady state.
 
-そこで本スクリプトは `--iq_step` オプションを使い、シミュレーション途中で
-q 軸電流指令をステップ的に変化させて「過渡」を強制的に発生させる。
-その過渡区間を decoupling ON / OFF で重ね描きすることで、
+This script therefore uses the `--iq_step` option to force a "transient" by
+stepping the q-axis current reference partway through the simulation. By
+overlaying that transient region for decoupling ON / OFF, it visualizes how the
+following change:
 
-  - q 軸電流 iq の整定の速さ・オーバーシュート
-  - d 軸電流 id への漏れ込み (cross-coupling = 軸間干渉そのもの)
-  - 電磁トルク Te の乱れ
+  - the settling speed / overshoot of the q-axis current iq
+  - the leakage into the d-axis current id (cross-coupling = the axis coupling itself)
+  - the disturbance in the electromagnetic torque Te
 
-がどう変わるかを可視化する。
-
-使い方:
+Usage:
     python scripts/compare_decoupling_transient.py
     python scripts/compare_decoupling_transient.py --span 1.0 --step_time 0.5 \
         --iq_before 85 --iq_after 30
     python scripts/compare_decoupling_transient.py --no-show
 
-CLI 引数:
-    --exe        PATH  実行ファイルのパス (既定: BrushlessDCMotor を自動探索)
-    --span       SEC   シミュレーション時間 [s]            (既定 1.0)
-    --step_time  SEC   q 軸指令をステップさせる時刻 [s]     (既定 0.5)
-    --iq_before  A     ステップ前の q 軸電流指令 [A]        (既定 85)
-    --iq_after   A     ステップ後の q 軸電流指令 [A]        (既定 30)
-    --tload      NM    負荷トルク [Nm]                      (既定 4.3)
-    --out        PATH  グラフ画像の保存先
-    --no-show          画面表示せず画像保存のみ
+CLI arguments:
+    --exe        PATH  path to the executable (default: auto-detect BrushlessDCMotor)
+    --span       SEC   simulation time [s]                        (default 1.0)
+    --step_time  SEC   time at which the q-axis reference steps [s] (default 0.5)
+    --iq_before  A     q-axis current reference before the step [A]  (default 85)
+    --iq_after   A     q-axis current reference after the step [A]   (default 30)
+    --tload      NM    load torque [Nm]                           (default 4.3)
+    --out        PATH  output path for the figure image
+    --no-show          save the image only, without opening a window
 
-注意:
-    このスクリプトは実行ファイルが `--iq_step <time> <iq>` および
-    `--decoupling` オプションに対応していることを前提とする。
+Note:
+    This script assumes the executable supports the `--iq_step <time> <iq>` and
+    `--decoupling` options.
 """
 
 import argparse
@@ -50,13 +49,13 @@ import matplotlib.pyplot as plt
 
 RESOLUTION = 0.00025  # 250 us / step
 
-# 比較する 2 条件: (ラベル, decoupling フラグ, 色)
+# The 2 conditions to compare: (label, decoupling flag, color)
 CONDITIONS = [
     ("decoupling OFF", False, "#c0392b"),
     ("decoupling ON",  True,  "#27ae60"),
 ]
 
-# 表示する波形: (CSV列名, タイトル, y軸ラベル)
+# Waveforms to display: (CSV column name, title, y-axis label)
 SIGNALS = [
     ("iq", "q-axis current  (reference tracking)", "iq [A]"),
     ("id", "d-axis current  (cross-coupling leakage)", "id [A]"),
@@ -66,7 +65,7 @@ SIGNALS = [
 
 
 def find_executable() -> str:
-    """ビルド済み実行ファイルを探索する。"""
+    """Search for the built executable."""
     candidates = [
         "./BrushlessDCMotor",
         "./BrushlessDCMotor.exe",
@@ -83,7 +82,7 @@ def find_executable() -> str:
 
 
 def run_simulation(exe, span, tload, step_time, iq_before, iq_after, decoupling):
-    """1 条件分のシミュレーションを実行し、CSV を列ごとの配列で返す。"""
+    """Run the simulation for one condition and return the CSV as per-column arrays."""
     tmp = tempfile.NamedTemporaryFile(suffix=".csv", delete=False)
     tmp.close()
     csv_path = tmp.name
@@ -150,7 +149,7 @@ def main():
           f"step at t = {args.step_time} s   (span {args.span} s, tload {args.tload} Nm)")
     print()
 
-    # decoupling OFF / ON の 2 条件を実行
+    # Run the 2 conditions: decoupling OFF / ON
     runs = []
     for label, decoupling, color in CONDITIONS:
         data = run_simulation(
@@ -161,7 +160,7 @@ def main():
         runs.append((label, color, data))
         print(f"  [{label}] simulation done ({len(data.get('iq', []))} steps)")
 
-    # 波形を 2x2 で重ね描き
+    # Overlay the waveforms in a 2x2 grid
     fig, axes = plt.subplots(2, 2, figsize=(13, 8))
     axes = axes.ravel()
 
@@ -172,7 +171,7 @@ def main():
             y = data[col]
             t = [i * RESOLUTION for i in range(len(y))]
             ax.plot(t, y, label=label, color=color, lw=1.4)
-        # ステップ時刻に縦線
+        # Vertical line at the step time
         ax.axvline(args.step_time, color="#34495e", ls="--", lw=1,
                    alpha=0.7, label=f"step @ {args.step_time}s")
         ax.set_title(title)

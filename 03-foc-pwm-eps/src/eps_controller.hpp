@@ -1,12 +1,12 @@
 #pragma once
 // =============================================================================
-//  eps_controller.hpp  —  EPS アシスト制御 — 宣言
+//  eps_controller.hpp  —  EPS assist control — declarations
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  操舵トルクから q 軸電流指令を生成するアシストマップ (V カーブ) を
-//  表現するクラスを宣言する。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Declares the class representing the assist map (V-curve) that generates the
+//  q-axis current command from the steering torque.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 struct EpsControllerConfig {

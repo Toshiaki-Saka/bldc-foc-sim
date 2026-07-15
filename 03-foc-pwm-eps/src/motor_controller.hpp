@@ -1,13 +1,14 @@
 #pragma once
 // =============================================================================
-//  motor_controller.hpp  —  FOC コントローラ・PI 制御器 — 宣言
+//  motor_controller.hpp  —  FOC controller / PI controller — declarations
 // -----------------------------------------------------------------------------
-//  プロジェクト : bldc-foc-sim / 03-foc-pwm-eps
-//  dq 軸 PI 制御器 (PidController) と、それらを束ねて三相電圧指令を
-//  生成する FOC コントローラ (MotorController) を宣言する。
-//  中点変調・dq 軸非干渉制御は実行時フラグで切り替え可能。
+//  Project     : bldc-foc-sim / 03-foc-pwm-eps
+//  Declares the dq-axis PI controllers (PidController) and the FOC controller
+//  (MotorController) that bundles them to generate the three-phase voltage
+//  command. Midpoint modulation and dq-axis decoupling can be switched via
+//  run-time flags.
 //
-//  ライセンス   : MIT (リポジトリの LICENSE を参照)
+//  License     : MIT (see LICENSE at repo root)
 // =============================================================================
 
 #include <Eigen/Dense>
