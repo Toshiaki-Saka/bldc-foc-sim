@@ -38,7 +38,7 @@ $$
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
   1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
+  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 \begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
 $$
@@ -83,11 +83,11 @@ $$
 k^2
 \begin{bmatrix}
   1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
+  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 \begin{bmatrix}
   1             & 0                   \cr
-  -\dfrac{1}{2} & \phantom{-}\dfrac{\sqrt{3}}{2} \cr
+  -\dfrac{1}{2} & \dfrac{\sqrt{3}}{2} \cr
   -\dfrac{1}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 = k^2
@@ -111,7 +111,7 @@ $$
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
   1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
+  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 $$
 
@@ -343,8 +343,8 @@ $$
 \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 = \sqrt{\frac{3}{2}} \cdot \frac{1}{-\dfrac{\sqrt{3}}{2}}
 \begin{bmatrix}
-  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \cr
-  \phantom{-}\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
+  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr
+  \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_d \cr i_q \end{bmatrix}
 $$
@@ -364,8 +364,8 @@ $$
 \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 = -\sqrt{2}
 \begin{bmatrix}
-  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \cr
-  \phantom{-}\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
+  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr
+  \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_d \cr i_q \end{bmatrix}
 }
