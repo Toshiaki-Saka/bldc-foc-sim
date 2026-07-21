@@ -32,7 +32,7 @@ The 5 % margin is for the **dead time**. Turning ON the upper and lower arm FETs
 | `01`/`02` ideal voltage source (A-type) | Apply the PI output directly | None (unlimited) | Pure understanding of the FOC loop |
 | `03` and later, PWM (B-type) | Convert the PI output into a duty cycle | Yes (limited by $V_{dc}$) | Educational material closer to a real ECU |
 
-The A-type and B-type agree completely in $i_q$, $T_e$, and $\omega$ from startup until $t \approx 0.59\,\mathrm{s}$. A difference appears only after $\omega$ has risen sufficiently.
+The A-type and B-type agree completely in $i_q$, $T_e$, and $\omega$ from startup until $t \approx 0.59\thinspace \mathrm{s}$. A difference appears only after $\omega$ has risen sufficiently.
 
 ---
 
@@ -46,7 +46,7 @@ $$
 
 As the motor rotates, the back-EMF $K_e \omega_m$ grows, and once it reaches the upper limit of the applicable voltage, no more $i_q$ can be driven. As a result, the rotational speed hits a ceiling. This is a realistic behavior specific to the PWM drive model.
 
-Because the A-type is an ideal voltage source with no upper limit, $\omega$ continues to rise further. Measured ($t = 5\,\mathrm{s}$): $\omega$ goes from 144.8 → 132.1 rad/s (about 9 % drop), and $i_q$ from 85.0 → 84.6 A.
+Because the A-type is an ideal voltage source with no upper limit, $\omega$ continues to rise further. Measured ($t = 5\thinspace \mathrm{s}$): $\omega$ goes from 144.8 → 132.1 rad/s (about 9 % drop), and $i_q$ from 85.0 → 84.6 A.
 
 ---
 
@@ -70,7 +70,7 @@ $$
 - The phase-voltage peak is lowered → for the same $V_{dc}$, the fundamental amplitude can be extended by a factor of $\dfrac{2}{\sqrt{3}} \approx 1.155$ (about 15.5%)
 - As a result, the rotational speed and current that were capped by voltage saturation improve
 
-Measured example (`02` model, $i_q^* = 85\,\mathrm{A}$):
+Measured example (`02` model, $i_q^{\ast} = 85\thinspace \mathrm{A}$):
 
 | Condition | $v_{rms}$ | $\omega$ steady-state value | $i_q$ steady-state value |
 |------|-----------|-----------------|--------------|
@@ -90,39 +90,39 @@ When run with `--iq_ref 85`, the steady-state current stays at about **84.62 A**
 The PWM duty conversion in `motor_controller.cpp` computes $v_{\text{peak}}$ from the q-axis current command in a fixed manner.
 
 $$
-\text{duty} = \text{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\, 0,\, 1\right) \times k_{\text{PwmMaxDuty}}
+\text{duty} = \text{clamp}\negthinspace \left(\frac{|i_q^{\ast}|}{k_{\text{PwmMaxAmp}}},\thinspace  0,\thinspace  1\right) \times k_{\text{PwmMaxDuty}}
 $$
 
 $$
 v_{\text{peak}} = \text{duty} \times \frac{V_{dc}}{2}
 $$
 
-Substituting the default parameters ($i_q^* = 85\,\mathrm{A}$, $k_{\text{PwmMaxAmp}} = 125\,\mathrm{A}$, $k_{\text{PwmMaxDuty}} = 0.95$, $V_{dc} = 48\,\mathrm{V}$):
+Substituting the default parameters ($i_q^{\ast} = 85\thinspace \mathrm{A}$, $k_{\text{PwmMaxAmp}} = 125\thinspace \mathrm{A}$, $k_{\text{PwmMaxDuty}} = 0.95$, $V_{dc} = 48\thinspace \mathrm{V}$):
 
 $$
-v_{\text{peak}} = \frac{85}{125} \times 0.95 \times \frac{48}{2} = 15.504\,\mathrm{V}
+v_{\text{peak}} = \frac{85}{125} \times 0.95 \times \frac{48}{2} = 15.504\thinspace \mathrm{V}
 $$
 
 On the other hand, driving 85 A in steady state requires a q-axis voltage that includes the back-EMF.
 
 $$
-v_{q,\text{required}} = R i_q + K_e \omega_{ss} = 0.1 \times 85 + 0.0533 \times 144.8 \approx 8.50 + 7.72 = 16.22\,\mathrm{V}
+v_{q,\text{required}} = R i_q + K_e \omega_{ss} = 0.1 \times 85 + 0.0533 \times 144.8 \approx 8.50 + 7.72 = 16.22\thinspace \mathrm{V}
 $$
 
-Because $v_{q,\text{required}} (16.22\,\mathrm{V}) > v_{\text{peak}} (15.504\,\mathrm{V})$, the PI output is clamped and the current does not reach the commanded value.
+Because $v_{q,\text{required}} (16.22\thinspace \mathrm{V}) > v_{\text{peak}} (15.504\thinspace \mathrm{V})$, the PI output is clamped and the current does not reach the commanded value.
 
 ### Confirming the Steady-State Settling Point
 
 Since the condition for a steady state to hold after clamping is $v_q = v_{\text{peak}}$:
 
 $$
-R i_{q,ss} + K_e \omega_{ss} = 15.504\,\mathrm{V}
+R i_{q,ss} + K_e \omega_{ss} = 15.504\thinspace \mathrm{V}
 $$
 
-Verifying with the CSV data ($i_{q,ss} \approx 84.62\,\mathrm{A}$, $\omega_{ss} \approx 132.1\,\mathrm{rad/s}$):
+Verifying with the CSV data ($i_{q,ss} \approx 84.62\thinspace \mathrm{A}$, $\omega_{ss} \approx 132.1\thinspace \mathrm{rad/s}$):
 
 $$
-0.1 \times 84.62 + 0.0533 \times 132.1 = 8.46 + 7.04 = 15.50\,\mathrm{V} \checkmark
+0.1 \times 84.62 + 0.0533 \times 132.1 = 8.46 + 7.04 = 15.50\thinspace \mathrm{V} \checkmark
 $$
 
 This matches $v_{\text{peak}}$ exactly, confirming that voltage clamping is the cause.
@@ -142,7 +142,7 @@ This matches $v_{\text{peak}}$ exactly, confirming that voltage clamping is the 
 In `motor_controller.cpp`, the PWM duty cycle is linearly converted from the q-axis current command.
 
 $$
-v_{\text{peak}} = \text{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\, 0,\, 1\right) \times k_{\text{PwmMaxDuty}} \times \frac{V_{dc}}{2} \times \begin{cases} \frac{2}{\sqrt{3}} & \text{(midpoint modulation ON)} \\ 1 & \text{(midpoint modulation OFF)} \end{cases}
+v_{\text{peak}} = \text{clamp}\negthinspace \left(\frac{|i_q^{\ast}|}{k_{\text{PwmMaxAmp}}},\thinspace  0,\thinspace  1\right) \times k_{\text{PwmMaxDuty}} \times \frac{V_{dc}}{2} \times \begin{cases} \frac{2}{\sqrt{3}} & \text{(midpoint modulation ON)} \cr 1 & \text{(midpoint modulation OFF)} \end{cases}
 $$
 
 `kPwmMaxAmp` is the current corresponding to the maximum duty, and `kPwmMaxDuty` is the upper limit of the duty cycle (95 %).

@@ -50,8 +50,8 @@ $$
 
 **Discretization procedure:**
 
-1. Three-phase → αβ transform: $i_{\alpha\beta} = \texttt{uvw\_to\_alphabeta}(i_{uvw})$, $v_{\alpha\beta} = \texttt{uvw\_to\_alphabeta}(v_{uvw})$
-2. Apply the above equations on each axis to compute $e_\alpha,\, e_\beta$
+1. Three-phase → αβ transform: $i_{\alpha\beta} =$ `uvw_to_alphabeta`$(i_{uvw})$, $v_{\alpha\beta} =$ `uvw_to_alphabeta`$(v_{uvw})$
+2. Apply the above equations on each axis to compute $e_\alpha,\thinspace  e_\beta$
 
 ### 3.2 Delay Compensation of the Discrete Derivative
 
@@ -65,7 +65,7 @@ $$
 e_{\alpha,\text{filt}} \mathrel{+}= (e_\alpha - e_{\alpha,\text{filt}}) \cdot \alpha_{\text{lpf}}, \qquad \alpha_{\text{lpf}} = 1 - e^{-\omega_c dt}
 $$
 
-The cutoff in this code is $\omega_c = 2000\,\mathrm{rad/s}$ (about 318 Hz). The LPF reduces noise at the cost of estimation delay (a trade-off).
+The cutoff in this code is $\omega_c = 2000\thinspace \mathrm{rad/s}$ (about 318 Hz). The LPF reduces noise at the cost of estimation delay (a trade-off).
 
 ### 3.4 Back-EMF Convention and Angle Recovery
 
@@ -75,7 +75,7 @@ $$
 e_\alpha = \frac{\sqrt{2}}{2} K_e \omega \sin\theta, \qquad e_\beta = \frac{\sqrt{2}}{2} K_e \omega \cos\theta
 $$
 
-With this convention, the angle can be recovered as $\theta = \mathrm{atan2}(e_\alpha,\, e_\beta)$. However, directly taking ATAN2 causes the angle to jump due to noise, so the PLL of the next section is used.
+With this convention, the angle can be recovered as $\theta = \mathrm{atan2}(e_\alpha,\thinspace  e_\beta)$. However, directly taking ATAN2 causes the angle to jump due to noise, so the PLL of the next section is used.
 
 ---
 
@@ -108,7 +108,7 @@ $$
 \hat{\theta} \mathrel{+}= \hat{\omega} \cdot dt \quad \text{(angle update)}
 $$
 
-Finally, $\hat{\theta}$ is wrapped back into $[0,\, 2\pi)$.
+Finally, $\hat{\theta}$ is wrapped back into $[0,\thinspace  2\pi)$.
 
 ### 4.3 PLL Gains and Bandwidth
 
@@ -118,7 +118,7 @@ The values set in this code:
 |-----------|-----|------|
 | $K_{p,\text{pll}}$ | 500 [rad/s/V] | Proportional gain |
 | $K_{i,\text{pll}}$ | 100000 [rad/s²/V] | Integral gain |
-| PLL bandwidth | $\approx \sqrt{K_{i,\text{pll}}} \approx 316\,\mathrm{rad/s}$ (about 50 Hz) | |
+| PLL bandwidth | $\approx \sqrt{K_{i,\text{pll}}} \approx 316\thinspace \mathrm{rad/s}$ (about 50 Hz) | |
 
 The PLL bandwidth is set sufficiently lower than the LPF cutoff (2000 rad/s) so that it stably tracks the filtered back-EMF.
 
@@ -127,7 +127,7 @@ The PLL bandwidth is set sufficiently lower than the LPF cutoff (2000 rad/s) so 
 The LPF delays a signal at electrical angular speed $\omega_e$ by
 
 $$
-\varphi = \arctan\!\left(\frac{\omega_e}{\omega_c}\right)
+\varphi = \arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
 Because the back-EMF is delayed by this amount, the estimated angle lags the true angle by $\varphi$. `get_angle_deg()` compensates for this phase lag by adding $+\varphi$, keeping the steady-state angle error small.
@@ -139,10 +139,10 @@ Because the back-EMF is delayed by this amount, the estimated angle lags the tru
 In the 005 model, the dq transform uses the estimated angle $\hat{\theta}$ rather than the true electrical angle. Because of the LPF phase lag, an angle deviation of
 
 $$
-\Delta\theta \approx -\arctan\!\left(\frac{\omega_e}{\omega_c}\right)
+\Delta\theta \approx -\arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
-remains even in steady state. For example, at $\omega_e = 100\,\mathrm{rad/s}$, $\Delta\theta \approx -2.86°$.
+remains even in steady state. For example, at $\omega_e = 100\thinspace \mathrm{rad/s}$, $\Delta\theta \approx -2.86°$.
 
 Due to this $\Delta\theta$, the dq axes controlled by the PI are slightly rotated from the "true dq axes," and the current is decomposed as follows.
 
@@ -154,14 +154,14 @@ $$
 i_d^{\text{true}} = i_q^{\text{est}} \sin(\Delta\theta) + i_d^{\text{est}} \cos(\Delta\theta)
 $$
 
-Because the PI control makes $i_q^{\text{est}} = 85\,\mathrm{A}$ and $i_d^{\text{est}} = 0$ track their references, when $\Delta\theta = 2.86°$:
+Because the PI control makes $i_q^{\text{est}} = 85\thinspace \mathrm{A}$ and $i_d^{\text{est}} = 0$ track their references, when $\Delta\theta = 2.86°$:
 
 $$
-i_q^{\text{true}} \approx 85 \times \cos(2.86°) \approx 84.89\,\mathrm{A} \quad \text{(about 0.12 \% drop)}
+i_q^{\text{true}} \approx 85 \times \cos(2.86°) \approx 84.89\thinspace \mathrm{A} \quad \text{(about 0.12 ％ drop)}
 $$
 
 $$
-i_d^{\text{true}} \approx 85 \times \sin(2.86°) \approx 4.24\,\mathrm{A} \quad \text{(leaks, though it should be 0)}
+i_d^{\text{true}} \approx 85 \times \sin(2.86°) \approx 4.24\thinspace \mathrm{A} \quad \text{(leaks, though it should be 0)}
 $$
 
 Raising the LPF cutoff $\omega_c$ reduces $\Delta\theta$, but there is a trade-off in that noise sensitivity worsens.

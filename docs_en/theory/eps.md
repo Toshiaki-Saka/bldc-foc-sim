@@ -30,16 +30,16 @@ This simulation targets a **three-phase BLDC motor of the 48 V class with a maxi
 | Torque constant / back-EMF constant $K_t = K_e$ | 0.0533 | Nm/A, V·s/rad |
 | Phase resistance / inductance $R$ / $L$ | 0.1 Ω / 0.1 mH | — |
 | Number of pole pairs $P_n$ | 4 | — |
-| Steady-state operating point (default load) | $T_e \approx 4.5\,\mathrm{Nm}$, $\omega_m \approx 145\,\mathrm{rad/s}$ | Mechanical output $\approx 650\,\mathrm{W}$ |
+| Steady-state operating point (default load) | $T_e \approx 4.5\thinspace \mathrm{Nm}$, $\omega_m \approx 145\thinspace \mathrm{rad/s}$ | Mechanical output $\approx 650\thinspace \mathrm{W}$ |
 
 **Positioning as an EPS application:**
 
 - Since the EPS assist motor requires low cogging torque, quietness, and high power density, a **three-phase brushless DC (BLDC) motor** is nowadays used as standard[^bldc].
 - The **rack-assist type**, which couples the motor directly to the rack axis, can deliver a larger assist force than the column type, so it is adopted for heavy vehicles with high front-axle loads[^rack]. In this high-output application, a higher voltage system (such as the 48 V of this code) is advantageous over the 12 V system common in the column type.
-- Each physical parameter in this code ($V_{dc} = 48\,\mathrm{V}$, $R$, $L$, $K_t$, $K_e$, $P_n$) is set based on the product datasheet of a 48 V-class BLDC motor (ATO 110WDM06020-48V)[^ato].
+- Each physical parameter in this code ($V_{dc} = 48\thinspace \mathrm{V}$, $R$, $L$, $K_t$, $K_e$, $P_n$) is set based on the product datasheet of a 48 V-class BLDC motor (ATO 110WDM06020-48V)[^ato].
 
 > **Note — Difference from "1 kW-class 12 V EPS"**
-> Real-vehicle column-type EPS is commonly a 12 V system in the several-tens-to-80 A class (equivalent to $12\,\mathrm{V} \times 85\,\mathrm{A} \approx 1\,\mathrm{kW}$). This simulation handles the same 85 A-class current, but adopts **48 V** for the voltage system to match the product datasheet, so it corresponds to a higher-output rack-assist EPS.
+> Real-vehicle column-type EPS is commonly a 12 V system in the several-tens-to-80 A class (equivalent to $12\thinspace \mathrm{V} \times 85\thinspace \mathrm{A} \approx 1\thinspace \mathrm{kW}$). This simulation handles the same 85 A-class current, but adopts **48 V** for the voltage system to match the product datasheet, so it corresponds to a higher-output rack-assist EPS.
 
 [^ato]: ATO 110WDM06020-48V brushless DC motor datasheet (see [`../references.md`](../references.md) §2).
 [^bldc]: Three-phase brushless motors are used for EPS motors. ABLIC "Automotive Electric Power Steering Motors (EPS Motors)" <https://www.ablic.com/en/semicon/applications/electric-power-steering-motor/>, Bosch "Electric power steering systems" <https://www.bosch-mobility.com/en/solutions/steering/electric-power-steering-systems/>.
@@ -81,7 +81,7 @@ The upper stage is the **target-current computation function**, and the lower st
 | Base-current computation | Computes the basic assist current from steering torque and vehicle speed (V-curve) |
 | Torque-derivative correction computation (inertia current) | Assists the current rise according to the rate of change of the steering torque |
 | Damper correction computation | Computes a disturbance-braking current from the motor rotation speed |
-| Target-current correction / field-current computation | Generates the final targets $i_q^*$ and $i_d^*$ |
+| Target-current correction / field-current computation | Generates the final targets $i_q^{\ast}$ and $i_d^{\ast}$ |
 | Three-phase to two-axis transform (Clarke) | Transforms the three-phase feedback currents into dq-axis currents |
 | q-axis / d-axis PI control + decoupling control | Independent dq-axis PI + cross-coupling compensation |
 | Two-axis to three-phase transform (inverse Clarke) | Transforms the dq voltage commands into three phases |
@@ -187,13 +187,13 @@ $$
 $$
 
 $$
-\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\,\Delta t, \qquad
-\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\,\Delta t
+\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad
+\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
 $$
 
 $$
-\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\,\Delta t, \qquad
-\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\,\Delta t
+\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad
+\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
 $$
 
 ### 4.7 Note on Mechanical Resonance
@@ -217,20 +217,20 @@ If the torque-sensor signal is used directly for assist control, this resonance 
 The torque-sensor reading $T_{tb}$ is smoothed with a first-order IIR low-pass filter.
 
 $$
-\hat{T}_{tb}[k{+}1] = \hat{T}_{tb}[k] + \bigl(T_{tb}[k] - \hat{T}_{tb}[k]\bigr)\cdot \omega_{lpf}\,\Delta t
+\hat{T}_{tb}[k{+}1] = \hat{T}_{tb}[k] + \bigl(T_{tb}[k] - \hat{T}_{tb}[k]\bigr)\cdot \omega_{lpf}\thinspace \Delta t
 $$
 
 The cutoff frequency $\omega_{lpf} \approx 20\ \text{rad/s}\ (\approx 3.2\ \text{Hz})$ is set sufficiently below the mechanical resonance (≈ 9.5 Hz). In the code, it corresponds to the `sensor_filt` variable.
 
 ### 5.2 V-Curve (Base-Current Map)
 
-For the filtered torque $\hat{T}_{tb}$, $i_q^*$ is computed with a proportional map that includes dead-zone correction.
+For the filtered torque $\hat{T}_{tb}$, $i_q^{\ast}$ is computed with a proportional map that includes dead-zone correction.
 
 $$
-i_q^* =
+i_q^{\ast} =
 \begin{cases}
-\mathrm{clamp}\!\left(G_{assist}\,\bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\,\mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
-  & |\hat{T}_{tb}| > T_{dz} \\
+\mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
+  & |\hat{T}_{tb}| > T_{dz} \cr
 0 & |\hat{T}_{tb}| \le T_{dz}
 \end{cases}
 $$
@@ -246,7 +246,7 @@ The dead zone is provided to ensure a "settled feel (on-center feel of the steer
 The overall current command is defined as the sum of the following three components (in this implementation, only the base current is present).
 
 $$
-i_q^* = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}
+i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}
 $$
 
 | Component | Determining factor | Role |
@@ -267,11 +267,11 @@ The target current is synthesized as the sum and difference of individual maps l
 ![Current map (base current + inertia current − damper current)](images/eps_current_map.png)
 
 $$
-i_q^* = i_{\text{base}} + i_{\text{inertia}} - i_{\text{damper}}
+i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} - i_{\text{damper}}
 $$
 
 > **About the signs**  
-> The figure above uses a notation in which the damper current is **subtracted** as a quantity in the *braking direction*. The $i_q^* = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}$ of §5.2 treats $i_{\text{damper}}$ as a signed quantity (negative during braking); the two are equivalent.
+> The figure above uses a notation in which the damper current is **subtracted** as a quantity in the *braking direction*. The $i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}$ of §5.2 treats $i_{\text{damper}}$ as a signed quantity (negative during braking); the two are equivalent.
 
 #### Text Explanation
 

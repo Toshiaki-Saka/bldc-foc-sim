@@ -34,13 +34,13 @@
 三相各軸を 0°・120°・240° の単位ベクトルへ射影することで αβ 成分を得る（3 センサ版）。
 
 $$
-\begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_V \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
 $$
 
 三相が平衡している ($i_U + i_V + i_W = 0$) 場合、零相成分は 0 となり、上式の 2 行で完全に表現できる。
@@ -59,14 +59,14 @@ $$
 [C_{abc}]
 = k
 \begin{bmatrix}
-  \cos 0°  & \cos 120°  & \cos 240° \\
+  \cos 0°  & \cos 120°  & \cos 240° \cr
   \sin 0°  & \sin 120°  & \sin 240°
 \end{bmatrix},
 \qquad
 [C_{\alpha\beta}]
 = k
 \begin{bmatrix}
-  \cos 0°  & \cos 120°  & \cos 240° \\
+  \cos 0°  & \cos 120°  & \cos 240° \cr
   \sin 0°  & \sin 120°  & \sin 240°
 \end{bmatrix}^{T}
 $$
@@ -82,17 +82,17 @@ $$
 $$
 k^2
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 \begin{bmatrix}
-  1             & 0                   \\
-  -\dfrac{1}{2} & \phantom{-}\dfrac{\sqrt{3}}{2} \\
+  1             & 0                   \cr
+  -\dfrac{1}{2} & \phantom{-}\dfrac{\sqrt{3}}{2} \cr
   -\dfrac{1}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 = k^2
 \begin{bmatrix}
-  \dfrac{3}{2} & 0            \\
+  \dfrac{3}{2} & 0            \cr
   0            & \dfrac{3}{2}
 \end{bmatrix}
 = [1]
@@ -110,7 +110,7 @@ $$
 [C_{abc}]
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 $$
@@ -127,7 +127,7 @@ i_\alpha
 \left(
   i_U - \frac{1}{2}\bigl(-(i_U + i_W)\bigr) - \frac{1}{2} i_W
 \right)
-= \sqrt{\frac{2}{3}} \cdot \frac{3}{2}\, i_U
+= \sqrt{\frac{2}{3}} \cdot \frac{3}{2}\thinspace  i_U
 $$
 
 **β 成分：**
@@ -137,23 +137,23 @@ i_\beta
 = \sqrt{\frac{2}{3}}
 \left(
   \frac{\sqrt{3}}{2}\bigl(-(i_U + i_W)\bigr)
-  - \frac{\sqrt{3}}{2}\, i_W
+  - \frac{\sqrt{3}}{2}\thinspace  i_W
 \right)
 = \sqrt{\frac{2}{3}}
 \left(
-  -\frac{\sqrt{3}}{2}\, i_U - \sqrt{3}\, i_W
+  -\frac{\sqrt{3}}{2}\thinspace  i_U - \sqrt{3}\thinspace  i_W
 \right)
 $$
 
 $$
 \boxed{
-\begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \dfrac{3}{2}           & 0       \\
+  \dfrac{3}{2}           & 0       \cr
   -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 }
 $$
 
@@ -174,10 +174,10 @@ $$
 静止座標 αβ を、電気角 $\theta$ で回転する dq 座標系に変換する。これにより正弦波状の交流量が **直流量** になる。
 
 $$
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 =
-\begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}
-\begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
+\begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta & \cos\theta \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 $$
 
 ここで $\theta$ は **電気角** であり、機械角 $\theta_m$ に極対数 $P_n$ を掛けたものである ($\theta_e = P_n \cdot \theta_m$)。
@@ -191,54 +191,54 @@ $$
 2.2 節の αβ 式に Park の回転行列をかけると，
 
 $$
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \underbrace{
 \begin{bmatrix}
-  \cos\theta & -\sin\theta \\
+  \cos\theta & -\sin\theta \cr
   \sin\theta &  \cos\theta
 \end{bmatrix}
 }_{\text{回転行列}}
 \begin{bmatrix}
-  \dfrac{3}{2}           & 0       \\
+  \dfrac{3}{2}           & 0       \cr
   -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 加法定理により変換行列を整理すると，以下の**三相二軸変換式**が得られる。
 
 $$
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 = \sqrt{2}
 \begin{bmatrix}
-  \cos\theta & -\sin\theta \\
+  \cos\theta & -\sin\theta \cr
   \sin\theta &  \cos\theta
 \end{bmatrix}
 \begin{bmatrix}
-  \dfrac{\sqrt{3}}{2} & 0  \\
+  \dfrac{\sqrt{3}}{2} & 0  \cr
   -\dfrac{1}{2}        & -1
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 = \sqrt{2}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
-  -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
+  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
+  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 三相交流成分を直流成分に補正するために実効値換算 $\sqrt{\dfrac{1}{3}}$ をかけると（理由は [第 4 節](#4-実効値換算について) 参照），
 
 $$
 \boxed{
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
-  -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
+  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
+  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 }
 $$
 
@@ -247,10 +247,10 @@ $$
 回転行列の転置 (= 逆行列) で与えられる。
 
 $$
-\begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 =
-\begin{bmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{bmatrix}
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} \cos\theta & \sin\theta \cr -\sin\theta & \cos\theta \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 $$
 
 逆 Park 変換で dq → αβ に戻し、さらに逆 Clarke 変換で αβ → UVW に変換すると、三相 PWM 電圧として出力できる。
@@ -276,29 +276,29 @@ $$
 一相あたりの電流は，実効値を $i$ とすると，
 
 $$
-i_U = \sqrt{2}\, i \cos(\omega t),
+i_U = \sqrt{2}\thinspace  i \cos(\omega t),
 \qquad
-i_V = \sqrt{2}\, i \cos\!\left(\omega t + \frac{2\pi}{3}\right),
+i_V = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{2\pi}{3}\right),
 \qquad
-i_W = \sqrt{2}\, i \cos\!\left(\omega t + \frac{4\pi}{3}\right)
+i_W = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{4\pi}{3}\right)
 $$
 
 オイラーの公式 $\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}$ で変形し，代入すると，
 
 $$
 i_{\alpha\beta}
-= \sqrt{\frac{2}{3}} \sqrt{2}\, i
+= \sqrt{\frac{2}{3}} \sqrt{2}\thinspace  i
 \left(
-  \frac{3}{2}\, e^{j\omega t}
-  + \frac{1}{2}\, e^{-j\omega t}
-  \!\left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right)
+  \frac{3}{2}\thinspace  e^{j\omega t}
+  + \frac{1}{2}\thinspace  e^{-j\omega t}
+  \negthinspace \left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right)
 \right)
 $$
 
 $1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}$ の括弧内は三角関数の対称性から 0 となり，
 
 $$
-i_{\alpha\beta} = \sqrt{3}\, i\, e^{j\omega t}
+i_{\alpha\beta} = \sqrt{3}\thinspace  i\thinspace  e^{j\omega t}
 $$
 
 > **結論：** 三相二相変換後の電流は実効値の $\sqrt{3}$ 倍となるため，$\sqrt{\dfrac{1}{3}}$ をかける必要がある。
@@ -314,21 +314,21 @@ d 軸成分が存在する場合（弱め界磁など）は単純な比例関係
 3.1 節で得た順変換式の逆行列を求める。
 
 $$
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
-  -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
+  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
+  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 **行列式を計算する。**
 
 $$
 \det A
-= \sin\!\left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\!\left(\theta + \frac{1}{2}\pi\right)\right)
-- \left(-\sin(\theta)\right) \cdot \left(-\sin\!\left(\theta + \frac{1}{6}\pi\right)\right)
+= \sin\negthinspace \left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{2}\pi\right)\right)
+- \left(-\sin(\theta)\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{6}\pi\right)\right)
 $$
 
 加法定理を使って展開すると（$\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)$ を展開すれば三角関数の直交性により），
@@ -340,13 +340,13 @@ $$
 **逆行列を組み立てる。**
 
 $$
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 = \sqrt{\frac{3}{2}} \cdot \frac{1}{-\dfrac{\sqrt{3}}{2}}
 \begin{bmatrix}
-  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\
-  \phantom{-}\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & \sin\!\left(\theta + \dfrac{2}{3}\pi\right)
+  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \cr
+  \phantom{-}\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 $$
 
 スケール係数を整理する。
@@ -361,13 +361,13 @@ $$
 
 $$
 \boxed{
-\begin{bmatrix} i_U \\ i_W \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix}
 = -\sqrt{2}
 \begin{bmatrix}
-  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\
-  \phantom{-}\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & \sin\!\left(\theta + \dfrac{2}{3}\pi\right)
+  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \cr
+  \phantom{-}\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
-\begin{bmatrix} i_d \\ i_q \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix}
 }
 $$
 
@@ -436,10 +436,10 @@ Eigen::Vector2d MotorVectorConv::uvw_to_alphabeta(const Eigen::Vector3d& uvw);
 
 | 変換 | 式 |
 |------|-----|
-| **三相 → αβ（3 センサ）** | $\begin{bmatrix}i_\alpha\\i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\\0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\\i_V\\i_W\end{bmatrix}$ |
-| **三相 → αβ（2 センサ）** | $\begin{bmatrix}i_\alpha\\i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\\-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\\i_W\end{bmatrix}$ |
-| **三相 → dq（直接）** | $\begin{bmatrix}i_d\\i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\\-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\\i_W\end{bmatrix}$ |
-| **dq → 三相（逆変換）** | $\begin{bmatrix}i_U\\i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\\\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\\i_q\end{bmatrix}$ |
+| **三相 → αβ（3 センサ）** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\cr0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\cr i_V\cr i_W\end{bmatrix}$ |
+| **三相 → αβ（2 センサ）** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\cr-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
+| **三相 → dq（直接）** | $\begin{bmatrix}i_d\cr i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\cr-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
+| **dq → 三相（逆変換）** | $\begin{bmatrix}i_U\cr i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\cr\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\cr i_q\end{bmatrix}$ |
 
 ---
 

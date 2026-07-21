@@ -22,7 +22,7 @@ Because three-phase AC currents vary sinusoidally over time, making them track a
 
 **Separation of the current-control bandwidth and the speed-control bandwidth**
 
-In FOC, the control bandwidth is deliberately split into two stages. The current-control loop (inner) is designed at roughly 1/10 of the switching frequency (e.g., $\alpha_{cc} \approx 2\,\text{kHz}$ for $f_{sw} = 20\,\text{kHz}$), and the speed/position loop (outer) is set at about 1/5 to 1/10 of that. This lets the outer loop treat the inner loop as an "ideal torque source," allowing the control design to be hierarchically separated.
+In FOC, the control bandwidth is deliberately split into two stages. The current-control loop (inner) is designed at roughly 1/10 of the switching frequency (e.g., $\alpha_{cc} \approx 2\thinspace \text{kHz}$ for $f_{sw} = 20\thinspace \text{kHz}$), and the speed/position loop (outer) is set at about 1/5 to 1/10 of that. This lets the outer loop treat the inner loop as an "ideal torque source," allowing the control design to be hierarchically separated.
 
 Overall picture of the control loop:
 
@@ -56,7 +56,7 @@ $$
 
 so only the q-axis current determines the torque. Therefore, in normal operation, the **d-axis current command is set to 0 and the q-axis current command to a value corresponding to the target torque**.
 
-> **Why $i_d^* = 0$ is optimal (for SPMSM)**  
+> **Why $i_d^{\ast} = 0$ is optimal (for SPMSM)**  
 > In an SPMSM (surface permanent-magnet type), because $L_d = L_q$, the reluctance torque arising from saliency is zero. In this case, the condition that maximizes torque for a fixed motor current amplitude $|I| = \sqrt{i_d^2 + i_q^2}$ (MTPA: Maximum Torque Per Ampere) is $i_d = 0$. Since the d-axis current only increases copper loss and does not contribute to torque, keeping it at zero is the most efficient.
 
 **Relationship between the torque constant and the back-EMF constant**
@@ -65,14 +65,14 @@ In the SI unit system, $K_t = K_e$ holds ($K_t$ in Nm/A, $K_e$ in V·s/rad). Thi
 
 ### Field-Weakening Control
 
-Passing a negative current on the d-axis creates a magnetic field in the direction that cancels the permanent-magnet flux, suppressing the back-EMF. This extends the high-speed operating range. This is called **field-weakening control**. The basic model of this series does not perform field weakening ($i_d^* = 0$), but it is positioned as room for extending high-speed characteristics.
+Passing a negative current on the d-axis creates a magnetic field in the direction that cancels the permanent-magnet flux, suppressing the back-EMF. This extends the high-speed operating range. This is called **field-weakening control**. The basic model of this series does not perform field weakening ($i_d^{\ast} = 0$), but it is positioned as room for extending high-speed characteristics.
 
 **Base speed limit of field weakening**
 
 The maximum rotational speed reachable without field weakening (the base speed) is found from the voltage constraint.
 
 $$
-\omega_{m,\,\text{base}} = \frac{V_{dc}/\sqrt{3} - R \cdot I_{\text{rated}}}{K_e}
+\omega_{m,\thinspace \text{base}} = \frac{V_{dc}/\sqrt{3} - R \cdot I_{\text{rated}}}{K_e}
 $$
 
 Above this speed, the back-EMF exceeds the supply voltage, so current can no longer flow. In field weakening, setting $i_d < 0$ reduces the effective value of the back-EMF, achieving even higher speeds.
@@ -84,17 +84,17 @@ Above this speed, the back-EMF exceeds the supply voltage, so current can no lon
 There is an independent PI controller for each of the d-axis and q-axis.
 
 $$
-v_d^* = K_p (i_d^* - i_d) + K_i \int (i_d^* - i_d)\, dt
+v_d^{\ast} = K_p (i_d^{\ast} - i_d) + K_i \int (i_d^{\ast} - i_d)\thinspace  dt
 $$
 
 $$
-v_q^* = K_p (i_q^* - i_q) + K_i \int (i_q^* - i_q)\, dt
+v_q^{\ast} = K_p (i_q^{\ast} - i_q) + K_i \int (i_q^{\ast} - i_q)\thinspace  dt
 $$
 
-- $i_d^*,\, i_q^*$ : current command values on the d-axis / q-axis
-- $v_d^*,\, v_q^*$ : voltage commands output by the PI controllers
+- $i_d^{\ast},\thinspace  i_q^{\ast}$ : current command values on the d-axis / q-axis
+- $v_d^{\ast},\thinspace  v_q^{\ast}$ : voltage commands output by the PI controllers
 
-For how to determine the PI gains $K_p,\, K_i$, see [`pi-tuning.md`](pi-tuning.md).
+For how to determine the PI gains $K_p,\thinspace  K_i$, see [`pi-tuning.md`](pi-tuning.md).
 
 ### Bandwidth-based Gain Design
 
@@ -104,11 +104,11 @@ $$
 K_p = \alpha_{cc} \cdot L, \qquad K_i = \alpha_{cc} \cdot R
 $$
 
-Example: for $L = 1\,\text{mH}$, $R = 1\,\Omega$, $f_{sw} = 20\,\text{kHz}$, taking $\alpha_{cc} = 2\pi \times 2000 \approx 12566\,\text{rad/s}$ gives $K_p = 12.6$ and $Ki = 12566$. This design formula regards the electrical system of the motor as a first-order lag $G(s) = 1/(Ls+R)$ and is the result of placing the pole of the loop transfer function at $s = -\alpha_{cc}$.
+Example: for $L = 1\thinspace \text{mH}$, $R = 1\thinspace \Omega$, $f_{sw} = 20\thinspace \text{kHz}$, taking $\alpha_{cc} = 2\pi \times 2000 \approx 12566\thinspace \text{rad/s}$ gives $K_p = 12.6$ and $Ki = 12566$. This design formula regards the electrical system of the motor as a first-order lag $G(s) = 1/(Ls+R)$ and is the result of placing the pole of the loop transfer function at $s = -\alpha_{cc}$.
 
 ### Anti-windup
 
-When the output voltage command exceeds the supply voltage, the PI integrator keeps accumulating indefinitely (windup), and a large overshoot occurs after the inverter recovers from saturation. A representative technique to prevent this is the **back-calculation method**, which negatively feeds the saturation amount back into the integrator input to suppress excessive integral accumulation. The voltage limit is often based on the three-phase composite voltage as $|v_{dq}^*| \leq V_{dc}/\sqrt{3}$ (for sinusoidal modulation).
+When the output voltage command exceeds the supply voltage, the PI integrator keeps accumulating indefinitely (windup), and a large overshoot occurs after the inverter recovers from saturation. A representative technique to prevent this is the **back-calculation method**, which negatively feeds the saturation amount back into the integrator input to suppress excessive integral accumulation. The voltage limit is often based on the three-phase composite voltage as $|v_{dq}^{\ast}| \leq V_{dc}/\sqrt{3}$ (for sinusoidal modulation).
 
 ---
 
@@ -129,11 +129,11 @@ The terms $-\omega_e L i_q$ and $+\omega_e L i_d$ mean that the current of one a
 **Decoupling control (non-interference control)** is a technique that adds a feedforward voltage, which cancels these coupling terms, to the PI output.
 
 $$
-v_d^* = \underbrace{K_p (i_d^* - i_d) + K_i \int (i_d^* - i_d)\, dt}_{\text{PI output}} \underbrace{- \omega_e L i_q}_{\text{FF}}
+v_d^{\ast} = \underbrace{K_p (i_d^{\ast} - i_d) + K_i \int (i_d^{\ast} - i_d)\thinspace  dt}_{\text{PI output}} \underbrace{- \omega_e L i_q}_{\text{FF}}
 $$
 
 $$
-v_q^* = \underbrace{K_p (i_q^* - i_q) + K_i \int (i_q^* - i_q)\, dt}_{\text{PI output}} \underbrace{+ \omega_e L i_d + K_e \omega_m}_{\text{FF}}
+v_q^{\ast} = \underbrace{K_p (i_q^{\ast} - i_q) + K_i \int (i_q^{\ast} - i_q)\thinspace  dt}_{\text{PI output}} \underbrace{+ \omega_e L i_d + K_e \omega_m}_{\text{FF}}
 $$
 
 This makes the d-axis and q-axis behave as independent first-order lag systems that do not interfere with each other, improving the transient response.
@@ -142,17 +142,17 @@ This makes the d-axis and q-axis behave as independent first-order lag systems t
 
 Let us concretely estimate how large a voltage the coupling term $\omega_e L i$ produces.
 
-**Example:** when $N = 3000\,\text{rpm}$, $P_n = 4$, $L = 1\,\text{mH}$, $i_q = 2\,\text{A}$,
+**Example:** when $N = 3000\thinspace \text{rpm}$, $P_n = 4$, $L = 1\thinspace \text{mH}$, $i_q = 2\thinspace \text{A}$,
 
 $$
-\omega_e = P_n \cdot \frac{2\pi N}{60} = 4 \times \frac{2\pi \times 3000}{60} \approx 1257\,\text{rad/s}
+\omega_e = P_n \cdot \frac{2\pi N}{60} = 4 \times \frac{2\pi \times 3000}{60} \approx 1257\thinspace \text{rad/s}
 $$
 
 $$
-\omega_e L i_q = 1257 \times 0.001 \times 2 \approx 2.5\,\text{V}
+\omega_e L i_q = 1257 \times 0.001 \times 2 \approx 2.5\thinspace \text{V}
 $$
 
-This is a disturbance voltage of about 20% relative to the 12 V supply voltage. If this leaks into the d-axis without compensation, the PI integrator keeps outputting extra voltage to maintain $i_d^* = 0$, delaying the response. The higher the speed and current, the larger the effect.
+This is a disturbance voltage of about 20% relative to the 12 V supply voltage. If this leaks into the d-axis without compensation, the PI integrator keeps outputting extra voltage to maintain $i_d^{\ast} = 0$, delaying the response. The higher the speed and current, the larger the effect.
 
 ### Conditions Under Which the Effect Appears
 

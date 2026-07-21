@@ -14,8 +14,8 @@ U 相を α 軸に一致させると、各相軸の単位ベクトルは
 
 $$
 \hat{e}_U = (1,\ 0), \quad
-\hat{e}_V = \!\left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad
-\hat{e}_W = \!\left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
+\hat{e}_V = \negthinspace \left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad
+\hat{e}_W = \negthinspace \left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
 $$
 
 α・β 成分は各相量をこの軸方向に射影して足し合わせたものである。
@@ -31,8 +31,8 @@ $$
 振幅不変とするためのスケール係数 $\tfrac{2}{3}$ を掛けると、Clarke 変換が得られる。
 
 $$
-\alpha = \frac{2}{3}\!\left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad
-\beta  = \frac{2}{3}\!\left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
+\alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad
+\beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
 $$
 
 三相平衡条件 $U + V + W = 0$ のとき、三相正弦波の振幅と αβ 量の振幅が
@@ -77,7 +77,7 @@ $$
 開ループ伝達関数は
 
 $$
-C(s)\,G(s) = \frac{K_p s + K_i}{s\,(Ls + R)}
+C(s)\thinspace G(s) = \frac{K_p s + K_i}{s\thinspace (Ls + R)}
 $$
 
 閉ループ伝達関数 $T(s) = CG/(1 + CG)$ の分母多項式は
@@ -89,7 +89,7 @@ $$
 両辺を $L$ で割って正規化する。
 
 $$
-s^2 + \frac{R + K_p}{L}\,s + \frac{K_i}{L}
+s^2 + \frac{R + K_p}{L}\thinspace s + \frac{K_i}{L}
 $$
 
 これを標準 2 次系 $s^2 + 2\zeta\omega_n s + \omega_n^2$ と係数比較する。
@@ -125,8 +125,8 @@ $$
 電流の状態方程式 $di/dt = (-Ri + v)/L$ を前進オイラー法で離散化する。
 
 $$
-i_{k+1} = i_k + \Delta t\,\frac{-R\,i_k + v_k}{L}
-         = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\,v_k
+i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L}
+         = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
 $$
 
 安定条件は $\left|1 - \frac{R}{L}\Delta t\right| \le 1$、すなわち
@@ -172,7 +172,7 @@ $$
 角周波数 $\omega_e$ の正弦波信号に対する位相遅れは、$s = j\omega_e$ を代入して
 
 $$
-\angle H(j\omega_e) = -\arctan\!\left(\frac{\omega_e}{\omega_c}\right)
+\angle H(j\omega_e) = -\arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
 センサーレス制御では、誘起電圧（角周波数 = 電気角速度 $\omega_e$）がこの LPF を

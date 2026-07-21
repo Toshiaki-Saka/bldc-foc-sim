@@ -166,7 +166,7 @@ ASIL D の単一要素を 2 つの**独立した**要素に分解することで
 3つの根拠モデル（前提下で確保される余裕）:
 
 - **縦**: $\Delta v = a \cdot FTTI$（介入までに乗る速度変化）。喪失系は $\Delta x = V \cdot FTTI$（バックアップ移行までの無制動距離）
-- **横**: $\Delta y = \tfrac{1}{2}\, a_y \cdot FTTI^2$（介入時点の横偏差）、$v_{lat} = a_y \cdot FTTI$（横速度の立ち上がり）。代表 $a_y = 3\ \mathrm{m/s^2}$（0.3g）、グリップ上限 ≈ 8 m/s²
+- **横**: $\Delta y = \tfrac{1}{2}\thinspace  a_y \cdot FTTI^2$（介入時点の横偏差）、$v_{lat} = a_y \cdot FTTI$（横速度の立ち上がり）。代表 $a_y = 3\ \mathrm{m/s^2}$（0.3g）、グリップ上限 ≈ 8 m/s²
 - **イベント固定**: 火工品の展開窓・熱伝播時間など。車速に依存しない
 
 #### ステアリング系
@@ -284,7 +284,7 @@ FTTI は 3 つの律速に大別できる。
 **成立条件：**
 
 $$
-\text{FHTI} = \text{FDTI} + \text{FRTI} \;\le\; \text{FTTI}
+\text{FHTI} = \text{FDTI} + \text{FRTI} \thickspace \le\thickspace  \text{FTTI}
 $$
 
 **仮想例（EV パワートレイン／意図しない駆動トルク・ASIL D）：**

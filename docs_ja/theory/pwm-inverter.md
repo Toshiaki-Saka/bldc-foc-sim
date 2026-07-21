@@ -32,7 +32,7 @@
 | `01`/`02` 理想電圧源 (A 型) | PI 出力をそのまま印加 | なし (無制限) | FOC ループの純粋な理解 |
 | `03` 以降 PWM (B 型) | PI 出力をデューティ比に換算 | あり ($V_{dc}$ で制限) | 実機 ECU に近い教材 |
 
-A 型と B 型は起動から $t \approx 0.59\,\mathrm{s}$ までは $i_q$・$T_e$・$\omega$ が完全に一致する。差が出るのは $\omega$ が十分上がってから以降のみである。
+A 型と B 型は起動から $t \approx 0.59\thinspace \mathrm{s}$ までは $i_q$・$T_e$・$\omega$ が完全に一致する。差が出るのは $\omega$ が十分上がってから以降のみである。
 
 ---
 
@@ -46,7 +46,7 @@ $$
 
 モータが回転すると逆起電力 $K_e \omega_m$ が増大し、印加できる電圧の上限に達すると、それ以上 $i_q$ を流せなくなる。結果として回転数が頭打ちになる。これは PWM 駆動モデル特有の、現実的な挙動である。
 
-A 型は理想電圧源で上限がないため、$\omega$ はさらに伸びる。実測 ($t = 5\,\mathrm{s}$): $\omega$ は 144.8 → 132.1 rad/s (約 9 % 減)、$i_q$ は 85.0 → 84.6 A。
+A 型は理想電圧源で上限がないため、$\omega$ はさらに伸びる。実測 ($t = 5\thinspace \mathrm{s}$): $\omega$ は 144.8 → 132.1 rad/s (約 9 % 減)、$i_q$ は 85.0 → 84.6 A。
 
 ---
 
@@ -70,7 +70,7 @@ $$
 - 相電圧のピークが下がる → 同じ $V_{dc}$ で基本波振幅を $\dfrac{2}{\sqrt{3}} \approx 1.155$ 倍 (約 15.5%) まで拡張できる
 - 結果として、電圧飽和で頭打ちになっていた回転数・電流が改善する
 
-実測例 (`02` モデル、$i_q^* = 85\,\mathrm{A}$):
+実測例 (`02` モデル、$i_q^{\ast} = 85\thinspace \mathrm{A}$):
 
 | 条件 | $v_{rms}$ | $\omega$ 定常値 | $i_q$ 定常値 |
 |------|-----------|-----------------|--------------|
@@ -90,39 +90,39 @@ $$
 `motor_controller.cpp` の PWM デューティ換算は、q 軸電流指令から固定的に $v_{\text{peak}}$ を算出する。
 
 $$
-\text{duty} = \text{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\, 0,\, 1\right) \times k_{\text{PwmMaxDuty}}
+\text{duty} = \text{clamp}\negthinspace \left(\frac{|i_q^{\ast}|}{k_{\text{PwmMaxAmp}}},\thinspace  0,\thinspace  1\right) \times k_{\text{PwmMaxDuty}}
 $$
 
 $$
 v_{\text{peak}} = \text{duty} \times \frac{V_{dc}}{2}
 $$
 
-デフォルトパラメータ ($i_q^* = 85\,\mathrm{A}$、$k_{\text{PwmMaxAmp}} = 125\,\mathrm{A}$、$k_{\text{PwmMaxDuty}} = 0.95$、$V_{dc} = 48\,\mathrm{V}$) を代入すると:
+デフォルトパラメータ ($i_q^{\ast} = 85\thinspace \mathrm{A}$、$k_{\text{PwmMaxAmp}} = 125\thinspace \mathrm{A}$、$k_{\text{PwmMaxDuty}} = 0.95$、$V_{dc} = 48\thinspace \mathrm{V}$) を代入すると:
 
 $$
-v_{\text{peak}} = \frac{85}{125} \times 0.95 \times \frac{48}{2} = 15.504\,\mathrm{V}
+v_{\text{peak}} = \frac{85}{125} \times 0.95 \times \frac{48}{2} = 15.504\thinspace \mathrm{V}
 $$
 
 一方、85 A を定常的に流すには逆起電力を含む q 軸電圧が必要となる。
 
 $$
-v_{q,\text{required}} = R i_q + K_e \omega_{ss} = 0.1 \times 85 + 0.0533 \times 144.8 \approx 8.50 + 7.72 = 16.22\,\mathrm{V}
+v_{q,\text{required}} = R i_q + K_e \omega_{ss} = 0.1 \times 85 + 0.0533 \times 144.8 \approx 8.50 + 7.72 = 16.22\thinspace \mathrm{V}
 $$
 
-$v_{q,\text{required}} (16.22\,\mathrm{V}) > v_{\text{peak}} (15.504\,\mathrm{V})$ のため PI 出力がクランプされ、電流は指令値に届かない。
+$v_{q,\text{required}} (16.22\thinspace \mathrm{V}) > v_{\text{peak}} (15.504\thinspace \mathrm{V})$ のため PI 出力がクランプされ、電流は指令値に届かない。
 
 ### 定常落ち着き点の確認
 
 クランプ後に定常状態が成立する条件は $v_q = v_{\text{peak}}$ であるため:
 
 $$
-R i_{q,ss} + K_e \omega_{ss} = 15.504\,\mathrm{V}
+R i_{q,ss} + K_e \omega_{ss} = 15.504\thinspace \mathrm{V}
 $$
 
-CSV データ ($i_{q,ss} \approx 84.62\,\mathrm{A}$、$\omega_{ss} \approx 132.1\,\mathrm{rad/s}$) で検証すると:
+CSV データ ($i_{q,ss} \approx 84.62\thinspace \mathrm{A}$、$\omega_{ss} \approx 132.1\thinspace \mathrm{rad/s}$) で検証すると:
 
 $$
-0.1 \times 84.62 + 0.0533 \times 132.1 = 8.46 + 7.04 = 15.50\,\mathrm{V} \checkmark
+0.1 \times 84.62 + 0.0533 \times 132.1 = 8.46 + 7.04 = 15.50\thinspace \mathrm{V} \checkmark
 $$
 
 $v_{\text{peak}}$ とぴったり一致し、電圧クランプが原因であることが確認できる。
@@ -142,7 +142,7 @@ $v_{\text{peak}}$ とぴったり一致し、電圧クランプが原因であ�
 `motor_controller.cpp` では、q 軸電流指令から PWM デューティ比を線形換算する。
 
 $$
-v_{\text{peak}} = \text{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\, 0,\, 1\right) \times k_{\text{PwmMaxDuty}} \times \frac{V_{dc}}{2} \times \begin{cases} \frac{2}{\sqrt{3}} & \text{(中点変調 ON)} \\ 1 & \text{(中点変調 OFF)} \end{cases}
+v_{\text{peak}} = \text{clamp}\negthinspace \left(\frac{|i_q^{\ast}|}{k_{\text{PwmMaxAmp}}},\thinspace  0,\thinspace  1\right) \times k_{\text{PwmMaxDuty}} \times \frac{V_{dc}}{2} \times \begin{cases} \frac{2}{\sqrt{3}} & \text{(中点変調 ON)} \cr 1 & \text{(中点変調 OFF)} \end{cases}
 $$
 
 `kPwmMaxAmp` は最大デューティに対応する電流、`kPwmMaxDuty` はデューティ比の上限 (95 %) である。

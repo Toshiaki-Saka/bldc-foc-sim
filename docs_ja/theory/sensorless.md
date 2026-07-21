@@ -50,8 +50,8 @@ $$
 
 **離散化の手順:**
 
-1. 三相 → αβ 変換: $i_{\alpha\beta} = \texttt{uvw\_to\_alphabeta}(i_{uvw})$、$v_{\alpha\beta} = \texttt{uvw\_to\_alphabeta}(v_{uvw})$
-2. 各軸で上式を適用して $e_\alpha,\, e_\beta$ を算出
+1. 三相 → αβ 変換: $i_{\alpha\beta} =$ `uvw_to_alphabeta`$(i_{uvw})$、$v_{\alpha\beta} =$ `uvw_to_alphabeta`$(v_{uvw})$
+2. 各軸で上式を適用して $e_\alpha,\thinspace  e_\beta$ を算出
 
 ### 3.2 離散微分の遅延補正
 
@@ -65,7 +65,7 @@ $$
 e_{\alpha,\text{filt}} \mathrel{+}= (e_\alpha - e_{\alpha,\text{filt}}) \cdot \alpha_{\text{lpf}}, \qquad \alpha_{\text{lpf}} = 1 - e^{-\omega_c dt}
 $$
 
-本コードのカットオフは $\omega_c = 2000\,\mathrm{rad/s}$ (約 318 Hz)。LPF は推定遅延と引き換えにノイズを低減する (トレードオフ)。
+本コードのカットオフは $\omega_c = 2000\thinspace \mathrm{rad/s}$ (約 318 Hz)。LPF は推定遅延と引き換えにノイズを低減する (トレードオフ)。
 
 ### 3.4 誘起電圧の規約と角度復元
 
@@ -75,7 +75,7 @@ $$
 e_\alpha = \frac{\sqrt{2}}{2} K_e \omega \sin\theta, \qquad e_\beta = \frac{\sqrt{2}}{2} K_e \omega \cos\theta
 $$
 
-この規約により $\theta = \mathrm{atan2}(e_\alpha,\, e_\beta)$ で角度を復元できる。ただし直接 ATAN2 すると角度がノイズでジャンプするため、次節の PLL を用いる。
+この規約により $\theta = \mathrm{atan2}(e_\alpha,\thinspace  e_\beta)$ で角度を復元できる。ただし直接 ATAN2 すると角度がノイズでジャンプするため、次節の PLL を用いる。
 
 ---
 
@@ -108,7 +108,7 @@ $$
 \hat{\theta} \mathrel{+}= \hat{\omega} \cdot dt \quad \text{(角度更新)}
 $$
 
-最後に $\hat{\theta}$ を $[0,\, 2\pi)$ に折り返す。
+最後に $\hat{\theta}$ を $[0,\thinspace  2\pi)$ に折り返す。
 
 ### 4.3 PLL ゲインと帯域
 
@@ -118,7 +118,7 @@ $$
 |-----------|-----|------|
 | $K_{p,\text{pll}}$ | 500 [rad/s/V] | 比例ゲイン |
 | $K_{i,\text{pll}}$ | 100000 [rad/s²/V] | 積分ゲイン |
-| PLL 帯域 | $\approx \sqrt{K_{i,\text{pll}}} \approx 316\,\mathrm{rad/s}$ (約 50 Hz) | |
+| PLL 帯域 | $\approx \sqrt{K_{i,\text{pll}}} \approx 316\thinspace \mathrm{rad/s}$ (約 50 Hz) | |
 
 PLL 帯域は LPF カットオフ (2000 rad/s) より十分低く設定し、フィルタ後の誘起電圧を安定に追従する。
 
@@ -127,7 +127,7 @@ PLL 帯域は LPF カットオフ (2000 rad/s) より十分低く設定し、フ
 LPF は電気角速度 $\omega_e$ の信号を
 
 $$
-\varphi = \arctan\!\left(\frac{\omega_e}{\omega_c}\right)
+\varphi = \arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
 だけ遅らせる。誘起電圧がこの分だけ遅れるため、推定角は真の角度より $\varphi$ だけ遅れる。`get_angle_deg()` はこの位相遅れを $+\varphi$ 加算して補償し、定常角度誤差を小さく抑える。
@@ -139,10 +139,10 @@ $$
 005 モデルでは dq 変換に真の電気角ではなく推定角度 $\hat{\theta}$ を使う。LPF の位相遅れにより、定常状態でも
 
 $$
-\Delta\theta \approx -\arctan\!\left(\frac{\omega_e}{\omega_c}\right)
+\Delta\theta \approx -\arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
-の角度ズレが残る。例えば $\omega_e = 100\,\mathrm{rad/s}$ なら $\Delta\theta \approx -2.86°$ である。
+の角度ズレが残る。例えば $\omega_e = 100\thinspace \mathrm{rad/s}$ なら $\Delta\theta \approx -2.86°$ である。
 
 この $\Delta\theta$ により、PI が制御する dq 軸が「真の dq 軸」から少し回転しており、電流が以下のように分解される。
 
@@ -154,14 +154,14 @@ $$
 i_d^{\text{true}} = i_q^{\text{est}} \sin(\Delta\theta) + i_d^{\text{est}} \cos(\Delta\theta)
 $$
 
-PI 制御は $i_q^{\text{est}} = 85\,\mathrm{A}$、$i_d^{\text{est}} = 0$ に追従させるため、$\Delta\theta = 2.86°$ のとき:
+PI 制御は $i_q^{\text{est}} = 85\thinspace \mathrm{A}$、$i_d^{\text{est}} = 0$ に追従させるため、$\Delta\theta = 2.86°$ のとき:
 
 $$
-i_q^{\text{true}} \approx 85 \times \cos(2.86°) \approx 84.89\,\mathrm{A} \quad \text{(約 0.12 \% 減)}
+i_q^{\text{true}} \approx 85 \times \cos(2.86°) \approx 84.89\thinspace \mathrm{A} \quad \text{(約 0.12 ％ 減)}
 $$
 
 $$
-i_d^{\text{true}} \approx 85 \times \sin(2.86°) \approx 4.24\,\mathrm{A} \quad \text{(本来 0 のはずが漏れる)}
+i_d^{\text{true}} \approx 85 \times \sin(2.86°) \approx 4.24\thinspace \mathrm{A} \quad \text{(本来 0 のはずが漏れる)}
 $$
 
 LPF カットオフ $\omega_c$ を上げれば $\Delta\theta$ は減るが、ノイズ感度が悪化するトレードオフがある。

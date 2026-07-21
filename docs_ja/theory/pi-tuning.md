@@ -78,9 +78,9 @@ const double kKi = kWn * kWn * kL;
 
 `kWn` は電流ループの応答速度を決める。目安は **電気時定数の逆数の数倍**。
 
-- 電気時定数 $\tau_e = L/R$。本コードでは $L = 0.1\,\mathrm{mH}$、$R = 0.1\,\Omega$ なので $\tau_e = 1\,\mathrm{ms}$、その逆数は $1000\,\mathrm{rad/s}$
+- 電気時定数 $\tau_e = L/R$。本コードでは $L = 0.1\thinspace \mathrm{mH}$、$R = 0.1\thinspace \Omega$ なので $\tau_e = 1\thinspace \mathrm{ms}$、その逆数は $1000\thinspace \mathrm{rad/s}$
 - `kWn` はこの 1〜10 倍程度に置く。本コードは `kWn = 1000 rad/s` を採用
-- **上限の制約**: サンプリング周期 $T_s = 250\,\mu\mathrm{s}$ に対し $\omega_n T_s < 0.3$ が目安。$1000 \times 0.00025 = 0.25$ で許容範囲。これを超えると離散化誤差が大きくなり発散しうる
+- **上限の制約**: サンプリング周期 $T_s = 250\thinspace \mu\mathrm{s}$ に対し $\omega_n T_s < 0.3$ が目安。$1000 \times 0.00025 = 0.25$ で許容範囲。これを超えると離散化誤差が大きくなり発散しうる
 
 ### Step 2 — kZeta (減衰比) を決める
 
@@ -102,7 +102,7 @@ EPS のように滑らかさを重視するなら 1.0 寄り、応答性を重�
 - **$K_p = 2\zeta\omega_n L - R$** : 比例ゲイン。プラントの極 $-R/L$ を打ち消し、応答を速める働きをする
 - **$K_i = \omega_n^2 L$** : 積分ゲイン。定常偏差をゼロにする働きをする
 
-$\zeta = 1$、$\omega_n = 1000\,\mathrm{rad/s}$ のとき:
+$\zeta = 1$、$\omega_n = 1000\thinspace \mathrm{rad/s}$ のとき:
 
 $$
 K_p = 2 \times 1 \times 1000 \times 0.0001 - 0.1 = 0.1
@@ -118,8 +118,8 @@ $$
 
 ## 6. 検証 — 波形から正しさを判断する
 
-- **立ち上がり時間** $\approx \dfrac{5}{\zeta \omega_n}$。$\zeta=1,\, \omega_n=1000$ なら約 5 ms で整定
-- **オーバーシュート率** $= \exp\!\left(-\dfrac{\pi\zeta}{\sqrt{1-\zeta^2}}\right)$。$\zeta=0.8$ で約 1.5 %
+- **立ち上がり時間** $\approx \dfrac{5}{\zeta \omega_n}$。$\zeta=1,\thinspace  \omega_n=1000$ なら約 5 ms で整定
+- **オーバーシュート率** $= \exp\negthinspace \left(-\dfrac{\pi\zeta}{\sqrt{1-\zeta^2}}\right)$。$\zeta=0.8$ で約 1.5 %
 - `data/motor_log.csv` の `iq` 列・`omega` 列の波形で立ち上がり・整定を確認する
 - `csv_verifier` でリファレンス CSV と差分照合し、想定からのズレを検出する
 

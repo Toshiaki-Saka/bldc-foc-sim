@@ -38,8 +38,8 @@ $$
 v_q = R i_q + L \frac{di_q}{dt} + \omega_e L i_d + K_e \omega_m
 $$
 
-- $v_d,\, v_q$ : d 軸 / q 軸の印加電圧
-- $i_d,\, i_q$ : d 軸 / q 軸の電流
+- $v_d,\thinspace  v_q$ : d 軸 / q 軸の印加電圧
+- $i_d,\thinspace  i_q$ : d 軸 / q 軸の電流
 - $\omega_e = P_n \cdot \omega_m$ : 電気角速度
 - $\omega_m$ : 機械角速度
 - $K_e \omega_m$ : 逆起電力 (Back-EMF) 項。回転に伴い q 軸に現れる
@@ -69,7 +69,7 @@ $$
 角度は角速度の積分で得られる。
 
 $$
-\theta_m = \int \omega_m \, dt \quad \text{(機械角)}, \qquad \theta_e = P_n \cdot \theta_m \quad \text{(電気角)}
+\theta_m = \int \omega_m \thinspace  dt \quad \text{(機械角)}, \qquad \theta_e = P_n \cdot \theta_m \quad \text{(電気角)}
 $$
 
 ---
@@ -84,7 +84,7 @@ $$
 i_{k+1} = \left(1 - \frac{R}{L} dt\right) i_k + \frac{dt}{L} v_k
 $$
 
-安定条件は $0 \le dt \le \dfrac{2L}{R}$ である。本コードでは $\dfrac{2L}{R} = 2\,\mathrm{ms}$ に対し $dt = 0.25\,\mathrm{ms}$ (余裕 1/8) を使用する。
+安定条件は $0 \le dt \le \dfrac{2L}{R}$ である。本コードでは $\dfrac{2L}{R} = 2\thinspace \mathrm{ms}$ に対し $dt = 0.25\thinspace \mathrm{ms}$ (余裕 1/8) を使用する。
 
 ### 4.2 機械系：台形積分法
 
@@ -98,7 +98,7 @@ $$
 
 | 系 | 積分手法 | 理由 |
 |----|----------|------|
-| 電気系 | 前進オイラー (1次) | サンプリング周期 250 µs に対し電気時定数 $L/R = 1\,\mathrm{ms}$ と十分余裕 |
+| 電気系 | 前進オイラー (1次) | サンプリング周期 250 µs に対し電気時定数 $L/R = 1\thinspace \mathrm{ms}$ と十分余裕 |
 | 機械系 | 台形積分 (2次) | 応答が遅く誤差累積しやすいため高精度積分が必要 |
 | PI 積分項 | 台形積分 | バイアスのない離散積分を実現 |
 
@@ -194,7 +194,7 @@ $$
 | 動作点 | トルク | 回転数 | 電流 | 備考 |
 |--------|--------|--------|------|------|
 | 無負荷 | $0$ | $N_0$ | $I_0$ | 摩擦・鉄損分の電流のみ |
-| 最大効率 | $T_{\eta\,\mathrm{max}}$ | — | — | 実用動作の目安 |
+| 最大効率 | $T_{\eta\thinspace \mathrm{max}}$ | — | — | 実用動作の目安 |
 | 最大出力 | $T_s / 2$ | $N_0 / 2$ | $(I_0 + I_s)/2$ | 出力最大だが効率は低下 |
 | 拘束 | $T_s$ | $0$ | $I_s$ | 過電流・過熱の危険域 |
 
@@ -241,7 +241,7 @@ $$
 式 (2)(3) の包絡線（$\sin(\omega t)$ を復調した成分）がそれぞれ $\cos(X\theta)$、$\sin(X\theta)$ に対応するため、その比のアークタンジェントからロータ角 $\theta$ を算出できる。
 
 $$
-\theta = \frac{1}{X} \arctan\!\left(\frac{e_\mathrm{sin}}{e_\mathrm{cos}}\right) = \frac{1}{X} \arctan\!\left(\frac{\sin(X\theta)}{\cos(X\theta)}\right)
+\theta = \frac{1}{X} \arctan\negthinspace \left(\frac{e_\mathrm{sin}}{e_\mathrm{cos}}\right) = \frac{1}{X} \arctan\negthinspace \left(\frac{\sin(X\theta)}{\cos(X\theta)}\right)
 $$
 
 ### 8.3 電気角と機械角の関係

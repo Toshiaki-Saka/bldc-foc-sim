@@ -166,7 +166,7 @@ Lane geometry: lane width 3.5 m, vehicle width 1.8 m → lateral margin on one s
 Three rationale models (margins secured under the premises):
 
 - **Longitudinal**: $\Delta v = a \cdot FTTI$ (speed change accrued before intervention). For loss cases, $\Delta x = V \cdot FTTI$ (unbraked distance until the backup takeover).
-- **Lateral**: $\Delta y = \tfrac{1}{2}\, a_y \cdot FTTI^2$ (lateral deviation at the moment of intervention), $v_{lat} = a_y \cdot FTTI$ (rise of lateral velocity). Representative $a_y = 3\ \mathrm{m/s^2}$ (0.3g), grip limit ≈ 8 m/s²
+- **Lateral**: $\Delta y = \tfrac{1}{2}\thinspace  a_y \cdot FTTI^2$ (lateral deviation at the moment of intervention), $v_{lat} = a_y \cdot FTTI$ (rise of lateral velocity). Representative $a_y = 3\ \mathrm{m/s^2}$ (0.3g), grip limit ≈ 8 m/s²
 - **Event-fixed**: pyrotechnic deployment window, thermal-propagation time, etc. Independent of vehicle speed
 
 #### Steering System
@@ -284,7 +284,7 @@ A safety goal comes with a time constraint: "by when after a fault occurs must t
 **Condition for satisfaction:**
 
 $$
-\text{FHTI} = \text{FDTI} + \text{FRTI} \;\le\; \text{FTTI}
+\text{FHTI} = \text{FDTI} + \text{FRTI} \thickspace \le\thickspace  \text{FTTI}
 $$
 
 **Hypothetical example (EV powertrain / unintended drive torque, ASIL D):**

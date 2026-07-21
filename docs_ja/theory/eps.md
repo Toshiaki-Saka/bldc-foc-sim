@@ -30,16 +30,16 @@
 | トルク定数 / 逆起電力定数 $K_t = K_e$ | 0.0533 | Nm/A, V·s/rad |
 | 相抵抗 / インダクタンス $R$ / $L$ | 0.1 Ω / 0.1 mH | — |
 | 極対数 $P_n$ | 4 | — |
-| 定常動作点 (デフォルト負荷) | $T_e \approx 4.5\,\mathrm{Nm}$, $\omega_m \approx 145\,\mathrm{rad/s}$ | 機械出力 $\approx 650\,\mathrm{W}$ |
+| 定常動作点 (デフォルト負荷) | $T_e \approx 4.5\thinspace \mathrm{Nm}$, $\omega_m \approx 145\thinspace \mathrm{rad/s}$ | 機械出力 $\approx 650\thinspace \mathrm{W}$ |
 
 **EPS 用途としての位置づけ:**
 
 - EPS のアシストモータは、低コギングトルク・静粛性・高出力密度が要求されるため、現代では**三相ブラシレス DC (BLDC) モータ**が標準的に用いられる[^bldc]。
 - モータをラック軸に直結する**ラックアシスト式**は、コラム式に比べて大きなアシスト力を出せるため、車重が重く前軸荷重の大きい車両に採用される[^rack]。この高出力用途では、コラム式で一般的な 12 V 系より高い電圧系（本コードの 48 V など）が有利になる。
-- 本コードの各物理パラメータ ($V_{dc} = 48\,\mathrm{V}$, $R$, $L$, $K_t$, $K_e$, $P_n$) は、48 V 系 BLDC モータの製品データシート（ATO 110WDM06020-48V）を根拠に設定している[^ato]。
+- 本コードの各物理パラメータ ($V_{dc} = 48\thinspace \mathrm{V}$, $R$, $L$, $K_t$, $K_e$, $P_n$) は、48 V 系 BLDC モータの製品データシート（ATO 110WDM06020-48V）を根拠に設定している[^ato]。
 
 > **補足 — 「1 kW 級 12 V EPS」との違い**
-> 実車のコラム式 EPS は 12 V 系・数十〜80 A 級（$12\,\mathrm{V} \times 85\,\mathrm{A} \approx 1\,\mathrm{kW}$ 相当）が一般的である。本シミュレーションは同じ 85 A 級の電流を扱うが、電圧系は製品データシートに合わせて **48 V** を採用しているため、より高出力なラックアシスト式 EPS に相当する。
+> 実車のコラム式 EPS は 12 V 系・数十〜80 A 級（$12\thinspace \mathrm{V} \times 85\thinspace \mathrm{A} \approx 1\thinspace \mathrm{kW}$ 相当）が一般的である。本シミュレーションは同じ 85 A 級の電流を扱うが、電圧系は製品データシートに合わせて **48 V** を採用しているため、より高出力なラックアシスト式 EPS に相当する。
 
 [^ato]: ATO 110WDM06020-48V ブラシレス DC モータ データシート（[`../references.md`](../references.md) §2 参照）。
 [^bldc]: EPS 用モータには三相ブラシレスモータが用いられる。ABLIC「Automotive Electric Power Steering Motors (EPS Motors)」<https://www.ablic.com/en/semicon/applications/electric-power-steering-motor/>、Bosch「Electric power steering systems」<https://www.bosch-mobility.com/en/solutions/steering/electric-power-steering-systems/>。
@@ -81,7 +81,7 @@ EPS コントローラ ──▶ BLDC モータ (アシストトルク)
 | ベース電流演算 | 操舵トルク・車速から基本アシスト電流を算出 (V カーブ) |
 | トルク微分補正演算 (イナーシャ電流) | 操舵トルクの変化量に応じて電流の立ち上がりをアシスト |
 | ダンパ補正演算 | モータ回転速度から外乱制動電流を算出 |
-| 目標電流補正・界磁電流演算 | 最終目標 $i_q^*$・$i_d^*$ を生成 |
+| 目標電流補正・界磁電流演算 | 最終目標 $i_q^{\ast}$・$i_d^{\ast}$ を生成 |
 | 三相二軸変換 (Clarke) | 三相フィードバック電流を dq 軸電流に変換 |
 | q 軸 / d 軸 PI 制御 + 非干渉制御 | dq 軸独立 PI + クロスカップリング補償 |
 | 二軸三相変換 (逆 Clarke) | dq 電圧指令を三相に変換 |
@@ -187,13 +187,13 @@ $$
 $$
 
 $$
-\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\,\Delta t, \qquad
-\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\,\Delta t
+\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad
+\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
 $$
 
 $$
-\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\,\Delta t, \qquad
-\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\,\Delta t
+\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad
+\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
 $$
 
 ### 4.7 機械共振への注意
@@ -217,20 +217,20 @@ $$
 トルクセンサ読み値 $T_{tb}$ を 1 次 IIR ローパスフィルタで平滑化する。
 
 $$
-\hat{T}_{tb}[k{+}1] = \hat{T}_{tb}[k] + \bigl(T_{tb}[k] - \hat{T}_{tb}[k]\bigr)\cdot \omega_{lpf}\,\Delta t
+\hat{T}_{tb}[k{+}1] = \hat{T}_{tb}[k] + \bigl(T_{tb}[k] - \hat{T}_{tb}[k]\bigr)\cdot \omega_{lpf}\thinspace \Delta t
 $$
 
 カットオフ周波数 $\omega_{lpf} \approx 20\ \text{rad/s}\ (\approx 3.2\ \text{Hz})$ は機械共振 (≈ 9.5 Hz) より十分低く設定されている。コードでは `sensor_filt` 変数に対応する。
 
 ### 5.2 V カーブ (ベース電流マップ)
 
-フィルタ後トルク $\hat{T}_{tb}$ に対して、デッドゾーン補正付きの比例マップで $i_q^*$ を算出する。
+フィルタ後トルク $\hat{T}_{tb}$ に対して、デッドゾーン補正付きの比例マップで $i_q^{\ast}$ を算出する。
 
 $$
-i_q^* =
+i_q^{\ast} =
 \begin{cases}
-\mathrm{clamp}\!\left(G_{assist}\,\bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\,\mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
-  & |\hat{T}_{tb}| > T_{dz} \\
+\mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
+  & |\hat{T}_{tb}| > T_{dz} \cr
 0 & |\hat{T}_{tb}| \le T_{dz}
 \end{cases}
 $$
@@ -246,7 +246,7 @@ $$
 全体の電流指令は以下の 3 成分の和として定義される（本実装ではベース電流のみ）。
 
 $$
-i_q^* = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}
+i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}
 $$
 
 | 成分 | 決定要素 | 役割 |
@@ -267,11 +267,11 @@ $$
 ![カレントマップ（ベース電流＋イナーシャ電流−ダンパ電流）](images/eps_current_map.png)
 
 $$
-i_q^* = i_{\text{base}} + i_{\text{inertia}} - i_{\text{damper}}
+i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} - i_{\text{damper}}
 $$
 
 > **符号について**  
-> 上図はダンパ電流を *制動方向* の量として **減算** する表記である。5.2 節の $i_q^* = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}$ は $i_{\text{damper}}$ を符号付き（制動時に負）として扱う表記であり、両者は等価である。
+> 上図はダンパ電流を *制動方向* の量として **減算** する表記である。5.2 節の $i_q^{\ast} = i_{\text{base}} + i_{\text{inertia}} + i_{\text{damper}}$ は $i_{\text{damper}}$ を符号付き（制動時に負）として扱う表記であり、両者は等価である。
 
 #### テキストによる説明
 

@@ -30,7 +30,7 @@ Based on **[1]** Pang, Jang, Lee — *ICCAS 2005*, Table 1 and **[2]** ATO 110WD
 Steady-state operating point (default):
 
 $$
-T_e = K_t \cdot i_q^* = 0.0533 \times 85 \approx 4.53\ \text{Nm}
+T_e = K_t \cdot i_q^{\ast} = 0.0533 \times 85 \approx 4.53\ \text{Nm}
 $$
 
 $$
@@ -79,8 +79,8 @@ $$
 Duty-to-current mapping (linear, clamped):
 
 $$
-\text{duty} = \mathrm{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\ 0,\ 1\right) \times k_{\text{PwmMaxDuty}}
-= \mathrm{clamp}\!\left(\frac{85}{125},\ 0,\ 1\right) \times 0.95 = 0.646\ (64.6\%)
+\text{duty} = \mathrm{clamp}\negthinspace \left(\frac{|i_q^{\ast}|}{k_{\text{PwmMaxAmp}}},\ 0,\ 1\right) \times k_{\text{PwmMaxDuty}}
+= \mathrm{clamp}\negthinspace \left(\frac{85}{125},\ 0,\ 1\right) \times 0.95 = 0.646\ \text{(64.6％)}
 $$
 
 ---
@@ -105,7 +105,7 @@ $$
 $$
 
 $$
-\zeta_{pll} = \frac{C \cdot K_p}{2\,\omega_{n,pll}} \approx \frac{5.4 \times 500}{2 \times 735} \approx 1.84 \quad \text{(over-damped)}
+\zeta_{pll} = \frac{C \cdot K_p}{2\thinspace \omega_{n,pll}} \approx \frac{5.4 \times 500}{2 \times 735} \approx 1.84 \quad \text{(over-damped)}
 $$
 
 LPF cutoff (2000 rad/s) is >10× the electrical frequency (≈144 rad/s at steady state),

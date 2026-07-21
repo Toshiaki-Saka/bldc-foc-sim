@@ -52,22 +52,22 @@ Implemented in `src/motor_vector_conv.cpp` using amplitude-invariant scaling.
 **Clarke (UVW → αβ)**
 
 $$
-\begin{bmatrix} \alpha \\ \beta \end{bmatrix}
+\begin{bmatrix} \alpha \cr \beta \end{bmatrix}
 = \frac{\sqrt{2}}{3}
 \begin{bmatrix}
-  \cos 0 & \cos \frac{2\pi}{3} & \cos \frac{-2\pi}{3} \\
+  \cos 0 & \cos \frac{2\pi}{3} & \cos \frac{-2\pi}{3} \cr
   \sin 0 & \sin \frac{2\pi}{3} & \sin \frac{-2\pi}{3}
 \end{bmatrix}
-\begin{bmatrix} u \\ v \\ w \end{bmatrix}
+\begin{bmatrix} u \cr v \cr w \end{bmatrix}
 $$
 
 **Park (αβ → dq)**
 
 $$
-\begin{bmatrix} d \\ q \end{bmatrix}
+\begin{bmatrix} d \cr q \end{bmatrix}
 =
-\begin{bmatrix}  \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{bmatrix}
-\begin{bmatrix} \alpha \\ \beta \end{bmatrix}
+\begin{bmatrix}  \cos\theta & \sin\theta \cr -\sin\theta & \cos\theta \end{bmatrix}
+\begin{bmatrix} \alpha \cr \beta \end{bmatrix}
 $$
 
 ---
@@ -104,11 +104,11 @@ Implemented in `src/sensorless_observer.cpp`.
 ### Step 1 — Back-EMF estimation (αβ frame)
 
 $$
-e_\alpha = v_\alpha(k-1) - R\,i_\alpha(k-1) - L\,\frac{i_\alpha(k) - i_\alpha(k-1)}{\Delta t}
+e_\alpha = v_\alpha(k-1) - R\thinspace i_\alpha(k-1) - L\thinspace \frac{i_\alpha(k) - i_\alpha(k-1)}{\Delta t}
 $$
 
 $$
-e_\beta  = v_\beta(k-1)  - R\,i_\beta(k-1)  - L\,\frac{i_\beta(k)  - i_\beta(k-1)}{\Delta t}
+e_\beta  = v_\beta(k-1)  - R\thinspace i_\beta(k-1)  - L\thinspace \frac{i_\beta(k)  - i_\beta(k-1)}{\Delta t}
 $$
 
 > `v(k-1)` is used because the applied voltage at the previous step drove the current change observed at step `k`.
@@ -140,7 +140,7 @@ $$
 PLL update:
 
 $$
-\hat{\omega}(k) = K_p \varepsilon + K_i \int \varepsilon \, dt
+\hat{\omega}(k) = K_p \varepsilon + K_i \int \varepsilon \thinspace  dt
 $$
 
 $$

@@ -38,8 +38,8 @@ $$
 v_q = R i_q + L \frac{di_q}{dt} + \omega_e L i_d + K_e \omega_m
 $$
 
-- $v_d,\, v_q$ : applied voltages on the d-axis / q-axis
-- $i_d,\, i_q$ : currents on the d-axis / q-axis
+- $v_d,\thinspace  v_q$ : applied voltages on the d-axis / q-axis
+- $i_d,\thinspace  i_q$ : currents on the d-axis / q-axis
 - $\omega_e = P_n \cdot \omega_m$ : electrical angular velocity
 - $\omega_m$ : mechanical angular velocity
 - $K_e \omega_m$ : back-EMF term; it appears on the q-axis as the motor rotates
@@ -69,7 +69,7 @@ $$
 The angle is obtained by integrating the angular velocity.
 
 $$
-\theta_m = \int \omega_m \, dt \quad \text{(mechanical angle)}, \qquad \theta_e = P_n \cdot \theta_m \quad \text{(electrical angle)}
+\theta_m = \int \omega_m \thinspace  dt \quad \text{(mechanical angle)}, \qquad \theta_e = P_n \cdot \theta_m \quad \text{(electrical angle)}
 $$
 
 ---
@@ -84,7 +84,7 @@ $$
 i_{k+1} = \left(1 - \frac{R}{L} dt\right) i_k + \frac{dt}{L} v_k
 $$
 
-The stability condition is $0 \le dt \le \dfrac{2L}{R}$. In this code, against $\dfrac{2L}{R} = 2\,\mathrm{ms}$, we use $dt = 0.25\,\mathrm{ms}$ (a margin of 1/8).
+The stability condition is $0 \le dt \le \dfrac{2L}{R}$. In this code, against $\dfrac{2L}{R} = 2\thinspace \mathrm{ms}$, we use $dt = 0.25\thinspace \mathrm{ms}$ (a margin of 1/8).
 
 ### 4.2 Mechanical System: Trapezoidal Integration
 
@@ -98,7 +98,7 @@ $$
 
 | System | Integration method | Reason |
 |----|----------|------|
-| Electrical system | Forward Euler (1st order) | The electrical time constant $L/R = 1\,\mathrm{ms}$ leaves ample margin relative to the 250 µs sampling period |
+| Electrical system | Forward Euler (1st order) | The electrical time constant $L/R = 1\thinspace \mathrm{ms}$ leaves ample margin relative to the 250 µs sampling period |
 | Mechanical system | Trapezoidal (2nd order) | Slow response makes errors prone to accumulate, so high-accuracy integration is needed |
 | PI integral term | Trapezoidal | Realizes an unbiased discrete integration |
 
@@ -194,7 +194,7 @@ $$
 | Operating point | Torque | Speed | Current | Notes |
 |--------|--------|--------|------|------|
 | No load | $0$ | $N_0$ | $I_0$ | Only the current for friction and iron loss |
-| Maximum efficiency | $T_{\eta\,\mathrm{max}}$ | — | — | Guideline for practical operation |
+| Maximum efficiency | $T_{\eta\thinspace \mathrm{max}}$ | — | — | Guideline for practical operation |
 | Maximum output | $T_s / 2$ | $N_0 / 2$ | $(I_0 + I_s)/2$ | Output is maximum but efficiency drops |
 | Stall | $T_s$ | $0$ | $I_s$ | Danger zone of overcurrent and overheating |
 
@@ -241,7 +241,7 @@ $$
 Because the envelopes of equations (2) and (3) (the components after demodulating $\sin(\omega t)$) correspond to $\cos(X\theta)$ and $\sin(X\theta)$ respectively, the rotor angle $\theta$ can be computed from the arctangent of their ratio.
 
 $$
-\theta = \frac{1}{X} \arctan\!\left(\frac{e_\mathrm{sin}}{e_\mathrm{cos}}\right) = \frac{1}{X} \arctan\!\left(\frac{\sin(X\theta)}{\cos(X\theta)}\right)
+\theta = \frac{1}{X} \arctan\negthinspace \left(\frac{e_\mathrm{sin}}{e_\mathrm{cos}}\right) = \frac{1}{X} \arctan\negthinspace \left(\frac{\sin(X\theta)}{\cos(X\theta)}\right)
 $$
 
 ### 8.3 Relationship Between Electrical Angle and Mechanical Angle

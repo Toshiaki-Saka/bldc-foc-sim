@@ -6,13 +6,13 @@ This document analyzes, based on measured simulation values, the **differences i
 2. **Difference between PWM drive (02) and sensorless (04)** — the torque behavior at startup changes
 
 > **Numerical preconditions**
-> The numerical values in this document are measured examples under the default parameters and load conditions ($i_q^* = 85\,\mathrm{A}$, $T_{load} = 4.3\,\mathrm{Nm}$, $V_{dc} = 48\,\mathrm{V}$). Rather than the values themselves, please focus on the causal relationship of "which factor matters."
+> The numerical values in this document are measured examples under the default parameters and load conditions ($i_q^{\ast} = 85\thinspace \mathrm{A}$, $T_{load} = 4.3\thinspace \mathrm{Nm}$, $V_{dc} = 48\thinspace \mathrm{V}$). Rather than the values themselves, please focus on the causal relationship of "which factor matters."
 
 ---
 
 ## 1. Ideal Voltage Source Model (01) vs PWM Drive Model (02)
 
-Even when the same FOC and the same physical parameters ($R = 0.1\,\Omega$, $L = 0.1\,\mathrm{mH}$, $K_e = K_t = 0.0533$, $P_n = 4$) are used, the **steady-state rotation speed differs** between the two models. The cause is the voltage saturation specific to the PWM drive model.
+Even when the same FOC and the same physical parameters ($R = 0.1\thinspace \Omega$, $L = 0.1\thinspace \mathrm{mH}$, $K_e = K_t = 0.0533$, $P_n = 4$) are used, the **steady-state rotation speed differs** between the two models. The cause is the voltage saturation specific to the PWM drive model.
 
 ### 1.1 Observed Difference
 
@@ -25,7 +25,7 @@ Even when the same FOC and the same physical parameters ($R = 0.1\,\Omega$, $L =
 
 ![Waveform comparison of ideal voltage source (Type A / 002) and PWM drive (Type B / 003) — left: q-axis current $i_q$, center: electromagnetic torque $T_e$, right: angular velocity $\omega_m$](images/waveform_ideal_vs_pwm.png)
 
-The three graphs above show, from left to right, the q-axis current $i_q$, the electromagnetic torque $T_e$, and the angular velocity $\omega_m$. While $i_q$ and $T_e$ nearly coincide, only Type B (PWM drive) reaches voltage saturation at $t \approx 0.59\,\mathrm{s}$ and plateaus for $\omega_m$, settling at a steady-state value about 9% lower than Type A (ideal voltage source).
+The three graphs above show, from left to right, the q-axis current $i_q$, the electromagnetic torque $T_e$, and the angular velocity $\omega_m$. While $i_q$ and $T_e$ nearly coincide, only Type B (PWM drive) reaches voltage saturation at $t \approx 0.59\thinspace \mathrm{s}$ and plateaus for $\omega_m$, settling at a steady-state value about 9% lower than Type A (ideal voltage source).
 
 The key points are the following two.
 
@@ -73,7 +73,7 @@ At the instant of switching from seeded startup (injecting the true rotor angle 
 
 **(b) Hard switching**: The discontinuous switch in a single step caused the dq coordinate frame to jump. The frame jumps by exactly the amount by which the estimated angle is slightly off, producing a step in the torque waveform.
 
-**(c) LPF phase lag**: Without compensation, the angle error $\arctan(\omega_e/\omega_c)$ due to the back-EMF LPF remains. Under the default condition $\omega_e = P_n \omega_m = 4 \times 132 \approx 528\,\mathrm{rad/s}$, $\omega_c = 2000\,\mathrm{rad/s}$, giving $\arctan(528/2000) \approx 14.8°$.
+**(c) LPF phase lag**: Without compensation, the angle error $\arctan(\omega_e/\omega_c)$ due to the back-EMF LPF remains. Under the default condition $\omega_e = P_n \omega_m = 4 \times 132 \approx 528\thinspace \mathrm{rad/s}$, $\omega_c = 2000\thinspace \mathrm{rad/s}$, giving $\arctan(528/2000) \approx 14.8°$.
 
 ### 2.3 Fixes
 

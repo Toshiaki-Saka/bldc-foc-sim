@@ -22,7 +22,7 @@
 
 **電流制御帯域と速度制御帯域の分離**
 
-FOC では制御帯域を意図的に二段階に分ける。電流制御ループ（内側）はスイッチング周波数の 1/10 程度（例：$f_{sw} = 20\,\text{kHz}$ なら $\alpha_{cc} \approx 2\,\text{kHz}$）に設計し、速度・位置ループ（外側）はその 1/5〜1/10 程度にする。これにより外側のループは内側を「理想的なトルク源」として扱え、制御設計を階層的に分離できる。
+FOC では制御帯域を意図的に二段階に分ける。電流制御ループ（内側）はスイッチング周波数の 1/10 程度（例：$f_{sw} = 20\thinspace \text{kHz}$ なら $\alpha_{cc} \approx 2\thinspace \text{kHz}$）に設計し、速度・位置ループ（外側）はその 1/5〜1/10 程度にする。これにより外側のループは内側を「理想的なトルク源」として扱え、制御設計を階層的に分離できる。
 
 制御ループの全体像：
 
@@ -56,7 +56,7 @@ $$
 
 であり、q 軸電流のみがトルクを決める。したがって通常運転では **d 軸電流指令を 0、q 軸電流指令を目標トルク相当値** に設定する。
 
-> **なぜ $i_d^* = 0$ が最適か（SPMSM の場合）**  
+> **なぜ $i_d^{\ast} = 0$ が最適か（SPMSM の場合）**  
 > SPMSM（表面磁石型）では $L_d = L_q$ のため、突極性に由来するリラクタンストルクがゼロである。このとき、一定のモータ電流振幅 $|I| = \sqrt{i_d^2 + i_q^2}$ のもとでトルクを最大化する条件（MTPA: Maximum Torque Per Ampere）は $i_d = 0$ となる。d 軸電流は銅損を増やすだけでトルクに寄与しないため、ゼロに保つのが最も効率的である。
 
 **トルク定数と逆起電力定数の関係**
@@ -65,14 +65,14 @@ SI 単位系では $K_t = K_e$ が成立する（$K_t$ の単位: Nm/A、$K_e$ �
 
 ### 弱め界磁制御
 
-d 軸に負の電流を流すと、永久磁石の磁束を打ち消す向きに磁界が働き、逆起電力が抑えられる。これにより高回転域を拡張できる。これを **弱め界磁制御** と呼ぶ。本シリーズの基本モデルは弱め界磁を行わない ($i_d^* = 0$) が、高回転特性の拡張余地として位置付けられる。
+d 軸に負の電流を流すと、永久磁石の磁束を打ち消す向きに磁界が働き、逆起電力が抑えられる。これにより高回転域を拡張できる。これを **弱め界磁制御** と呼ぶ。本シリーズの基本モデルは弱め界磁を行わない ($i_d^{\ast} = 0$) が、高回転特性の拡張余地として位置付けられる。
 
 **弱め界磁の限界速度**
 
 弱め界磁なしで到達できる最高回転数（基底速度）は、電圧制約から求まる。
 
 $$
-\omega_{m,\,\text{base}} = \frac{V_{dc}/\sqrt{3} - R \cdot I_{\text{rated}}}{K_e}
+\omega_{m,\thinspace \text{base}} = \frac{V_{dc}/\sqrt{3} - R \cdot I_{\text{rated}}}{K_e}
 $$
 
 この速度を超えると逆起電力が電源電圧を上回るため、電流が流せなくなる。弱め界磁では $i_d < 0$ として逆起電力の有効値を下げ、さらに高回転を実現する。
@@ -84,17 +84,17 @@ $$
 d 軸・q 軸それぞれに独立した PI 制御器を持つ。
 
 $$
-v_d^* = K_p (i_d^* - i_d) + K_i \int (i_d^* - i_d)\, dt
+v_d^{\ast} = K_p (i_d^{\ast} - i_d) + K_i \int (i_d^{\ast} - i_d)\thinspace  dt
 $$
 
 $$
-v_q^* = K_p (i_q^* - i_q) + K_i \int (i_q^* - i_q)\, dt
+v_q^{\ast} = K_p (i_q^{\ast} - i_q) + K_i \int (i_q^{\ast} - i_q)\thinspace  dt
 $$
 
-- $i_d^*,\, i_q^*$ : d 軸 / q 軸の電流指令値
-- $v_d^*,\, v_q^*$ : PI 制御器が出力する電圧指令
+- $i_d^{\ast},\thinspace  i_q^{\ast}$ : d 軸 / q 軸の電流指令値
+- $v_d^{\ast},\thinspace  v_q^{\ast}$ : PI 制御器が出力する電圧指令
 
-PI ゲイン $K_p,\, K_i$ の決め方は [`pi-tuning.md`](pi-tuning.md) 参照。
+PI ゲイン $K_p,\thinspace  K_i$ の決め方は [`pi-tuning.md`](pi-tuning.md) 参照。
 
 ### 帯域幅ベースのゲイン設計
 
@@ -104,11 +104,11 @@ $$
 K_p = \alpha_{cc} \cdot L, \qquad K_i = \alpha_{cc} \cdot R
 $$
 
-例：$L = 1\,\text{mH}$、$R = 1\,\Omega$、$f_{sw} = 20\,\text{kHz}$ の場合、$\alpha_{cc} = 2\pi \times 2000 \approx 12566\,\text{rad/s}$ とすると $K_p = 12.6$、$Ki = 12566$ となる。この設計式はモータの電気系を 1 次遅れ $G(s) = 1/(Ls+R)$ とみなし、ループ伝達関数の極を $s = -\alpha_{cc}$ に置いた結果である。
+例：$L = 1\thinspace \text{mH}$、$R = 1\thinspace \Omega$、$f_{sw} = 20\thinspace \text{kHz}$ の場合、$\alpha_{cc} = 2\pi \times 2000 \approx 12566\thinspace \text{rad/s}$ とすると $K_p = 12.6$、$Ki = 12566$ となる。この設計式はモータの電気系を 1 次遅れ $G(s) = 1/(Ls+R)$ とみなし、ループ伝達関数の極を $s = -\alpha_{cc}$ に置いた結果である。
 
 ### アンチワインドアップ
 
-出力電圧指令が電源電圧を超えると PI 積分器がいつまでも積み上がり（ワインドアップ）、インバータが飽和から回復した後に大きなオーバーシュートが生じる。これを防ぐ代表的な手法が**バックキャルキュレーション法**で、飽和量を積分器入力に負帰還して積分の過剰な蓄積を抑える。電圧制限は三相合成電圧として $|v_{dq}^*| \leq V_{dc}/\sqrt{3}$（正弦波変調時）を基準とすることが多い。
+出力電圧指令が電源電圧を超えると PI 積分器がいつまでも積み上がり（ワインドアップ）、インバータが飽和から回復した後に大きなオーバーシュートが生じる。これを防ぐ代表的な手法が**バックキャルキュレーション法**で、飽和量を積分器入力に負帰還して積分の過剰な蓄積を抑える。電圧制限は三相合成電圧として $|v_{dq}^{\ast}| \leq V_{dc}/\sqrt{3}$（正弦波変調時）を基準とすることが多い。
 
 ---
 
@@ -129,11 +129,11 @@ $-\omega_e L i_q$ と $+\omega_e L i_d$ の項は、一方の軸の電流が他�
 **非干渉制御 (デカップリング)** は、この結合項を打ち消すフィードフォワード電圧を PI 出力に加算する手法である。
 
 $$
-v_d^* = \underbrace{K_p (i_d^* - i_d) + K_i \int (i_d^* - i_d)\, dt}_{\text{PI 出力}} \underbrace{- \omega_e L i_q}_{\text{FF}}
+v_d^{\ast} = \underbrace{K_p (i_d^{\ast} - i_d) + K_i \int (i_d^{\ast} - i_d)\thinspace  dt}_{\text{PI 出力}} \underbrace{- \omega_e L i_q}_{\text{FF}}
 $$
 
 $$
-v_q^* = \underbrace{K_p (i_q^* - i_q) + K_i \int (i_q^* - i_q)\, dt}_{\text{PI 出力}} \underbrace{+ \omega_e L i_d + K_e \omega_m}_{\text{FF}}
+v_q^{\ast} = \underbrace{K_p (i_q^{\ast} - i_q) + K_i \int (i_q^{\ast} - i_q)\thinspace  dt}_{\text{PI 出力}} \underbrace{+ \omega_e L i_d + K_e \omega_m}_{\text{FF}}
 $$
 
 これにより d 軸と q 軸が互いに干渉しない独立な 1 次遅れ系として振る舞い、過渡応答が改善される。
@@ -142,17 +142,17 @@ $$
 
 結合項 $\omega_e L i$ がどの程度の電圧になるかを具体的に見積もる。
 
-**例：** $N = 3000\,\text{rpm}$、$P_n = 4$、$L = 1\,\text{mH}$、$i_q = 2\,\text{A}$ のとき
+**例：** $N = 3000\thinspace \text{rpm}$、$P_n = 4$、$L = 1\thinspace \text{mH}$、$i_q = 2\thinspace \text{A}$ のとき
 
 $$
-\omega_e = P_n \cdot \frac{2\pi N}{60} = 4 \times \frac{2\pi \times 3000}{60} \approx 1257\,\text{rad/s}
+\omega_e = P_n \cdot \frac{2\pi N}{60} = 4 \times \frac{2\pi \times 3000}{60} \approx 1257\thinspace \text{rad/s}
 $$
 
 $$
-\omega_e L i_q = 1257 \times 0.001 \times 2 \approx 2.5\,\text{V}
+\omega_e L i_q = 1257 \times 0.001 \times 2 \approx 2.5\thinspace \text{V}
 $$
 
-電源電圧 12 V に対して約 20% の外乱電圧となる。これが補償なしに d 軸へ飛び込むと、$i_d^* = 0$ を維持するために PI 積分が余分な電圧を出力し続けることになり、応答が遅れる。高速・高電流ほど影響が大きい。
+電源電圧 12 V に対して約 20% の外乱電圧となる。これが補償なしに d 軸へ飛び込むと、$i_d^{\ast} = 0$ を維持するために PI 積分が余分な電圧を出力し続けることになり、応答が遅れる。高速・高電流ほど影響が大きい。
 
 ### 効果が現れる条件
 
