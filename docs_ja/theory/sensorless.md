@@ -88,8 +88,7 @@ $$
 誤差信号を次のように作る。
 
 $$
-\varepsilon = e_{\alpha,\text{filt}} \cos\hat{\theta} - e_{\beta,\text{filt}} \sin\hat{\theta}
-\approx C \sin(\theta_{\text{true}} - \hat{\theta})
+\varepsilon = e_{\alpha,\text{filt}} \cos\hat{\theta} - e_{\beta,\text{filt}} \sin\hat{\theta} \approx C \sin(\theta_{\text{true}} - \hat{\theta})
 $$
 
 小角度近似で線形になるため、PI 制御で安定に 0 に収束させることができる。

@@ -88,8 +88,7 @@ A **PLL (phase-locked loop)** is a mechanism that "locks" its internal estimated
 The error signal is formed as follows.
 
 $$
-\varepsilon = e_{\alpha,\text{filt}} \cos\hat{\theta} - e_{\beta,\text{filt}} \sin\hat{\theta}
-\approx C \sin(\theta_{\text{true}} - \hat{\theta})
+\varepsilon = e_{\alpha,\text{filt}} \cos\hat{\theta} - e_{\beta,\text{filt}} \sin\hat{\theta} \approx C \sin(\theta_{\text{true}} - \hat{\theta})
 $$
 
 Because it becomes linear under the small-angle approximation, it can be stably driven to 0 by PI control.

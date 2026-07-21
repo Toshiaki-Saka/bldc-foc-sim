@@ -567,8 +567,7 @@ From the FMEDA tally, three metrics are computed, showing that the ASIL D target
 | **PMHF** (Probabilistic Metric for random HW Failures) | Probability per unit time of a safety-goal violation | < 100 FIT | < 100 FIT | **< 10 FIT** |
 
 $$
-\text{SPFM} = 1 - \frac{\sum (\lambda_{\text{SPF}} + \lambda_{\text{RF}})}{\sum \lambda_{\text{SR}}}, \qquad
-\text{LFM} = 1 - \frac{\sum \lambda_{\text{MPF,latent}}}{\sum (\lambda_{\text{SR}} - \lambda_{\text{SPF}} - \lambda_{\text{RF}})}
+\text{SPFM} = 1 - \frac{\sum (\lambda_{\text{SPF}} + \lambda_{\text{RF}})}{\sum \lambda_{\text{SR}}}, \qquad \text{LFM} = 1 - \frac{\sum \lambda_{\text{MPF,latent}}}{\sum (\lambda_{\text{SR}} - \lambda_{\text{SPF}} - \lambda_{\text{RF}})}
 $$
 
 Here $\lambda_{\text{SR}}$ = safety-related failure rate, $\lambda_{\text{SPF}}$ = single-point failure (no safety mechanism), $\lambda_{\text{RF}}$ = residual failure (the fraction missed when DC < 100 %), $\lambda_{\text{MPF,latent}}$ = undetected latent failure. `1 FIT = 1×10⁻⁹ /h`.

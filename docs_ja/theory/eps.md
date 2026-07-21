@@ -182,18 +182,15 @@ $$
 各タイムステップ $\Delta t$ ごとに角加速度を算出し、速度・角度を更新する。
 
 $$
-\alpha_{sw} = \frac{T_h - T_{tb}}{J_{sw}}, \qquad
-\alpha_{col} = \frac{T_{tb} + N_g T_m - T_{spring}}{J_{col,tot}}
+\alpha_{sw} = \frac{T_h - T_{tb}}{J_{sw}}, \qquad \alpha_{col} = \frac{T_{tb} + N_g T_m - T_{spring}}{J_{col,tot}}
 $$
 
 $$
-\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad
-\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
+\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad \theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
 $$
 
 $$
-\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad
-\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
+\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad \theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
 $$
 
 ### 4.7 機械共振への注意
@@ -227,12 +224,7 @@ $$
 フィルタ後トルク $\hat{T}_{tb}$ に対して、デッドゾーン補正付きの比例マップで $i_q^{\ast}$ を算出する。
 
 $$
-i_q^{\ast} =
-\begin{cases}
-\mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
-  & |\hat{T}_{tb}| > T_{dz} \cr
-0 & |\hat{T}_{tb}| \le T_{dz}
-\end{cases}
+i_q^{\ast} = \begin{cases} \mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right) & |\hat{T}_{tb}| > T_{dz} \cr 0 & |\hat{T}_{tb}| \le T_{dz} \end{cases}
 $$
 
 | パラメータ | 記号 | デフォルト値 |

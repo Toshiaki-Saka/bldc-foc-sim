@@ -182,18 +182,15 @@ Owing to this constraint, the back-EMF of the motor is correctly computed inside
 At each time step $\Delta t$, the angular acceleration is computed and the velocity and angle are updated.
 
 $$
-\alpha_{sw} = \frac{T_h - T_{tb}}{J_{sw}}, \qquad
-\alpha_{col} = \frac{T_{tb} + N_g T_m - T_{spring}}{J_{col,tot}}
+\alpha_{sw} = \frac{T_h - T_{tb}}{J_{sw}}, \qquad \alpha_{col} = \frac{T_{tb} + N_g T_m - T_{spring}}{J_{col,tot}}
 $$
 
 $$
-\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad
-\theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
+\omega_{sw}[k{+}1] = \omega_{sw}[k] + \alpha_{sw}\thinspace \Delta t, \qquad \theta_{sw}[k{+}1] = \theta_{sw}[k] + \omega_{sw}[k{+}1]\thinspace \Delta t
 $$
 
 $$
-\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad
-\theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
+\omega_{col}[k{+}1] = \omega_{col}[k] + \alpha_{col}\thinspace \Delta t, \qquad \theta_{col}[k{+}1] = \theta_{col}[k] + \omega_{col}[k{+}1]\thinspace \Delta t
 $$
 
 ### 4.7 Note on Mechanical Resonance
@@ -227,12 +224,7 @@ The cutoff frequency $\omega_{lpf} \approx 20\ \text{rad/s}\ (\approx 3.2\ \text
 For the filtered torque $\hat{T}_{tb}$, $i_q^{\ast}$ is computed with a proportional map that includes dead-zone correction.
 
 $$
-i_q^{\ast} =
-\begin{cases}
-\mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
-  & |\hat{T}_{tb}| > T_{dz} \cr
-0 & |\hat{T}_{tb}| \le T_{dz}
-\end{cases}
+i_q^{\ast} = \begin{cases} \mathrm{clamp}\negthinspace \left(G_{assist}\thinspace \bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\thinspace \mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right) & |\hat{T}_{tb}| > T_{dz} \cr 0 & |\hat{T}_{tb}| \le T_{dz} \end{cases}
 $$
 
 | Parameter | Symbol | Default value |

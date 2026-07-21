@@ -14,9 +14,7 @@ mutually orthogonal axes α and β.
 Aligning the U phase with the α axis, the unit vectors of each phase axis are
 
 $$
-\hat{e}_U = (1,\ 0), \quad
-\hat{e}_V = \negthinspace \left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad
-\hat{e}_W = \negthinspace \left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
+\hat{e}_U = (1,\ 0), \quad \hat{e}_V = \negthinspace \left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad \hat{e}_W = \negthinspace \left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
 $$
 
 The α and β components are the sum of each phase quantity projected onto these axis directions.
@@ -32,8 +30,7 @@ $$
 Multiplying by the scale factor $\tfrac{2}{3}$ that makes it amplitude-invariant yields the Clarke transform.
 
 $$
-\alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad
-\beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
+\alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad \beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
 $$
 
 Under the three-phase balance condition $U + V + W = 0$, the amplitude of the
@@ -48,15 +45,13 @@ the rotor at angle $\theta$. A component viewed from the rotating frame equals
 the stationary-frame quantity rotated by $-\theta$. From the rotation matrix,
 
 $$
-d =  \alpha\cos\theta + \beta\sin\theta, \qquad
-q = -\alpha\sin\theta + \beta\cos\theta
+d =  \alpha\cos\theta + \beta\sin\theta, \qquad q = -\alpha\sin\theta + \beta\cos\theta
 $$
 
 For the inverse transform, simply rotate by $\theta$ (transpose of the rotation matrix = its inverse).
 
 $$
-\alpha = d\cos\theta - q\sin\theta, \qquad
-\beta  = d\sin\theta + q\cos\theta
+\alpha = d\cos\theta - q\sin\theta, \qquad \beta  = d\sin\theta + q\cos\theta
 $$
 
 ---
@@ -126,8 +121,7 @@ These are the gain computation formulas in `main.cpp`.
 The current state equation $di/dt = (-Ri + v)/L$ is discretized by the forward Euler method.
 
 $$
-i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L}
-         = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
+i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L} = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
 $$
 
 The stability condition is $\left|1 - \frac{R}{L}\Delta t\right| \le 1$, that is,

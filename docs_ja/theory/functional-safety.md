@@ -565,8 +565,7 @@ FMEDA の集計から 3 指標を算出し、ASIL D の目標（ISO 26262-5）�
 | **PMHF** (Probabilistic Metric for random HW Failures) | 安全目標違反の時間あたり確率 | < 100 FIT | < 100 FIT | **< 10 FIT** |
 
 $$
-\text{SPFM} = 1 - \frac{\sum (\lambda_{\text{SPF}} + \lambda_{\text{RF}})}{\sum \lambda_{\text{SR}}}, \qquad
-\text{LFM} = 1 - \frac{\sum \lambda_{\text{MPF,latent}}}{\sum (\lambda_{\text{SR}} - \lambda_{\text{SPF}} - \lambda_{\text{RF}})}
+\text{SPFM} = 1 - \frac{\sum (\lambda_{\text{SPF}} + \lambda_{\text{RF}})}{\sum \lambda_{\text{SR}}}, \qquad \text{LFM} = 1 - \frac{\sum \lambda_{\text{MPF,latent}}}{\sum (\lambda_{\text{SR}} - \lambda_{\text{SPF}} - \lambda_{\text{RF}})}
 $$
 
 ここで $\lambda_{\text{SR}}$＝安全関連故障率、$\lambda_{\text{SPF}}$＝単一点故障（安全機構なし）、$\lambda_{\text{RF}}$＝残存故障（DC < 100 % の取りこぼし）、$\lambda_{\text{MPF,latent}}$＝検出されない潜在故障。`1 FIT = 1×10⁻⁹ /h`。

@@ -34,13 +34,7 @@ This code uses the **power-invariant form** ($k = \sqrt{2/3}$).
 Projecting each of the three phase axes onto the unit vectors at 0°, 120°, and 240° yields the αβ components (the 3-sensor version).
 
 $$
-\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
-= \sqrt{\frac{2}{3}}
-\begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} 1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr 0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix} \begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
 $$
 
 When the three phases are balanced ($i_U + i_V + i_W = 0$), the zero-sequence component becomes 0, and the expression above can be fully represented by its two rows.
@@ -56,19 +50,7 @@ The following is the basic projection expression, which is still a **relative tr
 Define the transform matrix with a scale factor $k$.
 
 $$
-[C_{abc}]
-= k
-\begin{bmatrix}
-  \cos 0°  & \cos 120°  & \cos 240° \cr
-  \sin 0°  & \sin 120°  & \sin 240°
-\end{bmatrix},
-\qquad
-[C_{\alpha\beta}]
-= k
-\begin{bmatrix}
-  \cos 0°  & \cos 120°  & \cos 240° \cr
-  \sin 0°  & \sin 120°  & \sin 240°
-\end{bmatrix}^{T}
+[C_{abc}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}, \qquad [C_{\alpha\beta}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}^{T}
 $$
 
 From the condition that multiplying $[C_{abc}]$ by the inverse transform $[C_{\alpha\beta}]$ gives the identity matrix,
@@ -80,22 +62,7 @@ $$
 expanding the left-hand side and substituting the numerical values gives
 
 $$
-k^2
-\begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
-\end{bmatrix}
-\begin{bmatrix}
-  1             & 0                   \cr
-  -\dfrac{1}{2} & \dfrac{\sqrt{3}}{2} \cr
-  -\dfrac{1}{2} & -\dfrac{\sqrt{3}}{2}
-\end{bmatrix}
-= k^2
-\begin{bmatrix}
-  \dfrac{3}{2} & 0            \cr
-  0            & \dfrac{3}{2}
-\end{bmatrix}
-= [1]
+k^2 \begin{bmatrix} 1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr 0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix} \begin{bmatrix} 1             & 0                   \cr -\dfrac{1}{2} & \dfrac{\sqrt{3}}{2} \cr -\dfrac{1}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix} = k^2 \begin{bmatrix} \dfrac{3}{2} & 0            \cr 0            & \dfrac{3}{2} \end{bmatrix} = [1]
 $$
 
 Therefore,
@@ -107,12 +74,7 @@ $$
 The transform matrix is thus determined as follows.
 
 $$
-[C_{abc}]
-= \sqrt{\frac{2}{3}}
-\begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr
-  0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
-\end{bmatrix}
+[C_{abc}] = \sqrt{\frac{2}{3}} \begin{bmatrix} 1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr 0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix}
 $$
 
 ### 2.2 Simplification to a Two-sensor Setup
@@ -122,39 +84,17 @@ Substituting $i_V = -(i_U + i_W)$, from $i_U + i_V + i_W = 0$, completes the α�
 **α component:**
 
 $$
-i_\alpha
-= \sqrt{\frac{2}{3}}
-\left(
-  i_U - \frac{1}{2}\bigl(-(i_U + i_W)\bigr) - \frac{1}{2} i_W
-\right)
-= \sqrt{\frac{2}{3}} \cdot \frac{3}{2}\thinspace  i_U
+i_\alpha = \sqrt{\frac{2}{3}} \left( i_U - \frac{1}{2}\bigl(-(i_U + i_W)\bigr) - \frac{1}{2} i_W \right) = \sqrt{\frac{2}{3}} \cdot \frac{3}{2}\thinspace  i_U
 $$
 
 **β component:**
 
 $$
-i_\beta
-= \sqrt{\frac{2}{3}}
-\left(
-  \frac{\sqrt{3}}{2}\bigl(-(i_U + i_W)\bigr)
-  - \frac{\sqrt{3}}{2}\thinspace  i_W
-\right)
-= \sqrt{\frac{2}{3}}
-\left(
-  -\frac{\sqrt{3}}{2}\thinspace  i_U - \sqrt{3}\thinspace  i_W
-\right)
+i_\beta = \sqrt{\frac{2}{3}} \left( \frac{\sqrt{3}}{2}\bigl(-(i_U + i_W)\bigr) - \frac{\sqrt{3}}{2}\thinspace  i_W \right) = \sqrt{\frac{2}{3}} \left( -\frac{\sqrt{3}}{2}\thinspace  i_U - \sqrt{3}\thinspace  i_W \right)
 $$
 
 $$
-\boxed{
-\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
-= \sqrt{\frac{2}{3}}
-\begin{bmatrix}
-  \dfrac{3}{2}           & 0       \cr
-  -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
-}
+\boxed{ \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} \dfrac{3}{2}           & 0       \cr -\dfrac{\sqrt{3}}{2}   & -\sqrt{3} \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} }
 $$
 
 > In hardware, only the U- and W-phases need to be sensed, allowing one current sensor to be eliminated.
@@ -162,9 +102,7 @@ $$
 ### 2.3 Inverse Clarke Transform (αβ → UVW)
 
 $$
-i_U = i_\alpha, \quad
-i_V = -\frac{1}{2}i_\alpha + \frac{\sqrt{3}}{2}i_\beta, \quad
-i_W = -\frac{1}{2}i_\alpha - \frac{\sqrt{3}}{2}i_\beta
+i_U = i_\alpha, \quad i_V = -\frac{1}{2}i_\alpha + \frac{\sqrt{3}}{2}i_\beta, \quad i_W = -\frac{1}{2}i_\alpha - \frac{\sqrt{3}}{2}i_\beta
 $$
 
 ---
@@ -174,10 +112,7 @@ $$
 The stationary coordinates αβ are transformed into a dq coordinate system that rotates at the electrical angle $\theta$. This turns the sinusoidal AC quantities into **DC quantities**.
 
 $$
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-=
-\begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta & \cos\theta \end{bmatrix}
-\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix} = \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 $$
 
 Here $\theta$ is the **electrical angle**, which is the mechanical angle $\theta_m$ multiplied by the number of pole pairs $P_n$ ($\theta_e = P_n \cdot \theta_m$).
@@ -191,55 +126,19 @@ Here $\theta$ is the **electrical angle**, which is the mechanical angle $\theta
 Multiplying the αβ expression from Section 2.2 by the Park rotation matrix gives
 
 $$
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-= \sqrt{\frac{2}{3}}
-\underbrace{
-\begin{bmatrix}
-  \cos\theta & -\sin\theta \cr
-  \sin\theta &  \cos\theta
-\end{bmatrix}
-}_{\text{rotation matrix}}
-\begin{bmatrix}
-  \dfrac{3}{2}           & 0       \cr
-  -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{\frac{2}{3}} \underbrace{ \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta &  \cos\theta \end{bmatrix} }_{\text{rotation matrix}} \begin{bmatrix} \dfrac{3}{2}           & 0       \cr -\dfrac{\sqrt{3}}{2}   & -\sqrt{3} \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 Organizing the transform matrix via the angle-addition formulas yields the following **three-phase-to-two-axis transform expression**.
 
 $$
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-= \sqrt{2}
-\begin{bmatrix}
-  \cos\theta & -\sin\theta \cr
-  \sin\theta &  \cos\theta
-\end{bmatrix}
-\begin{bmatrix}
-  \dfrac{\sqrt{3}}{2} & 0  \cr
-  -\dfrac{1}{2}        & -1
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
-= \sqrt{2}
-\begin{bmatrix}
-  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
-  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{2} \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta &  \cos\theta \end{bmatrix} \begin{bmatrix} \dfrac{\sqrt{3}}{2} & 0  \cr -\dfrac{1}{2}        & -1 \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} = \sqrt{2} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 Multiplying by the RMS conversion factor $\sqrt{\dfrac{1}{3}}$ to correct the three-phase AC components into DC components (see [Section 4](#4-rms-effective-value-conversion) for the reason) gives
 
 $$
-\boxed{
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-= \sqrt{\frac{2}{3}}
-\begin{bmatrix}
-  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
-  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
-}
+\boxed{ \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} }
 $$
 
 ### 3.2 Inverse Park Transform (dq → αβ)
@@ -247,10 +146,7 @@ $$
 Given by the transpose (= inverse) of the rotation matrix.
 
 $$
-\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
-=
-\begin{bmatrix} \cos\theta & \sin\theta \cr -\sin\theta & \cos\theta \end{bmatrix}
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
+\begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix} = \begin{bmatrix} \cos\theta & \sin\theta \cr -\sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} i_d \cr i_q \end{bmatrix}
 $$
 
 Returning dq → αβ with the inverse Park transform, and then converting αβ → UVW with the inverse Clarke transform, allows the result to be output as three-phase PWM voltage.
@@ -266,33 +162,19 @@ Returning dq → αβ with the inverse Park transform, and then converting αβ 
 The three-phase-to-two-phase transform can be expressed in vector space as follows.
 
 $$
-i_{\alpha\beta}
-= \sqrt{\frac{2}{3}}
-\left(
-  i_U + e^{j\frac{2\pi}{3}} i_V + e^{j\frac{4\pi}{3}} i_W
-\right)
+i_{\alpha\beta} = \sqrt{\frac{2}{3}} \left( i_U + e^{j\frac{2\pi}{3}} i_V + e^{j\frac{4\pi}{3}} i_W \right)
 $$
 
 Letting the RMS value be $i$, the current per phase is
 
 $$
-i_U = \sqrt{2}\thinspace  i \cos(\omega t),
-\qquad
-i_V = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{2\pi}{3}\right),
-\qquad
-i_W = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{4\pi}{3}\right)
+i_U = \sqrt{2}\thinspace  i \cos(\omega t), \qquad i_V = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{2\pi}{3}\right), \qquad i_W = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{4\pi}{3}\right)
 $$
 
 Rewriting with Euler's formula $\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}$ and substituting gives
 
 $$
-i_{\alpha\beta}
-= \sqrt{\frac{2}{3}} \sqrt{2}\thinspace  i
-\left(
-  \frac{3}{2}\thinspace  e^{j\omega t}
-  + \frac{1}{2}\thinspace  e^{-j\omega t}
-  \negthinspace \left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right)
-\right)
+i_{\alpha\beta} = \sqrt{\frac{2}{3}} \sqrt{2}\thinspace  i \left( \frac{3}{2}\thinspace  e^{j\omega t} + \frac{1}{2}\thinspace  e^{-j\omega t} \negthinspace \left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right) \right)
 $$
 
 The parenthesized term $1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}$ becomes 0 by the symmetry of the trigonometric functions, so
@@ -314,21 +196,13 @@ The two-axis (d, q) → three-phase (U, V, W) transform is explained below.
 We find the inverse of the forward transform expression obtained in Section 3.1.
 
 $$
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-= \sqrt{\frac{2}{3}}
-\begin{bmatrix}
-  \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr
-  -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right)
-\end{bmatrix}
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
+\begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
 **Compute the determinant.**
 
 $$
-\det A
-= \sin\negthinspace \left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{2}\pi\right)\right)
-- \left(-\sin(\theta)\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{6}\pi\right)\right)
+\det A = \sin\negthinspace \left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{2}\pi\right)\right) - \left(-\sin(\theta)\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{6}\pi\right)\right)
 $$
 
 Expanding with the angle-addition formulas (expanding $\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)$, and using the orthogonality of the trigonometric functions) gives
@@ -340,35 +214,19 @@ $$
 **Assemble the inverse matrix.**
 
 $$
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
-= \sqrt{\frac{3}{2}} \cdot \frac{1}{-\dfrac{\sqrt{3}}{2}}
-\begin{bmatrix}
-  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr
-  \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
-\end{bmatrix}
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
+\begin{bmatrix} i_U \cr i_W \end{bmatrix} = \sqrt{\frac{3}{2}} \cdot \frac{1}{-\dfrac{\sqrt{3}}{2}} \begin{bmatrix} -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right) \end{bmatrix} \begin{bmatrix} i_d \cr i_q \end{bmatrix}
 $$
 
 Organize the scale factor.
 
 $$
-\sqrt{\frac{3}{2}} \cdot \left(-\frac{2}{\sqrt{3}}\right)
-= -\frac{2}{\sqrt{2}}
-= -\sqrt{2}
+\sqrt{\frac{3}{2}} \cdot \left(-\frac{2}{\sqrt{3}}\right) = -\frac{2}{\sqrt{2}} = -\sqrt{2}
 $$
 
 From the above,
 
 $$
-\boxed{
-\begin{bmatrix} i_U \cr i_W \end{bmatrix}
-= -\sqrt{2}
-\begin{bmatrix}
-  -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr
-  \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)
-\end{bmatrix}
-\begin{bmatrix} i_d \cr i_q \end{bmatrix}
-}
+\boxed{ \begin{bmatrix} i_U \cr i_W \end{bmatrix} = -\sqrt{2} \begin{bmatrix} -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right) \end{bmatrix} \begin{bmatrix} i_d \cr i_q \end{bmatrix} }
 $$
 
 The remaining $i_V$ is computed from $i_V = -(i_U + i_W)$.

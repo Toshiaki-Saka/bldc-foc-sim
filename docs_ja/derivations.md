@@ -13,9 +13,7 @@
 U 相を α 軸に一致させると、各相軸の単位ベクトルは
 
 $$
-\hat{e}_U = (1,\ 0), \quad
-\hat{e}_V = \negthinspace \left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad
-\hat{e}_W = \negthinspace \left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
+\hat{e}_U = (1,\ 0), \quad \hat{e}_V = \negthinspace \left(-\tfrac{1}{2},\ \tfrac{\sqrt{3}}{2}\right), \quad \hat{e}_W = \negthinspace \left(-\tfrac{1}{2},\ -\tfrac{\sqrt{3}}{2}\right)
 $$
 
 α・β 成分は各相量をこの軸方向に射影して足し合わせたものである。
@@ -31,8 +29,7 @@ $$
 振幅不変とするためのスケール係数 $\tfrac{2}{3}$ を掛けると、Clarke 変換が得られる。
 
 $$
-\alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad
-\beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
+\alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad \beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
 $$
 
 三相平衡条件 $U + V + W = 0$ のとき、三相正弦波の振幅と αβ 量の振幅が
@@ -47,15 +44,13 @@ $$
 等しい。回転行列より
 
 $$
-d =  \alpha\cos\theta + \beta\sin\theta, \qquad
-q = -\alpha\sin\theta + \beta\cos\theta
+d =  \alpha\cos\theta + \beta\sin\theta, \qquad q = -\alpha\sin\theta + \beta\cos\theta
 $$
 
 逆変換は $\theta$ だけ回転させればよい（回転行列の転置 = 逆行列）。
 
 $$
-\alpha = d\cos\theta - q\sin\theta, \qquad
-\beta  = d\sin\theta + q\cos\theta
+\alpha = d\cos\theta - q\sin\theta, \qquad \beta  = d\sin\theta + q\cos\theta
 $$
 
 ---
@@ -125,8 +120,7 @@ $$
 電流の状態方程式 $di/dt = (-Ri + v)/L$ を前進オイラー法で離散化する。
 
 $$
-i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L}
-         = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
+i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L} = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
 $$
 
 安定条件は $\left|1 - \frac{R}{L}\Delta t\right| \le 1$、すなわち
