@@ -29,7 +29,7 @@ The RMS value of the three-phase components is not equal to the q-axis current. 
 ## 2. Clarke Transform (Three-phase → Two-phase αβ)
 
 The three-phase UVW quantities are transformed into the **stationary reference frame** of two mutually orthogonal axes, α and β.  
-This code uses the **power-invariant form** ($k = \sqrt{2/3}$).
+This code uses the **power-invariant form** ($`k = \sqrt{2/3}`$).
 
 Projecting each of the three phase axes onto the unit vectors at 0°, 120°, and 240° yields the αβ components (the 3-sensor version).
 
@@ -37,7 +37,7 @@ $$
 \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} 1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr 0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix} \begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
 $$
 
-When the three phases are balanced ($i_U + i_V + i_W = 0$), the zero-sequence component becomes 0, and the expression above can be fully represented by its two rows.
+When the three phases are balanced ($`i_U + i_V + i_W = 0`$), the zero-sequence component becomes 0, and the expression above can be fully represented by its two rows.
 
 ![Geometric meaning of the Clarke transform](images/clarke_transform_geometry.png)
 
@@ -47,13 +47,13 @@ When the three phases are balanced ($i_U + i_V + i_W = 0$), the zero-sequence co
 
 The following is the basic projection expression, which is still a **relative transform**. For the inverse transform to return the original values, the condition of an **absolute transform** must be satisfied.
 
-Define the transform matrix with a scale factor $k$.
+Define the transform matrix with a scale factor $`k`$.
 
 $$
 [C_{abc}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}, \qquad [C_{\alpha\beta}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}^{T}
 $$
 
-From the condition that multiplying $[C_{abc}]$ by the inverse transform $[C_{\alpha\beta}]$ gives the identity matrix,
+From the condition that multiplying $`[C_{abc}]`$ by the inverse transform $`[C_{\alpha\beta}]`$ gives the identity matrix,
 
 $$
 [C_{abc}][C_{\alpha\beta}] = [1]
@@ -79,7 +79,7 @@ $$
 
 ### 2.2 Simplification to a Two-sensor Setup
 
-Substituting $i_V = -(i_U + i_W)$, from $i_U + i_V + i_W = 0$, completes the αβ transform using **only the two components of the U-phase and W-phase**.
+Substituting $`i_V = -(i_U + i_W)`$, from $`i_U + i_V + i_W = 0`$, completes the αβ transform using **only the two components of the U-phase and W-phase**.
 
 **α component:**
 
@@ -109,13 +109,13 @@ $$
 
 ## 3. Park Transform (Two-phase αβ → Rotating dq)
 
-The stationary coordinates αβ are transformed into a dq coordinate system that rotates at the electrical angle $\theta$. This turns the sinusoidal AC quantities into **DC quantities**.
+The stationary coordinates αβ are transformed into a dq coordinate system that rotates at the electrical angle $`\theta`$. This turns the sinusoidal AC quantities into **DC quantities**.
 
 $$
 \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 $$
 
-Here $\theta$ is the **electrical angle**, which is the mechanical angle $\theta_m$ multiplied by the number of pole pairs $P_n$ ($\theta_e = P_n \cdot \theta_m$).
+Here $`\theta`$ is the **electrical angle**, which is the mechanical angle $`\theta_m`$ multiplied by the number of pole pairs $`P_n`$ ($`\theta_e = P_n \cdot \theta_m`$).
 
 ![Geometric meaning of the Park transform](images/park_transform_geometry.png)
 
@@ -135,7 +135,7 @@ $$
 \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{2} \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta &  \cos\theta \end{bmatrix} \begin{bmatrix} \dfrac{\sqrt{3}}{2} & 0  \cr -\dfrac{1}{2}        & -1 \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} = \sqrt{2} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
-Multiplying by the RMS conversion factor $\sqrt{\dfrac{1}{3}}$ to correct the three-phase AC components into DC components (see [Section 4](#4-rms-effective-value-conversion) for the reason) gives
+Multiplying by the RMS conversion factor $`\sqrt{\dfrac{1}{3}}`$ to correct the three-phase AC components into DC components (see [Section 4](#4-rms-effective-value-conversion) for the reason) gives
 
 $$
 \boxed{ \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} }
@@ -165,25 +165,25 @@ $$
 i_{\alpha\beta} = \sqrt{\frac{2}{3}} \left( i_U + e^{j\frac{2\pi}{3}} i_V + e^{j\frac{4\pi}{3}} i_W \right)
 $$
 
-Letting the RMS value be $i$, the current per phase is
+Letting the RMS value be $`i`$, the current per phase is
 
 $$
 i_U = \sqrt{2}\thinspace  i \cos(\omega t), \qquad i_V = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{2\pi}{3}\right), \qquad i_W = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{4\pi}{3}\right)
 $$
 
-Rewriting with Euler's formula $\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}$ and substituting gives
+Rewriting with Euler's formula $`\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}`$ and substituting gives
 
 $$
 i_{\alpha\beta} = \sqrt{\frac{2}{3}} \sqrt{2}\thinspace  i \left( \frac{3}{2}\thinspace  e^{j\omega t} + \frac{1}{2}\thinspace  e^{-j\omega t} \negthinspace \left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right) \right)
 $$
 
-The parenthesized term $1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}$ becomes 0 by the symmetry of the trigonometric functions, so
+The parenthesized term $`1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}`$ becomes 0 by the symmetry of the trigonometric functions, so
 
 $$
 i_{\alpha\beta} = \sqrt{3}\thinspace  i\thinspace  e^{j\omega t}
 $$
 
-> **Conclusion:** The current after the three-phase-to-two-phase transform becomes $\sqrt{3}$ times the RMS value, so it is necessary to multiply by $\sqrt{\dfrac{1}{3}}$.
+> **Conclusion:** The current after the three-phase-to-two-phase transform becomes $`\sqrt{3}`$ times the RMS value, so it is necessary to multiply by $`\sqrt{\dfrac{1}{3}}`$.
 
 Note that when a d-axis component exists (as in field weakening, etc.), the relationship is no longer a simple proportion.
 
@@ -205,7 +205,7 @@ $$
 \det A = \sin\negthinspace \left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{2}\pi\right)\right) - \left(-\sin(\theta)\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{6}\pi\right)\right)
 $$
 
-Expanding with the angle-addition formulas (expanding $\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)$, and using the orthogonality of the trigonometric functions) gives
+Expanding with the angle-addition formulas (expanding $`\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)`$, and using the orthogonality of the trigonometric functions) gives
 
 $$
 \det A = -\frac{\sqrt{3}}{2}
@@ -229,7 +229,7 @@ $$
 \boxed{ \begin{bmatrix} i_U \cr i_W \end{bmatrix} = -\sqrt{2} \begin{bmatrix} -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right) \end{bmatrix} \begin{bmatrix} i_d \cr i_q \end{bmatrix} }
 $$
 
-The remaining $i_V$ is computed from $i_V = -(i_U + i_W)$.
+The remaining $`i_V`$ is computed from $`i_V = -(i_U + i_W)`$.
 
 ---
 
@@ -294,10 +294,10 @@ The angle argument `deg` is the electrical angle in degrees.
 
 | Transform | Equation |
 |------|-----|
-| **Three-phase → αβ (3 sensors)** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\cr0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\cr i_V\cr i_W\end{bmatrix}$ |
-| **Three-phase → αβ (2 sensors)** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\cr-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
-| **Three-phase → dq (direct)** | $\begin{bmatrix}i_d\cr i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\cr-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
-| **dq → three-phase (inverse)** | $\begin{bmatrix}i_U\cr i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\cr\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\cr i_q\end{bmatrix}$ |
+| **Three-phase → αβ (3 sensors)** | $`\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\cr0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\cr i_V\cr i_W\end{bmatrix}`$ |
+| **Three-phase → αβ (2 sensors)** | $`\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\cr-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}`$ |
+| **Three-phase → dq (direct)** | $`\begin{bmatrix}i_d\cr i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\cr-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}`$ |
+| **dq → three-phase (inverse)** | $`\begin{bmatrix}i_U\cr i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\cr\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\cr i_q\end{bmatrix}`$ |
 
 ---
 

@@ -24,7 +24,7 @@
 | I-f 制御 | 電流ベクトルを強制回転 | 起動時の脱調防止 |
 | 拡張カルマンフィルタ (EKF) | 状態推定の厳密版 | 全域 (計算負荷大) |
 
-本コードは **誘起電圧オブザーバ方式** を採用する。中速以上で高精度だが、誘起電圧 $e = K_e \omega$ に比例するため、停止・低速域では推定精度が落ちる。
+本コードは **誘起電圧オブザーバ方式** を採用する。中速以上で高精度だが、誘起電圧 $`e = K_e \omega`$ に比例するため、停止・低速域では推定精度が落ちる。
 
 ---
 
@@ -50,12 +50,12 @@ $$
 
 **離散化の手順:**
 
-1. 三相 → αβ 変換: $i_{\alpha\beta} =$ `uvw_to_alphabeta`$(i_{uvw})$、$v_{\alpha\beta} =$ `uvw_to_alphabeta`$(v_{uvw})$
-2. 各軸で上式を適用して $e_\alpha,\thinspace  e_\beta$ を算出
+1. 三相 → αβ 変換: $`i_{\alpha\beta} =`$ `uvw_to_alphabeta`$`(i_{uvw})`$、$`v_{\alpha\beta} =`$ `uvw_to_alphabeta`$`(v_{uvw})`$
+2. 各軸で上式を適用して $`e_\alpha,\thinspace  e_\beta`$ を算出
 
 ### 3.2 離散微分の遅延補正
 
-電圧 $v$ は 1 ステップ前の制御出力、電流 $i$ は今ステップの測定値である。離散微分項 $L(i - i_{\text{prev}})/dt$ は半ステップの遅延を含むため、抵抗降下項にも $i_{\text{prev}}$ を使って時間整合を取る。これはコード中の重要な工夫である。
+電圧 $`v`$ は 1 ステップ前の制御出力、電流 $`i`$ は今ステップの測定値である。離散微分項 $`L(i - i_{\text{prev}})/dt`$ は半ステップの遅延を含むため、抵抗降下項にも $`i_{\text{prev}}`$ を使って時間整合を取る。これはコード中の重要な工夫である。
 
 ### 3.3 ローパスフィルタによるノイズ除去
 
@@ -65,7 +65,7 @@ $$
 e_{\alpha,\text{filt}} \mathrel{+}= (e_\alpha - e_{\alpha,\text{filt}}) \cdot \alpha_{\text{lpf}}, \qquad \alpha_{\text{lpf}} = 1 - e^{-\omega_c dt}
 $$
 
-本コードのカットオフは $\omega_c = 2000\thinspace \mathrm{rad/s}$ (約 318 Hz)。LPF は推定遅延と引き換えにノイズを低減する (トレードオフ)。
+本コードのカットオフは $`\omega_c = 2000\thinspace \mathrm{rad/s}`$ (約 318 Hz)。LPF は推定遅延と引き換えにノイズを低減する (トレードオフ)。
 
 ### 3.4 誘起電圧の規約と角度復元
 
@@ -75,13 +75,13 @@ $$
 e_\alpha = \frac{\sqrt{2}}{2} K_e \omega \sin\theta, \qquad e_\beta = \frac{\sqrt{2}}{2} K_e \omega \cos\theta
 $$
 
-この規約により $\theta = \mathrm{atan2}(e_\alpha,\thinspace  e_\beta)$ で角度を復元できる。ただし直接 ATAN2 すると角度がノイズでジャンプするため、次節の PLL を用いる。
+この規約により $`\theta = \mathrm{atan2}(e_\alpha,\thinspace  e_\beta)`$ で角度を復元できる。ただし直接 ATAN2 すると角度がノイズでジャンプするため、次節の PLL を用いる。
 
 ---
 
 ## 4. PLL による角度・速度推定
 
-**PLL (位相同期ループ)** は、内部に持つ推定角 $\hat{\theta}$ を誘起電圧の真の位相に「ロック」させる仕組みである。角度と速度を同時に推定できる。
+**PLL (位相同期ループ)** は、内部に持つ推定角 $`\hat{\theta}`$ を誘起電圧の真の位相に「ロック」させる仕組みである。角度と速度を同時に推定できる。
 
 ### 4.1 クロスプロダクト誤差
 
@@ -107,7 +107,7 @@ $$
 \hat{\theta} \mathrel{+}= \hat{\omega} \cdot dt \quad \text{(角度更新)}
 $$
 
-最後に $\hat{\theta}$ を $[0,\thinspace  2\pi)$ に折り返す。
+最後に $`\hat{\theta}`$ を $`[0,\thinspace  2\pi)`$ に折り返す。
 
 ### 4.3 PLL ゲインと帯域
 
@@ -115,35 +115,35 @@ $$
 
 | パラメータ | 値 | 意味 |
 |-----------|-----|------|
-| $K_{p,\text{pll}}$ | 500 [rad/s/V] | 比例ゲイン |
-| $K_{i,\text{pll}}$ | 100000 [rad/s²/V] | 積分ゲイン |
-| PLL 帯域 | $\approx \sqrt{K_{i,\text{pll}}} \approx 316\thinspace \mathrm{rad/s}$ (約 50 Hz) | |
+| $`K_{p,\text{pll}}`$ | 500 [rad/s/V] | 比例ゲイン |
+| $`K_{i,\text{pll}}`$ | 100000 [rad/s²/V] | 積分ゲイン |
+| PLL 帯域 | $`\approx \sqrt{K_{i,\text{pll}}} \approx 316\thinspace \mathrm{rad/s}`$ (約 50 Hz) | |
 
 PLL 帯域は LPF カットオフ (2000 rad/s) より十分低く設定し、フィルタ後の誘起電圧を安定に追従する。
 
 ### 4.4 LPF 位相遅れの補償
 
-LPF は電気角速度 $\omega_e$ の信号を
+LPF は電気角速度 $`\omega_e`$ の信号を
 
 $$
 \varphi = \arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
-だけ遅らせる。誘起電圧がこの分だけ遅れるため、推定角は真の角度より $\varphi$ だけ遅れる。`get_angle_deg()` はこの位相遅れを $+\varphi$ 加算して補償し、定常角度誤差を小さく抑える。
+だけ遅らせる。誘起電圧がこの分だけ遅れるため、推定角は真の角度より $`\varphi`$ だけ遅れる。`get_angle_deg()` はこの位相遅れを $`+\varphi`$ 加算して補償し、定常角度誤差を小さく抑える。
 
 ---
 
 ## 5. センサーレスによる定常値の変化
 
-005 モデルでは dq 変換に真の電気角ではなく推定角度 $\hat{\theta}$ を使う。LPF の位相遅れにより、定常状態でも
+005 モデルでは dq 変換に真の電気角ではなく推定角度 $`\hat{\theta}`$ を使う。LPF の位相遅れにより、定常状態でも
 
 $$
 \Delta\theta \approx -\arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
-の角度ズレが残る。例えば $\omega_e = 100\thinspace \mathrm{rad/s}$ なら $\Delta\theta \approx -2.86°$ である。
+の角度ズレが残る。例えば $`\omega_e = 100\thinspace \mathrm{rad/s}`$ なら $`\Delta\theta \approx -2.86°`$ である。
 
-この $\Delta\theta$ により、PI が制御する dq 軸が「真の dq 軸」から少し回転しており、電流が以下のように分解される。
+この $`\Delta\theta`$ により、PI が制御する dq 軸が「真の dq 軸」から少し回転しており、電流が以下のように分解される。
 
 $$
 i_q^{\text{true}} = i_q^{\text{est}} \cos(\Delta\theta) - i_d^{\text{est}} \sin(\Delta\theta)
@@ -153,7 +153,7 @@ $$
 i_d^{\text{true}} = i_q^{\text{est}} \sin(\Delta\theta) + i_d^{\text{est}} \cos(\Delta\theta)
 $$
 
-PI 制御は $i_q^{\text{est}} = 85\thinspace \mathrm{A}$、$i_d^{\text{est}} = 0$ に追従させるため、$\Delta\theta = 2.86°$ のとき:
+PI 制御は $`i_q^{\text{est}} = 85\thinspace \mathrm{A}`$、$`i_d^{\text{est}} = 0`$ に追従させるため、$`\Delta\theta = 2.86°`$ のとき:
 
 $$
 i_q^{\text{true}} \approx 85 \times \cos(2.86°) \approx 84.89\thinspace \mathrm{A} \quad \text{(約 0.12 ％ 減)}
@@ -163,7 +163,7 @@ $$
 i_d^{\text{true}} \approx 85 \times \sin(2.86°) \approx 4.24\thinspace \mathrm{A} \quad \text{(本来 0 のはずが漏れる)}
 $$
 
-LPF カットオフ $\omega_c$ を上げれば $\Delta\theta$ は減るが、ノイズ感度が悪化するトレードオフがある。
+LPF カットオフ $`\omega_c`$ を上げれば $`\Delta\theta`$ は減るが、ノイズ感度が悪化するトレードオフがある。
 
 ---
 
@@ -171,7 +171,7 @@ LPF カットオフ $\omega_c$ を上げれば $\Delta\theta$ は減るが、ノ
 
 ### 6.1 低速・停止域の課題
 
-誘起電圧オブザーバは $e = K_e \omega$ なので、$\omega \to 0$ では推定が破綻する。実機の真のセンサーレス制御では、低速・停止域を V/f 強制ランプ・I-f 制御・HFI・初期位置推定などでカバーする。
+誘起電圧オブザーバは $`e = K_e \omega`$ なので、$`\omega \to 0`$ では推定が破綻する。実機の真のセンサーレス制御では、低速・停止域を V/f 強制ランプ・I-f 制御・HFI・初期位置推定などでカバーする。
 
 ### 6.2 本コードのアプローチ — シードあり起動
 

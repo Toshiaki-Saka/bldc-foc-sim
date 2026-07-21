@@ -29,7 +29,7 @@
 ## 2. Clarke 変換 (三相 → 二相 αβ)
 
 三相 UVW 量を、互いに直交する 2 軸 α・β の **静止座標系** に変換する。  
-本コードは**電力不変形** ($k = \sqrt{2/3}$) を用いる。
+本コードは**電力不変形** ($`k = \sqrt{2/3}`$) を用いる。
 
 三相各軸を 0°・120°・240° の単位ベクトルへ射影することで αβ 成分を得る（3 センサ版）。
 
@@ -37,7 +37,7 @@ $$
 \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} 1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \cr 0 & \dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2} \end{bmatrix} \begin{bmatrix} i_U \cr i_V \cr i_W \end{bmatrix}
 $$
 
-三相が平衡している ($i_U + i_V + i_W = 0$) 場合、零相成分は 0 となり、上式の 2 行で完全に表現できる。
+三相が平衡している ($`i_U + i_V + i_W = 0`$) 場合、零相成分は 0 となり、上式の 2 行で完全に表現できる。
 
 ![Clarke 変換の幾何学的意味](images/clarke_transform_geometry.png)
 
@@ -47,13 +47,13 @@ $$
 
 以下は射影の基本式であり、これはまだ**相対変換**である。逆変換で元の値に戻るためには**絶対変換**の条件を満たす必要がある。
 
-変換行列をスケール係数 $k$ で定義する。
+変換行列をスケール係数 $`k`$ で定義する。
 
 $$
 [C_{abc}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}, \qquad [C_{\alpha\beta}] = k \begin{bmatrix} \cos 0°  & \cos 120°  & \cos 240° \cr \sin 0°  & \sin 120°  & \sin 240° \end{bmatrix}^{T}
 $$
 
-$[C_{abc}]$ に逆変換 $[C_{\alpha\beta}]$ をかけると単位行列になる条件から，
+$`[C_{abc}]`$ に逆変換 $`[C_{\alpha\beta}]`$ をかけると単位行列になる条件から，
 
 $$
 [C_{abc}][C_{\alpha\beta}] = [1]
@@ -79,7 +79,7 @@ $$
 
 ### 2.2 二相センサへの簡略化
 
-$i_U + i_V + i_W = 0$ より $i_V = -(i_U + i_W)$ を代入すると，**U 相・W 相の 2 成分だけ**で αβ 変換が完結する。
+$`i_U + i_V + i_W = 0`$ より $`i_V = -(i_U + i_W)`$ を代入すると，**U 相・W 相の 2 成分だけ**で αβ 変換が完結する。
 
 **α 成分：**
 
@@ -109,13 +109,13 @@ $$
 
 ## 3. Park 変換 (二相 αβ → 回転 dq)
 
-静止座標 αβ を、電気角 $\theta$ で回転する dq 座標系に変換する。これにより正弦波状の交流量が **直流量** になる。
+静止座標 αβ を、電気角 $`\theta`$ で回転する dq 座標系に変換する。これにより正弦波状の交流量が **直流量** になる。
 
 $$
 \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta & \cos\theta \end{bmatrix} \begin{bmatrix} i_\alpha \cr i_\beta \end{bmatrix}
 $$
 
-ここで $\theta$ は **電気角** であり、機械角 $\theta_m$ に極対数 $P_n$ を掛けたものである ($\theta_e = P_n \cdot \theta_m$)。
+ここで $`\theta`$ は **電気角** であり、機械角 $`\theta_m`$ に極対数 $`P_n`$ を掛けたものである ($`\theta_e = P_n \cdot \theta_m`$)。
 
 ![Park 変換の幾何学的意味](images/park_transform_geometry.png)
 
@@ -135,7 +135,7 @@ $$
 \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{2} \begin{bmatrix} \cos\theta & -\sin\theta \cr \sin\theta &  \cos\theta \end{bmatrix} \begin{bmatrix} \dfrac{\sqrt{3}}{2} & 0  \cr -\dfrac{1}{2}        & -1 \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} = \sqrt{2} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix}
 $$
 
-三相交流成分を直流成分に補正するために実効値換算 $\sqrt{\dfrac{1}{3}}$ をかけると（理由は [第 4 節](#4-実効値換算について) 参照），
+三相交流成分を直流成分に補正するために実効値換算 $`\sqrt{\dfrac{1}{3}}`$ をかけると（理由は [第 4 節](#4-実効値換算について) 参照），
 
 $$
 \boxed{ \begin{bmatrix} i_d \cr i_q \end{bmatrix} = \sqrt{\frac{2}{3}} \begin{bmatrix} \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \cr -\sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) \end{bmatrix} \begin{bmatrix} i_U \cr i_W \end{bmatrix} }
@@ -165,25 +165,25 @@ $$
 i_{\alpha\beta} = \sqrt{\frac{2}{3}} \left( i_U + e^{j\frac{2\pi}{3}} i_V + e^{j\frac{4\pi}{3}} i_W \right)
 $$
 
-一相あたりの電流は，実効値を $i$ とすると，
+一相あたりの電流は，実効値を $`i`$ とすると，
 
 $$
 i_U = \sqrt{2}\thinspace  i \cos(\omega t), \qquad i_V = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{2\pi}{3}\right), \qquad i_W = \sqrt{2}\thinspace  i \cos\negthinspace \left(\omega t + \frac{4\pi}{3}\right)
 $$
 
-オイラーの公式 $\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}$ で変形し，代入すると，
+オイラーの公式 $`\cos(\omega t) = \dfrac{e^{j\omega t} + e^{-j\omega t}}{2}`$ で変形し，代入すると，
 
 $$
 i_{\alpha\beta} = \sqrt{\frac{2}{3}} \sqrt{2}\thinspace  i \left( \frac{3}{2}\thinspace  e^{j\omega t} + \frac{1}{2}\thinspace  e^{-j\omega t} \negthinspace \left(1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}\right) \right)
 $$
 
-$1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}$ の括弧内は三角関数の対称性から 0 となり，
+$`1 + e^{j\frac{4\pi}{3}} + e^{j\frac{8\pi}{3}}`$ の括弧内は三角関数の対称性から 0 となり，
 
 $$
 i_{\alpha\beta} = \sqrt{3}\thinspace  i\thinspace  e^{j\omega t}
 $$
 
-> **結論：** 三相二相変換後の電流は実効値の $\sqrt{3}$ 倍となるため，$\sqrt{\dfrac{1}{3}}$ をかける必要がある。
+> **結論：** 三相二相変換後の電流は実効値の $`\sqrt{3}`$ 倍となるため，$`\sqrt{\dfrac{1}{3}}`$ をかける必要がある。
 
 d 軸成分が存在する場合（弱め界磁など）は単純な比例関係にならないことに注意。
 
@@ -205,7 +205,7 @@ $$
 \det A = \sin\negthinspace \left(\theta + \frac{2}{3}\pi\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{2}\pi\right)\right) - \left(-\sin(\theta)\right) \cdot \left(-\sin\negthinspace \left(\theta + \frac{1}{6}\pi\right)\right)
 $$
 
-加法定理を使って展開すると（$\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)$ を展開すれば三角関数の直交性により），
+加法定理を使って展開すると（$`\sin(\theta+\frac{2}{3}\pi)\cos\theta - \sin\theta\sin(\theta+\frac{1}{6}\pi)`$ を展開すれば三角関数の直交性により），
 
 $$
 \det A = -\frac{\sqrt{3}}{2}
@@ -229,7 +229,7 @@ $$
 \boxed{ \begin{bmatrix} i_U \cr i_W \end{bmatrix} = -\sqrt{2} \begin{bmatrix} -\sin\negthinspace \left(\theta + \dfrac{1}{2}\pi\right) & \sin(\theta)                   \cr \sin\negthinspace \left(\theta + \dfrac{1}{6}\pi\right)  & \sin\negthinspace \left(\theta + \dfrac{2}{3}\pi\right) \end{bmatrix} \begin{bmatrix} i_d \cr i_q \end{bmatrix} }
 $$
 
-残る $i_V$ は $i_V = -(i_U + i_W)$ から算出する。
+残る $`i_V`$ は $`i_V = -(i_U + i_W)`$ から算出する。
 
 ---
 
@@ -294,10 +294,10 @@ Eigen::Vector2d MotorVectorConv::uvw_to_alphabeta(const Eigen::Vector3d& uvw);
 
 | 変換 | 式 |
 |------|-----|
-| **三相 → αβ（3 センサ）** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\cr0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\cr i_V\cr i_W\end{bmatrix}$ |
-| **三相 → αβ（2 センサ）** | $\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\cr-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
-| **三相 → dq（直接）** | $\begin{bmatrix}i_d\cr i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\cr-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}$ |
-| **dq → 三相（逆変換）** | $\begin{bmatrix}i_U\cr i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\cr\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\cr i_q\end{bmatrix}$ |
+| **三相 → αβ（3 センサ）** | $`\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}1&-\frac{1}{2}&-\frac{1}{2}\cr0&\frac{\sqrt{3}}{2}&-\frac{\sqrt{3}}{2}\end{bmatrix}\begin{bmatrix}i_U\cr i_V\cr i_W\end{bmatrix}`$ |
+| **三相 → αβ（2 センサ）** | $`\begin{bmatrix}i_\alpha\cr i_\beta\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\frac{3}{2}&0\cr-\frac{\sqrt{3}}{2}&-\sqrt{3}\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}`$ |
+| **三相 → dq（直接）** | $`\begin{bmatrix}i_d\cr i_q\end{bmatrix}=\sqrt{\frac{2}{3}}\begin{bmatrix}\sin(\theta+\frac{2}{3}\pi)&-\sin\theta\cr-\sin(\theta+\frac{1}{6}\pi)&-\sin(\theta+\frac{1}{2}\pi)\end{bmatrix}\begin{bmatrix}i_U\cr i_W\end{bmatrix}`$ |
+| **dq → 三相（逆変換）** | $`\begin{bmatrix}i_U\cr i_W\end{bmatrix}=-\sqrt{2}\begin{bmatrix}-\sin(\theta+\frac{1}{2}\pi)&\sin\theta\cr\sin(\theta+\frac{1}{6}\pi)&\sin(\theta+\frac{2}{3}\pi)\end{bmatrix}\begin{bmatrix}i_d\cr i_q\end{bmatrix}`$ |
 
 ---
 

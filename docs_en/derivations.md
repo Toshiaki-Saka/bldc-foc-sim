@@ -27,13 +27,13 @@ $$
 \beta  = U \cdot 0 + V \cdot \tfrac{\sqrt{3}}{2} + W \cdot \left(-\tfrac{\sqrt{3}}{2}\right)
 $$
 
-Multiplying by the scale factor $\tfrac{2}{3}$ that makes it amplitude-invariant yields the Clarke transform.
+Multiplying by the scale factor $`\tfrac{2}{3}`$ that makes it amplitude-invariant yields the Clarke transform.
 
 $$
 \alpha = \frac{2}{3}\negthinspace \left(U - \frac{V}{2} - \frac{W}{2}\right), \qquad \beta  = \frac{2}{3}\negthinspace \left(\frac{\sqrt{3}}{2}V - \frac{\sqrt{3}}{2}W\right)
 $$
 
-Under the three-phase balance condition $U + V + W = 0$, the amplitude of the
+Under the three-phase balance condition $`U + V + W = 0`$, the amplitude of the
 three-phase sinusoids matches the amplitude of the αβ quantities.
 
 ---
@@ -41,14 +41,14 @@ three-phase sinusoids matches the amplitude of the αβ quantities.
 ## 2. Derivation of the Park transform (αβ → dq)
 
 αβ is a stationary frame, while dq is a frame that rotates synchronously with
-the rotor at angle $\theta$. A component viewed from the rotating frame equals
-the stationary-frame quantity rotated by $-\theta$. From the rotation matrix,
+the rotor at angle $`\theta`$. A component viewed from the rotating frame equals
+the stationary-frame quantity rotated by $`-\theta`$. From the rotation matrix,
 
 $$
 d =  \alpha\cos\theta + \beta\sin\theta, \qquad q = -\alpha\sin\theta + \beta\cos\theta
 $$
 
-For the inverse transform, simply rotate by $\theta$ (transpose of the rotation matrix = its inverse).
+For the inverse transform, simply rotate by $`\theta`$ (transpose of the rotation matrix = its inverse).
 
 $$
 \alpha = d\cos\theta - q\sin\theta, \qquad \beta  = d\sin\theta + q\cos\theta
@@ -76,19 +76,19 @@ $$
 C(s)\thinspace G(s) = \frac{K_p s + K_i}{s\thinspace (Ls + R)}
 $$
 
-The denominator polynomial of the closed-loop transfer function $T(s) = CG/(1 + CG)$ is
+The denominator polynomial of the closed-loop transfer function $`T(s) = CG/(1 + CG)`$ is
 
 $$
 s(Ls + R) + (K_p s + K_i) = Ls^2 + (R + K_p)s + K_i
 $$
 
-Divide both sides by $L$ to normalize.
+Divide both sides by $`L`$ to normalize.
 
 $$
 s^2 + \frac{R + K_p}{L}\thinspace s + \frac{K_i}{L}
 $$
 
-Compare coefficients with the standard second-order system $s^2 + 2\zeta\omega_n s + \omega_n^2$.
+Compare coefficients with the standard second-order system $`s^2 + 2\zeta\omega_n s + \omega_n^2`$.
 
 $$
 \frac{R + K_p}{L} = 2\zeta\omega_n \qquad \cdots(1)
@@ -98,13 +98,13 @@ $$
 \frac{K_i}{L} = \omega_n^2 \qquad \cdots(2)
 $$
 
-From $(1)$,
+From $`(1)`$,
 
 $$
 K_p = 2\zeta\omega_n L - R
 $$
 
-From $(2)$,
+From $`(2)`$,
 
 $$
 K_i = \omega_n^2 L
@@ -118,19 +118,19 @@ These are the gain computation formulas in `main.cpp`.
 
 ### 4.1 Electrical system — forward Euler method
 
-The current state equation $di/dt = (-Ri + v)/L$ is discretized by the forward Euler method.
+The current state equation $`di/dt = (-Ri + v)/L`$ is discretized by the forward Euler method.
 
 $$
 i_{k+1} = i_k + \Delta t\thinspace \frac{-R\thinspace i_k + v_k}{L} = \left(1 - \frac{R}{L}\Delta t\right)i_k + \frac{\Delta t}{L}\thinspace v_k
 $$
 
-The stability condition is $\left|1 - \frac{R}{L}\Delta t\right| \le 1$, that is,
+The stability condition is $`\left|1 - \frac{R}{L}\Delta t\right| \le 1`$, that is,
 
 $$
 0 \le \Delta t \le \frac{2L}{R}
 $$
 
-In this code, against $2L/R = 2\ \text{ms}$, $\Delta t = 0.25\ \text{ms}$ is used (a 1/8 margin).
+In this code, against $`2L/R = 2\ \text{ms}`$, $`\Delta t = 0.25\ \text{ms}`$ is used (a 1/8 margin).
 
 ### 4.2 Mechanical system — trapezoidal integration
 
@@ -149,7 +149,7 @@ angular_vel_ += (diff_angular_vel_ + pre_diff_angular_vel_) · resolution_ / 2.0
 ### 4.3 Reason for using different discretization schemes
 
 - **Electrical system**: against the sampling period of 250 µs, the electrical
-  time constant $L/R = 1\ \text{ms}$ leaves ample margin, so forward Euler poses
+  time constant $`L/R = 1\ \text{ms}`$ leaves ample margin, so forward Euler poses
   no problem in either accuracy or stability
 - **Mechanical system**: because the response is slow and integration runs for a
   long time, second-order-accurate trapezoidal integration is preferable to
@@ -167,15 +167,15 @@ $$
 H(s) = \frac{\omega_c}{s + \omega_c}
 $$
 
-The phase lag for a sinusoidal signal of angular frequency $\omega_e$ is obtained by substituting $s = j\omega_e$,
+The phase lag for a sinusoidal signal of angular frequency $`\omega_e`$ is obtained by substituting $`s = j\omega_e`$,
 
 $$
 \angle H(j\omega_e) = -\arctan\negthinspace \left(\frac{\omega_e}{\omega_c}\right)
 $$
 
 In sensorless control, the back-EMF (angular frequency = electrical angular
-velocity $\omega_e$) passes through this LPF, so the estimated angle lags the
-true angle by $\arctan(\omega_e/\omega_c)$. `get_angle_deg()` adds this value to
+velocity $`\omega_e`$) passes through this LPF, so the estimated angle lags the
+true angle by $`\arctan(\omega_e/\omega_c)`$. `get_angle_deg()` adds this value to
 compensate for the phase lag.
 
 ---

@@ -165,8 +165,8 @@ Lane geometry: lane width 3.5 m, vehicle width 1.8 m → lateral margin on one s
 
 Three rationale models (margins secured under the premises):
 
-- **Longitudinal**: $\Delta v = a \cdot FTTI$ (speed change accrued before intervention). For loss cases, $\Delta x = V \cdot FTTI$ (unbraked distance until the backup takeover).
-- **Lateral**: $\Delta y = \tfrac{1}{2}\thinspace  a_y \cdot FTTI^2$ (lateral deviation at the moment of intervention), $v_{lat} = a_y \cdot FTTI$ (rise of lateral velocity). Representative $a_y = 3\ \mathrm{m/s^2}$ (0.3g), grip limit ≈ 8 m/s²
+- **Longitudinal**: $`\Delta v = a \cdot FTTI`$ (speed change accrued before intervention). For loss cases, $`\Delta x = V \cdot FTTI`$ (unbraked distance until the backup takeover).
+- **Lateral**: $`\Delta y = \tfrac{1}{2}\thinspace  a_y \cdot FTTI^2`$ (lateral deviation at the moment of intervention), $`v_{lat} = a_y \cdot FTTI`$ (rise of lateral velocity). Representative $`a_y = 3\ \mathrm{m/s^2}`$ (0.3g), grip limit ≈ 8 m/s²
 - **Event-fixed**: pyrotechnic deployment window, thermal-propagation time, etc. Independent of vehicle speed
 
 #### Steering System
@@ -444,7 +444,7 @@ Representative hazards where high S (fatal), E (high frequency), and C (difficul
 The safety goals obtained from HARA are developed into Functional Safety Requirements (FSR) → Technical Safety Requirements (TSR) → HW/SW Safety Requirements (HSR/SSR). Here, using the top event from [5.1](#51-steering-system-eps--steer-by-wire), **"Prevent unintended steering intervention (ASIL D, FTTI ≈ 100 ms)"**, the derivation flow is shown in a generalized form.
 
 > **About the concrete values in this section**  
-> Implementation values such as voltage ranges, detection times, and communication means are parameters fixed by the Item definition. This section describes a generalized flow using **symbols ($V_L$, $V_H$, $T_d$, etc.) and representative values** rather than the values of a specific product.
+> Implementation values such as voltage ranges, detection times, and communication means are parameters fixed by the Item definition. This section describes a generalized flow using **symbols ($`V_L`$, $`V_H`$, $`T_d`$, etc.) and representative values** rather than the values of a specific product.
 
 ```
 Safety Goal (SG): Prevent unintended steering intervention (ASIL D, FTTI ≈ 100 ms)
@@ -496,18 +496,18 @@ The TSRs are decomposed into HW requirements (HSR) and SW requirements (SSR) and
 
 **Example HSI specification structure (for steering-torque input, symbolic notation)**
 
-- HW: sensor (a circuit that detects within the specified voltage range $[V_L, V_H]$)
-- SW: input to the steering-torque detection function (below $V_L$ / above $V_H$ is judged as an abnormal value)
+- HW: sensor (a circuit that detects within the specified voltage range $`[V_L, V_H]`$)
+- SW: input to the steering-torque detection function (below $`V_L`$ / above $`V_H`$ is judged as an abnormal value)
 - I/F: the microcontroller's ADC (via a specified port)
 
 | TSR ID | Technical Safety Requirement | HSR/SSR ID | HW/SW Requirement (generalized) |
 |--------|------------|-----------|-----------|
-| TSR2.1.1 | Determine anomalies in the input signal | HSR2.1.1.1 | Have a circuit that detects the steering torque within the specified voltage range $[V_L, V_H]$ |
-|  |  | SSR2.1.1.1 | Have a function that judges a voltage below $V_L$ / above $V_H$ as an abnormal input |
+| TSR2.1.1 | Determine anomalies in the input signal | HSR2.1.1.1 | Have a circuit that detects the steering torque within the specified voltage range $`[V_L, V_H]`$ |
+|  |  | SSR2.1.1.1 | Have a function that judges a voltage below $`V_L`$ / above $`V_H`$ as an abnormal input |
 | TSR2.1.2 | Stop the assist on an anomaly | HSR2.1.2.1 | Have a circuit (relay, etc.) that cuts off the power supply from the battery to the BL-motor drive circuit |
-|  |  | SSR2.1.2.1 | Have a function that turns off the power-cutoff circuit when an abnormal value is continuously detected for the specified time $T_d$ |
+|  |  | SSR2.1.2.1 | Have a function that turns off the power-cutoff circuit when an abnormal value is continuously detected for the specified time $`T_d`$ |
 | TSR2.1.3 | Notify the driver of the anomaly | HSR2.1.3.1 | Have an in-vehicle network (CAN, etc.) function to notify the display system of the anomaly |
-|  |  | SSR2.1.3.1 | Have a function that notifies via the in-vehicle network when an abnormal value is continuously detected for the specified time $T_d$ |
+|  |  | SSR2.1.3.1 | Have a function that notifies via the in-vehicle network when an abnormal value is continuously detected for the specified time $`T_d`$ |
 
 ### 7.4 Time-Budget Consistency Check (FTTI Allocation)
 
@@ -515,12 +515,12 @@ Against the top event's FTTI ≈ 100 ms, confirm that the SSR's detection time a
 
 | Interval | Content | Time (representative) |
 |------|------|------|
-| FDTI (detection) | Continuous detection of the input anomaly for the specified time $T_d$ | ≤ 40 ms |
+| FDTI (detection) | Continuous detection of the input anomaly for the specified time $`T_d`$ | ≤ 40 ms |
 | FRTI (reaction) | Power cutoff → motor-assist stop | ≤ 50 ms |
 | **FHTI = FDTI + FRTI** | Detection + reaction combined | **90 ms** |
 | FTTI | Allowable time from fault occurrence → hazard manifestation | 100 ms |
 
-→ FHTI 90 ms ≤ FTTI 100 ms. The top event's time constraint is satisfied (10 ms of margin). The detection time $T_d$ is fixed by back-calculating from this time budget.
+→ FHTI 90 ms ≤ FTTI 100 ms. The top event's time constraint is satisfied (10 ms of margin). The detection time $`T_d`$ is fixed by back-calculating from this time budget.
 
 ---
 
@@ -570,13 +570,13 @@ $$
 \text{SPFM} = 1 - \frac{\sum (\lambda_{\text{SPF}} + \lambda_{\text{RF}})}{\sum \lambda_{\text{SR}}}, \qquad \text{LFM} = 1 - \frac{\sum \lambda_{\text{MPF,latent}}}{\sum (\lambda_{\text{SR}} - \lambda_{\text{SPF}} - \lambda_{\text{RF}})}
 $$
 
-Here $\lambda_{\text{SR}}$ = safety-related failure rate, $\lambda_{\text{SPF}}$ = single-point failure (no safety mechanism), $\lambda_{\text{RF}}$ = residual failure (the fraction missed when DC < 100 %), $\lambda_{\text{MPF,latent}}$ = undetected latent failure. `1 FIT = 1×10⁻⁹ /h`.
+Here $`\lambda_{\text{SR}}`$ = safety-related failure rate, $`\lambda_{\text{SPF}}`$ = single-point failure (no safety mechanism), $`\lambda_{\text{RF}}`$ = residual failure (the fraction missed when DC < 100 %), $`\lambda_{\text{MPF,latent}}`$ = undetected latent failure. `1 FIT = 1×10⁻⁹ /h`.
 
 ### 8.3 FMEDA (Failure Modes, Effects, and Diagnostic Analysis)
 
-An FMEDA excerpt of the EPS HW for the safety goal **"Prevent unintended steering intervention (ASIL D)."** The safety mechanism (DC) is applied to the dangerous-side failure $\lambda_D$ of each block, and the residual failure $\lambda_{\text{RF}} = \lambda_D \times (1 - \text{DC})$ is obtained.
+An FMEDA excerpt of the EPS HW for the safety goal **"Prevent unintended steering intervention (ASIL D)."** The safety mechanism (DC) is applied to the dangerous-side failure $`\lambda_D`$ of each block, and the residual failure $`\lambda_{\text{RF}} = \lambda_D \times (1 - \text{DC})`$ is obtained.
 
-| HW block | $\lambda$ (FIT) | Safe-side $\lambda_S$ | Dangerous-side $\lambda_D$ | Safety mechanism (SM) | DC | Residual $\lambda_{\text{RF}}$ |
+| HW block | $`\lambda`$ (FIT) | Safe-side $`\lambda_S`$ | Dangerous-side $`\lambda_D`$ | Safety mechanism (SM) | DC | Residual $`\lambda_{\text{RF}}`$ |
 |------------|-----------------|-------------------|-------------------|--------------|------|---------------------------|
 | Steering-torque sensor + I/F | 100 | 30 | 70 | SM1 range/rate diagnosis (redundant detection) | 99 % | 0.70 |
 | Electrical-angle sensor (resolver) + R/D | 80 | 32 | 48 | SM2 sin²+cos² consistency monitor | 99 % | 0.48 |
@@ -585,33 +585,33 @@ An FMEDA excerpt of the EPS HW for the safety goal **"Prevent unintended steerin
 | Gate driver + 3-phase inverter | 220 | 110 | 110 | SM5 over-current / phase-short detection → cutoff | 98 % | 2.20 |
 | **Total (functional channel)** | **600** | **247** | **353** | — | — | **4.18** |
 
-This table evaluates the **single-point failures and residual failures** (the numerator of SPFM / PMHF). The total residual failure $\sum\lambda_{\text{RF}} = 4.18$ FIT dominates SPFM and PMHF.
+This table evaluates the **single-point failures and residual failures** (the numerator of SPFM / PMHF). The total residual failure $`\sum\lambda_{\text{RF}} = 4.18`$ FIT dominates SPFM and PMHF.
 
 **Latent-fault FMEDA (monitoring channel = safety-mechanism HW, for LFM)**
 
-LFM evaluates the risk that **the safety mechanism itself remains broken and unnoticed, becoming latent**. The dangerous failures of the functional channel (348.82 FIT, treated as detected in the [table above](#83-fmeda-failure-modes-effects-and-diagnostic-analysis), = $\lambda_D - \lambda_{\text{RF}}$) lead to a safety-goal violation if a primary failure coincides **while the corresponding safety mechanism is latently faulted**. Therefore, the coverage $\text{DC}_\text{latent}$ of an inspection that reveals latent faults (start-up self-test / periodic test) is applied to the dangerous-side failure $\lambda_{D,\text{SM}}$ of the safety-mechanism HW, and the latent residual $\lambda_{\text{MPF,latent}} = \lambda_{D,\text{SM}} \times (1 - \text{DC}_\text{latent})$ is obtained.
+LFM evaluates the risk that **the safety mechanism itself remains broken and unnoticed, becoming latent**. The dangerous failures of the functional channel (348.82 FIT, treated as detected in the [table above](#83-fmeda-failure-modes-effects-and-diagnostic-analysis), = $`\lambda_D - \lambda_{\text{RF}}`$) lead to a safety-goal violation if a primary failure coincides **while the corresponding safety mechanism is latently faulted**. Therefore, the coverage $`\text{DC}_\text{latent}`$ of an inspection that reveals latent faults (start-up self-test / periodic test) is applied to the dangerous-side failure $`\lambda_{D,\text{SM}}`$ of the safety-mechanism HW, and the latent residual $`\lambda_{\text{MPF,latent}} = \lambda_{D,\text{SM}} \times (1 - \text{DC}_\text{latent})`$ is obtained.
 
-| Safety-mechanism HW | $\lambda$ (FIT) | Dangerous-side $\lambda_{D,\text{SM}}$ | Latent-fault inspection | DC$_\text{latent}$ | Latent residual $\lambda_{\text{MPF,latent}}$ |
+| Safety-mechanism HW | $`\lambda`$ (FIT) | Dangerous-side $`\lambda_{D,\text{SM}}`$ | Latent-fault inspection | DC$`_\text{latent}`$ | Latent residual $`\lambda_{\text{MPF,latent}}`$ |
 |------------|-----------------|-------------------------------|--------------|--------------------|----------------------------------------|
 | External monitor IC (WDT) | 40 | 24 | Start-up Q&A test + time-window monitoring | 90 % | 2.40 |
 | Power-cutoff relay | 60 | 36 | Start-up continuity / cutoff self-test | 90 % | 3.60 |
 | In-functional-channel diagnostic circuit (reference voltage, comparator, ADC self-diagnosis) | 50 | 30 | Start-up BIST | 85 % | 4.50 |
 | **Total (monitoring channel)** | **150** | **90** | — | — | **10.50** |
 
-> Without DC$_\text{latent}$ (no self-test), $\lambda_{\text{MPF,latent}} = \lambda_{D,\text{SM}} = 90$ FIT, and the LFM drops to about 85 %, falling below ASIL D. **The start-up / periodic self-test is the key that makes the LFM hold.**
+> Without DC$`_\text{latent}`$ (no self-test), $`\lambda_{\text{MPF,latent}} = \lambda_{D,\text{SM}} = 90`$ FIT, and the LFM drops to about 85 %, falling below ASIL D. **The start-up / periodic self-test is the key that makes the LFM hold.**
 
 **Metric computation (assumed values)**
 
 | Metric | Calculation | Result | ASIL D target | Assessment |
 |------|------|------|------------|------|
-| SPFM | $1 - \dfrac{\sum(\lambda_{\text{SPF}}+\lambda_{\text{RF}})}{\sum\lambda_{\text{SR}}} = 1 - \dfrac{4.18}{600}$ | **99.30 %** | ≥ 99 % | ✅ |
-| LFM | $1 - \dfrac{\sum\lambda_{\text{MPF,latent}}}{\sum\lambda_{\text{SR}}-\sum\lambda_{\text{SPF}}-\sum\lambda_{\text{RF}}} = 1 - \dfrac{10.50}{600 - 0 - 4.18}$ | **98.24 %** | ≥ 90 % | ✅ |
-| PMHF | $\sum\lambda_{\text{RF}} + \lambda_\text{dual-point} \approx 4.18 + 0.2$ | **≈ 4.4×10⁻⁹ /h** | < 10 FIT | ✅ |
+| SPFM | $`1 - \dfrac{\sum(\lambda_{\text{SPF}}+\lambda_{\text{RF}})}{\sum\lambda_{\text{SR}}} = 1 - \dfrac{4.18}{600}`$ | **99.30 %** | ≥ 99 % | ✅ |
+| LFM | $`1 - \dfrac{\sum\lambda_{\text{MPF,latent}}}{\sum\lambda_{\text{SR}}-\sum\lambda_{\text{SPF}}-\sum\lambda_{\text{RF}}} = 1 - \dfrac{10.50}{600 - 0 - 4.18}`$ | **98.24 %** | ≥ 90 % | ✅ |
+| PMHF | $`\sum\lambda_{\text{RF}} + \lambda_\text{dual-point} \approx 4.18 + 0.2`$ | **≈ 4.4×10⁻⁹ /h** | < 10 FIT | ✅ |
 
-- $\lambda_{\text{SPF}} = 0$ is assumed (a safety mechanism is allocated to every dangerous failure). If a block has no safety mechanism, it is added as $\lambda_{\text{SPF}}$ and the SPFM drops.
-- **The denominator of LFM** $\sum\lambda_{\text{SR}}-\sum\lambda_{\text{SPF}}-\sum\lambda_{\text{RF}} = 595.82$ FIT is the population of "detected by a safety mechanism = can become latent" failures, and the **numerator** $\sum\lambda_{\text{MPF,latent}} = 10.50$ FIT is the latent residual of the safety mechanisms. For simplicity, the monitoring-channel HW (150 FIT) itself is not included in the SPFM denominator (a failure of the safety mechanism alone does not lead to an SG violation unless it coincides with a primary failure).
+- $`\lambda_{\text{SPF}} = 0`$ is assumed (a safety mechanism is allocated to every dangerous failure). If a block has no safety mechanism, it is added as $`\lambda_{\text{SPF}}`$ and the SPFM drops.
+- **The denominator of LFM** $`\sum\lambda_{\text{SR}}-\sum\lambda_{\text{SPF}}-\sum\lambda_{\text{RF}} = 595.82`$ FIT is the population of "detected by a safety mechanism = can become latent" failures, and the **numerator** $`\sum\lambda_{\text{MPF,latent}} = 10.50`$ FIT is the latent residual of the safety mechanisms. For simplicity, the monitoring-channel HW (150 FIT) itself is not included in the SPFM denominator (a failure of the safety mechanism alone does not lead to an SG violation unless it coincides with a primary failure).
 - **PMHF** adds to the residual failure 4.18 FIT the dual-point contribution of latent failure × primary failure (test-interval-dependent, estimated here at ≈ 0.2 FIT). Both are sufficiently small relative to the 10 FIT budget.
-- The primary means of raising DC and DC$_\text{latent}$ is adding / making redundant an SM and instituting a self-test, and **the FMEDA quantitatively backs the sufficiency of the HSR ([Section 7.3](#73-deriving-the-hwsw-safety-requirements-hsr--ssr)).**
+- The primary means of raising DC and DC$`_\text{latent}`$ is adding / making redundant an SM and instituting a self-test, and **the FMEDA quantitatively backs the sufficiency of the HSR ([Section 7.3](#73-deriving-the-hwsw-safety-requirements-hsr--ssr)).**
 
 ### 8.4 FTA (Fault Tree Analysis)
 
@@ -653,7 +653,7 @@ The top event **"Unintended steering-torque output (erroneous assist)"** is dedu
 | MCS4 | {MOSFET spurious on, SM5 over-current / phase-short cutoff fails} | Erroneous energization slips past the cutoff |
 
 - Every cut set has **order ≥ 2** = it requires the simultaneous occurrence of "a basic fault + the failure of the safety mechanism responsible for it." The **absence of a single-point failure (order 1)** deductively backs the essential condition of ASIL D (SPFM ≥ 99 %).
-- The occurrence probability of each MCS corresponds to the residual failure rate $\lambda_{\text{RF}}$ of the FMEDA, and the top-event probability ≈ $\sum$ (cut-set probabilities) ≈ PMHF. The **agreement of the FTA and FMEDA figures** increases the validity of the analysis.
+- The occurrence probability of each MCS corresponds to the residual failure rate $`\lambda_{\text{RF}}`$ of the FMEDA, and the top-event probability ≈ $`\sum`$ (cut-set probabilities) ≈ PMHF. The **agreement of the FTA and FMEDA figures** increases the validity of the analysis.
 - Because the monitoring channel (external monitor IC + power-cutoff relay) is made independent of the functional channel, a common-cause failure (CCF) does not collapse the order of a cut set to 1. The exclusion of CCF (common power, common clock, common ground) is separately confirmed by β-factor analysis.
 
 ---
@@ -669,10 +669,10 @@ The SW-side implementation corresponding to the HW safety mechanisms (SM1–SM5)
 | SW safety mechanism | Corresponding SM | Implementation overview | Allocated ASIL |
 |------------|---------|----------|-----------|
 | Input-signal diagnosis | SM1 | Judgment of range / rate / consistency of steering torque and vehicle speed (out-of-range, sudden change, redundancy mismatch) | D |
-| Sensor consistency monitoring | SM2/SM4 | Resolver $\sin^2\theta+\cos^2\theta \approx 1$ check, phase-current sum $i_u+i_v+i_w \approx 0$ check | D |
+| Sensor consistency monitoring | SM2/SM4 | Resolver $`\sin^2\theta+\cos^2\theta \approx 1`$ check, phase-current sum $`i_u+i_v+i_w \approx 0`$ check | D |
 | Program-flow monitoring | SM3 | Watchdog (time window + execution-order question & answer scheme) | D |
-| Output-current limiter | SM5 | Upper/lower clamp of $d/q$ current command and duty, cutoff request for excessive command | D |
-| Safe-state transition | Common | On continuous detection of an anomaly for $T_d$, assist stop + power-cutoff-relay drive + CAN notification | D |
+| Output-current limiter | SM5 | Upper/lower clamp of $`d/q`$ current command and duty, cutoff request for excessive command | D |
+| Safe-state transition | Common | On continuous detection of an anomaly for $`T_d`$, assist stop + power-cutoff-relay drive + CAN notification | D |
 | Communication protection | 7.3 | E2E protection of CAN messages (CRC + rolling counter + timeout) | D |
 
 ### 9.2 Allocation of SSR to SW Units
@@ -681,9 +681,9 @@ An example of mapping the SSRs of [Section 7.3](#73-deriving-the-hwsw-safety-req
 
 | SSR ID | Software Safety Requirement | SW unit (function) example | Unit-verification focus |
 |--------|---------------------|----------------------|------------|
-| SSR2.1.1.1 | Judge below $V_L$ / above $V_H$ as an abnormal input | `torque_input_diagnose()` | Boundary values (near $V_L, V_H$), out-of-range, NaN |
-| SSR2.1.2.1 | Turn off the power cutoff on continuous detection of an anomaly for $T_d$ | `safe_state_manager()` | Debounce time $T_d$, chattering tolerance |
-| SSR2.1.3.1 | Notify via CAN on continuous detection for $T_d$ | `fault_notify_can()` | E2E counter sequence, CRC, timeout |
+| SSR2.1.1.1 | Judge below $`V_L`$ / above $`V_H`$ as an abnormal input | `torque_input_diagnose()` | Boundary values (near $`V_L, V_H`$), out-of-range, NaN |
+| SSR2.1.2.1 | Turn off the power cutoff on continuous detection of an anomaly for $`T_d`$ | `safe_state_manager()` | Debounce time $`T_d`$, chattering tolerance |
+| SSR2.1.3.1 | Notify via CAN on continuous detection for $`T_d`$ | `fault_notify_can()` | E2E counter sequence, CRC, timeout |
 
 ### 9.3 Freedom From Interference
 
