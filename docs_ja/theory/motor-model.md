@@ -218,15 +218,15 @@ $$
 励磁電圧および 2 相出力電圧の関係式を以下に示す。
 
 $$
-\text{（励磁電圧）} \quad e_0 = E_0 \sin(\omega t) \tag{1}
+\text{（励磁電圧）} \quad e_0 = E_0 \sin(\omega t) \qquad (1)
 $$
 
 $$
-\text{（出力電圧 cos 相）} \quad e_\mathrm{cos} = K E_0 \sin(\omega t) \cdot \cos(X\theta) \tag{2}
+\text{（出力電圧 cos 相）} \quad e_\mathrm{cos} = K E_0 \sin(\omega t) \cdot \cos(X\theta) \qquad (2)
 $$
 
 $$
-\text{（出力電圧 sin 相）} \quad e_\mathrm{sin} = K E_0 \sin(\omega t) \cdot \sin(X\theta) \tag{3}
+\text{（出力電圧 sin 相）} \quad e_\mathrm{sin} = K E_0 \sin(\omega t) \cdot \sin(X\theta) \qquad (3)
 $$
 
 | 記号 | 意味 | 単位 |

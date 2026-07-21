@@ -218,15 +218,15 @@ A resolver consists of an **excitation coil** and **two-phase output coils that 
 The relationships between the excitation voltage and the two-phase output voltages are shown below.
 
 $$
-\text{(excitation voltage)} \quad e_0 = E_0 \sin(\omega t) \tag{1}
+\text{(excitation voltage)} \quad e_0 = E_0 \sin(\omega t) \qquad (1)
 $$
 
 $$
-\text{(output voltage, cos phase)} \quad e_\mathrm{cos} = K E_0 \sin(\omega t) \cdot \cos(X\theta) \tag{2}
+\text{(output voltage, cos phase)} \quad e_\mathrm{cos} = K E_0 \sin(\omega t) \cdot \cos(X\theta) \qquad (2)
 $$
 
 $$
-\text{(output voltage, sin phase)} \quad e_\mathrm{sin} = K E_0 \sin(\omega t) \cdot \sin(X\theta) \tag{3}
+\text{(output voltage, sin phase)} \quad e_\mathrm{sin} = K E_0 \sin(\omega t) \cdot \sin(X\theta) \qquad (3)
 $$
 
 | Symbol | Meaning | Unit |
