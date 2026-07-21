@@ -79,8 +79,8 @@ $$
 Duty-to-current mapping (linear, clamped):
 
 $$
-\text{duty} = \operatorname{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\ 0,\ 1\right) \times k_{\text{PwmMaxDuty}}
-= \operatorname{clamp}\!\left(\frac{85}{125},\ 0,\ 1\right) \times 0.95 = 0.646\ (64.6\%)
+\text{duty} = \mathrm{clamp}\!\left(\frac{|i_q^*|}{k_{\text{PwmMaxAmp}}},\ 0,\ 1\right) \times k_{\text{PwmMaxDuty}}
+= \mathrm{clamp}\!\left(\frac{85}{125},\ 0,\ 1\right) \times 0.95 = 0.646\ (64.6\%)
 $$
 
 ---

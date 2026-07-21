@@ -229,7 +229,7 @@ $$
 $$
 i_q^* =
 \begin{cases}
-\operatorname{clamp}\!\left(G_{assist}\,\bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\,\operatorname{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
+\mathrm{clamp}\!\left(G_{assist}\,\bigl(|\hat{T}_{tb}| - T_{dz}\bigr)\,\mathrm{sgn}(\hat{T}_{tb}),\ \pm i_{q,max}\right)
   & |\hat{T}_{tb}| > T_{dz} \\
 0 & |\hat{T}_{tb}| \le T_{dz}
 \end{cases}
