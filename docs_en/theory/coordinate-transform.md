@@ -37,7 +37,7 @@ $$
 \begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\[8pt]
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_V \\ i_W \end{bmatrix}
@@ -82,17 +82,17 @@ expanding the left-hand side and substituting the numerical values gives
 $$
 k^2
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\[8pt]
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 \begin{bmatrix}
-  1             & 0                   \\[4pt]
-  -\dfrac{1}{2} & \phantom{-}\dfrac{\sqrt{3}}{2} \\[4pt]
+  1             & 0                   \\
+  -\dfrac{1}{2} & \phantom{-}\dfrac{\sqrt{3}}{2} \\
   -\dfrac{1}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 = k^2
 \begin{bmatrix}
-  \dfrac{3}{2} & 0            \\[8pt]
+  \dfrac{3}{2} & 0            \\
   0            & \dfrac{3}{2}
 \end{bmatrix}
 = [1]
@@ -110,7 +110,7 @@ $$
 [C_{abc}]
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\[8pt]
+  1 & -\dfrac{1}{2}       & -\dfrac{1}{2}      \\
   0 & \phantom{-}\dfrac{\sqrt{3}}{2} & -\dfrac{\sqrt{3}}{2}
 \end{bmatrix}
 $$
@@ -150,7 +150,7 @@ $$
 \begin{bmatrix} i_\alpha \\ i_\beta \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \dfrac{3}{2}           & 0       \\[10pt]
+  \dfrac{3}{2}           & 0       \\
   -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
@@ -200,7 +200,7 @@ $$
 \end{bmatrix}
 }_{\text{rotation matrix}}
 \begin{bmatrix}
-  \dfrac{3}{2}           & 0       \\[10pt]
+  \dfrac{3}{2}           & 0       \\
   -\dfrac{\sqrt{3}}{2}   & -\sqrt{3}
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
@@ -216,13 +216,13 @@ $$
   \sin\theta &  \cos\theta
 \end{bmatrix}
 \begin{bmatrix}
-  \dfrac{\sqrt{3}}{2} & 0  \\[10pt]
+  \dfrac{\sqrt{3}}{2} & 0  \\
   -\dfrac{1}{2}        & -1
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
 = \sqrt{2}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\[10pt]
+  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
   -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
@@ -235,7 +235,7 @@ $$
 \begin{bmatrix} i_d \\ i_q \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\[10pt]
+  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
   -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
@@ -317,7 +317,7 @@ $$
 \begin{bmatrix} i_d \\ i_q \end{bmatrix}
 = \sqrt{\frac{2}{3}}
 \begin{bmatrix}
-  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\[10pt]
+  \sin\!\left(\theta + \dfrac{2}{3}\pi\right)   & -\sin(\theta)                              \\
   -\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & -\sin\!\left(\theta + \dfrac{1}{2}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
@@ -343,7 +343,7 @@ $$
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
 = \sqrt{\frac{3}{2}} \cdot \frac{1}{-\dfrac{\sqrt{3}}{2}}
 \begin{bmatrix}
-  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\[10pt]
+  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\
   \phantom{-}\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & \sin\!\left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_d \\ i_q \end{bmatrix}
@@ -364,7 +364,7 @@ $$
 \begin{bmatrix} i_U \\ i_W \end{bmatrix}
 = -\sqrt{2}
 \begin{bmatrix}
-  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\[10pt]
+  -\sin\!\left(\theta + \dfrac{1}{2}\pi\right) & \phantom{-}\sin(\theta)                   \\
   \phantom{-}\sin\!\left(\theta + \dfrac{1}{6}\pi\right)  & \sin\!\left(\theta + \dfrac{2}{3}\pi\right)
 \end{bmatrix}
 \begin{bmatrix} i_d \\ i_q \end{bmatrix}
