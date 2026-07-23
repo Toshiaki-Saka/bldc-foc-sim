@@ -19,4 +19,4 @@ keywords:
   - sensorless
   - simulation
 license: Apache-2.0
-repository-code: "https://github.com/<OWNER>/bldc-foc-sim"
+repository-code: "https://github.com/Toshiaki-Saka/bldc-foc-sim"
