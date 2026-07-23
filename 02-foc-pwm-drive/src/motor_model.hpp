@@ -7,7 +7,7 @@
 //  three-phase brushless (BLDC/PMSM) motor's electrical system (dq-axis
 //  currents) and mechanical system (rotational speed and angle).
 //
-//  License      : MIT (see LICENSE at repo root)
+//  License      : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <fstream>

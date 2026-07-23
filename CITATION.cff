@@ -18,5 +18,5 @@ keywords:
   - motor-control
   - sensorless
   - simulation
-license: MIT
+license: Apache-2.0
 repository-code: "https://github.com/<OWNER>/bldc-foc-sim"

@@ -6,7 +6,7 @@
 //  controller, and runs the time-step simulation loop. Results are output to a
 //  RESULT line (standard output) and to CSV files.
 //
-//  License      : MIT (see LICENSE at repo root)
+//  License      : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <cstdio>

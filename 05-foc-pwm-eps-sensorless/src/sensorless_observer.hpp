@@ -7,7 +7,7 @@
 //  angle and angular velocity using a back-EMF observer and a PLL (phase-locked
 //  loop).
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <Eigen/Dense>

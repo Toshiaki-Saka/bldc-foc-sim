@@ -6,7 +6,7 @@
 //  then locks onto the angle and speed with a PLL. The LPF phase lag is
 //  compensated in get_angle_deg().
 //
-//  License : MIT (see LICENSE at repo root)
+//  License : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "sensorless_observer.hpp"

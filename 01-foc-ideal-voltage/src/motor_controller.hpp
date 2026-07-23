@@ -8,7 +8,7 @@
 //  voltage commands. Midpoint modulation and dq-axis decoupling can be toggled
 //  via run-time flags.
 //
-//  License : MIT (see LICENSE at repo root)
+//  License : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <Eigen/Dense>

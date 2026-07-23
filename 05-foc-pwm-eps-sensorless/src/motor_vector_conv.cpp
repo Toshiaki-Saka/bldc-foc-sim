@@ -9,7 +9,7 @@
 //        propagate the change to every model. CI (the consistency job) checks
 //        cross-model equality and detects drift.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "motor_vector_conv.hpp"

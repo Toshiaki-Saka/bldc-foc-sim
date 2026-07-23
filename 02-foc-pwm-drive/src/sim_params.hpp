@@ -8,7 +8,7 @@
 //  angular frequency, damping ratio), and the PWM/sensorless-related constants.
 //  Changing these values adjusts the simulation conditions.
 //
-//  License      : MIT (see LICENSE at repo root)
+//  License      : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <numbers>

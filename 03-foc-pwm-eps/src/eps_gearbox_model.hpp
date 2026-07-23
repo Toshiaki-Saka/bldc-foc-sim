@@ -6,7 +6,7 @@
 //  Declares the class that represents the mechanical dynamics of the steering
 //  column, torsion bar (spring-damper), reduction gear, and rack.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "sim_params.hpp"

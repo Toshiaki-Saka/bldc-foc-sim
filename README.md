@@ -3,7 +3,7 @@
 <!-- After pushing, replace <OWNER> in the badges below with your GitHub account/org to activate them -->
 [![CI](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/ci.yml/badge.svg)](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/ci.yml)
 [![Docs](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/docs.yml/badge.svg)](https://github.com/<OWNER>/bldc-foc-sim/actions/workflows/docs.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 ![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)
 ![CMake](https://img.shields.io/badge/CMake-3.16%2B-064F8C.svg?logo=cmake)
 
@@ -200,6 +200,6 @@ docs/
 
 ## License
 
-This repository is released under the MIT License. See the root
+This repository is released under the Apache License 2.0. See the root
 [`LICENSE`](LICENSE) for details (an identical `LICENSE` is also bundled in each
 model directory).

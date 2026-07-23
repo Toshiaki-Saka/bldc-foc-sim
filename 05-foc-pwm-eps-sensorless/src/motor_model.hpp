@@ -7,7 +7,7 @@
 //  electrical subsystem (dq-axis currents) and mechanical subsystem (angular
 //  velocity and angle) of a three-phase BLDC motor.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <fstream>

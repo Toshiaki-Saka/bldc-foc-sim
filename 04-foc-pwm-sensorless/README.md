@@ -56,7 +56,7 @@ For the theoretical background, see
 ├── CMakeLists.txt          # Build definition
 ├── README.md               # This file
 ├── CONTRIBUTING.md          # Contribution guide
-├── LICENSE                 # MIT license
+├── LICENSE                 # Apache-2.0 license
 ├── build.ps1               # Build script for Windows
 ├── run.ps1                 # Run script for Windows
 ├── src/                    # C++ source
@@ -222,5 +222,5 @@ Bug reports and improvement suggestions are welcome. See
 
 ## License
 
-This project is released under the MIT license. See [`LICENSE`](LICENSE) for
+This project is released under the Apache-2.0 license. See [`LICENSE`](LICENSE) for
 details.

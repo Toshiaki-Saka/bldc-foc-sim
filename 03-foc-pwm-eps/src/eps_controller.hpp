@@ -6,7 +6,7 @@
 //  Declares the class representing the assist map (V-curve) that generates the
 //  q-axis current command from the steering torque.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 struct EpsControllerConfig {

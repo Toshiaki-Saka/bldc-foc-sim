@@ -5,7 +5,7 @@
 //  Takes the driver steering torque and the motor torque as inputs, and updates
 //  the column angle, rack displacement, and rack force by time integration.
 //
-//  License    : MIT (see LICENSE at repo root)
+//  License    : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "eps_gearbox_model.hpp"

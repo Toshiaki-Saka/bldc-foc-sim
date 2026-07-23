@@ -7,7 +7,7 @@
 //  electromagnetic torque, angular velocity, and angle by one step from the
 //  applied voltage.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "motor_model.hpp"

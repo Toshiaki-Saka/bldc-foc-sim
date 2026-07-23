@@ -4,7 +4,7 @@
 //  Project     : bldc-foc-sim / 03-foc-pwm-eps
 //  Implements the V-curve assist map applied to the torsion-bar sensed torque.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include "eps_controller.hpp"

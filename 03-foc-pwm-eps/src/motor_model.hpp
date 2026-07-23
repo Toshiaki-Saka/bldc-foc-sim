@@ -7,7 +7,7 @@
 //  electrical system (dq-axis currents) and mechanical system (rotational speed
 //  and angle) of a three-phase BLDC motor.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <fstream>

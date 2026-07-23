@@ -8,7 +8,7 @@
 //  ratio), and PWM/sensorless-related constants. The simulation conditions can
 //  be adjusted by changing these values.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <numbers>

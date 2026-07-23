@@ -7,7 +7,7 @@
 //  inertia, torsion bar stiffness/damping, reduction gear ratio, rack mass,
 //  and assist map coefficients.
 //
-//  License     : MIT (see LICENSE at repo root)
+//  License     : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <numbers>

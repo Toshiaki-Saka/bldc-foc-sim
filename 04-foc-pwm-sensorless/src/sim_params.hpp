@@ -8,7 +8,7 @@
 //  damping ratio), and the PWM- and sensorless-related constants.
 //  Adjust the simulation conditions by changing these values.
 //
-//  License : MIT (see LICENSE at repo root)
+//  License : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <numbers>

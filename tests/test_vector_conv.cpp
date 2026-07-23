@@ -12,7 +12,7 @@
 //  guarantees that every model's transform implementation satisfies the same
 //  invariants (this also serves as drift detection).
 //
-//  License : MIT (see LICENSE at repo root)
+//  License : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <cmath>

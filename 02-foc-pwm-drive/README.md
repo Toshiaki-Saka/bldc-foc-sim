@@ -46,7 +46,7 @@ For the theoretical background, see **[`../docs_en/theory/`](../docs_en/theory/)
 02-foc-pwm-drive/
 ├── CMakeLists.txt          # Build definition
 ├── README.md               # This file
-├── LICENSE                 # MIT license
+├── LICENSE                 # Apache-2.0 license
 ├── build.ps1               # Build script for Windows
 ├── run.ps1                 # Run script for Windows
 ├── src/                    # C++ source
@@ -212,5 +212,5 @@ python scripts/compare_modulation.py --span 2.0
 
 ## License
 
-This project is released under the MIT license. See [`LICENSE`](LICENSE) for
+This project is released under the Apache-2.0 license. See [`LICENSE`](LICENSE) for
 details.

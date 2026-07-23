@@ -6,7 +6,7 @@
 //  the BLDC motor and FOC controller to reproduce the assist behavior in
 //  response to driver steering.
 //
-//  License    : MIT (see LICENSE at repo root)
+//  License    : Apache-2.0 (see LICENSE at repo root)
 // =============================================================================
 
 #include <algorithm>
