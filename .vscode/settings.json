@@ -1,3 +1,3 @@
 {
-    "cmake.sourceDirectory": "C:/WorkSpace/OSS_SoureCode/bldc-foc-sim/01-foc-ideal-voltage"
+    "cmake.sourceDirectory": "${workspaceFolder}/01-foc-ideal-voltage"
 }
