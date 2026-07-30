@@ -23,7 +23,7 @@ Even when the same FOC and the same physical parameters ($`R = 0.1\thinspace \Om
 | $`T_e`$ steady-state value | 4.530 Nm | 4.510 Nm |
 | $`\omega_m`$ steady-state value | **144.8 rad/s** | **132.1 rad/s (about 9% lower)** |
 
-![Waveform comparison of ideal voltage source (Type A / 002) and PWM drive (Type B / 003) — left: q-axis current $`i_q`$, center: electromagnetic torque $`T_e`$, right: angular velocity $`\omega_m`$](images/waveform_ideal_vs_pwm.png)
+![Waveform comparison of ideal voltage source (Type A / 002) and PWM drive (Type B / 003) — left: q-axis current i_q, center: electromagnetic torque T_e, right: angular velocity omega_m](images/waveform_ideal_vs_pwm.png)
 
 The three graphs above show, from left to right, the q-axis current $`i_q`$, the electromagnetic torque $`T_e`$, and the angular velocity $`\omega_m`$. While $`i_q`$ and $`T_e`$ nearly coincide, only Type B (PWM drive) reaches voltage saturation at $`t \approx 0.59\thinspace \mathrm{s}`$ and plateaus for $`\omega_m`$, settling at a steady-state value about 9% lower than Type A (ideal voltage source).
 
