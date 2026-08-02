@@ -7,7 +7,7 @@ concerns regarding the build scripts or dependencies.
 ## Reporting a vulnerability
 
 If you find a vulnerability or concern, please contact us by email at
-**toraneko6791@gmail.com** before opening a public Issue. If possible, please include
+**lizhaoban45@gmail.com** before opening a public Issue. If possible, please include
 the following.
 
 - The affected location (file, model, or dependency)
