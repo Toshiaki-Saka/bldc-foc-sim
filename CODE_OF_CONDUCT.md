@@ -31,7 +31,7 @@ in public.
 
 ## Enforcement
 
-Report inappropriate behavior to the repository maintainer (toraneko6791@gmail.com).
+Report inappropriate behavior to the repository maintainer (lizhaoban45@gmail.com).
 All complaints will be reviewed and investigated promptly and fairly.
 
 ## Attribution
