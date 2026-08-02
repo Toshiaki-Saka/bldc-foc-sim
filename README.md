@@ -202,3 +202,9 @@ docs/
 This repository is released under the Apache License 2.0. See the root
 [`LICENSE`](LICENSE) for details (an identical `LICENSE` is also bundled in each
 model directory).
+
+---
+
+## Development note
+
+Development of this repository was assisted by [Claude Code](https://claude.com/claude-code). Design, implementation, and verification decisions are the author's own.
